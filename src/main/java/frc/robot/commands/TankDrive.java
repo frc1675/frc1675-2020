@@ -10,16 +10,17 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive2019;
 
 public class TankDrive extends CommandBase {
-  private Drive drive;
+  private Drive2019 drive;
   private DoubleSupplier leftYAxis;
   private DoubleSupplier rightYAxis;
+
   /**
    * Creates a new TankDrive.
    */
-  public TankDrive(Drive drive, DoubleSupplier leftYAxis, DoubleSupplier rightYAxis) {
+  public TankDrive(Drive2019 drive, DoubleSupplier leftYAxis, DoubleSupplier rightYAxis) {
     this.drive = drive;
     this.leftYAxis = leftYAxis;
     this.rightYAxis = rightYAxis;

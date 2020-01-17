@@ -10,9 +10,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Drive extends SubsystemBase {
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+public class Drive2019 extends SubsystemBase {
   public VictorSPX leftFront;
   public VictorSPX leftBack;
   public VictorSPX rightFront;
@@ -22,13 +24,13 @@ public class Drive extends SubsystemBase {
   /**
    * Creates a new Drive.
    */
-  public Drive() {
-    rightMiddle = new TalonSRX(3);
-    leftMiddle = new TalonSRX(5);
-    rightBack = new VictorSPX(2);
-    rightFront = new VictorSPX(1);
-    leftBack = new VictorSPX(6);
-    leftFront = new VictorSPX(7);
+  public Drive2019() {
+    rightMiddle = new TalonSRX(Constants.RIGHT_MIDDLE);
+    leftMiddle = new TalonSRX(Constants.LEFT_MIDDLE);
+    rightBack = new VictorSPX(Constants.RIGHT_BACK);
+    rightFront = new VictorSPX(Constants.RIGHT_FRONT);
+    leftBack = new VictorSPX(Constants.LEFT_BACK);
+    leftFront = new VictorSPX(Constants.LEFT_FRONT);
 
   }
   public void setRightMotors(double power){

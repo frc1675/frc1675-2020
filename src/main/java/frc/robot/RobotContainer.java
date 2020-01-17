@@ -12,9 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.CheesyDrive;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Drive2019;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -25,12 +23,9 @@ import frc.robot.subsystems.ExampleSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-  private Drive drive = new Drive();
-  private Joystick controller = new Joystick(0);
+  private Drive2019 drive = new Drive2019();
+  private Joystick controller = new Joystick(Constants.DRIVER_CONTROLLER);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -41,13 +36,14 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, ()->controller.getRawAxis(1), ()->controller.getRawAxis(4)));
+    drive.setDefaultCommand(new CheesyDrive(drive, () -> controller.getRawAxis(Constants.LEFT_Y_AXIS),
+        () -> controller.getRawAxis(Constants.RIGHT_X_AXIS)));
   }
 
   /**
@@ -57,6 +53,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }

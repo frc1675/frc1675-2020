@@ -10,20 +10,20 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive2019;
 
 public class CheesyDrive extends CommandBase {
-  private Drive drive;
-  private DoubleSupplier leftYAxis;
-  private DoubleSupplier rightYAxis;
+  private Drive2019 drive;
+  private DoubleSupplier forwardValue;
+  private DoubleSupplier turnValue;
   
   /**
    * Creates a new CheesyDrive.
    */
-  public CheesyDrive(Drive drive, DoubleSupplier leftYAxis, DoubleSupplier rightYAxis) {
+  public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue, DoubleSupplier turnValue) {
     this.drive = drive;
-    this.leftYAxis = leftYAxis;
-    this.rightYAxis = rightYAxis;
+    this.forwardValue = forwardValue;
+    this.turnValue = turnValue;
     addRequirements(this.drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -37,8 +37,8 @@ public class CheesyDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turnPower = rightYAxis.getAsDouble();
-    double forwardPower = leftYAxis.getAsDouble();
+    double turnPower = turnValue.getAsDouble();
+    double forwardPower = forwardValue.getAsDouble();
     double rightPower = (1 * forwardPower + 1 * turnPower);
     double leftPower = (1 * forwardPower + -1 * turnPower);
     drive.setLeftMotors(leftPower);
