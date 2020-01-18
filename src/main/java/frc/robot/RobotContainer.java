@@ -23,53 +23,56 @@ import frc.robot.subsystems.Drive2019;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-<<<<<<< HEAD
   private final Joystick driverController = new Joystick(Constants.DRIVER_CONTROLLER);
   private final Joystick operatorController = new Joystick(Constants.OPERATOR_CONTROLLER);
-  
-  private double correctDeadZone(double value){
+
+  private Drive2019 drive = new Drive2019();
+
+  private double correctDeadzone(double value) {
     double correctedValue = 0;
-    if(Math.abs(value) < Constants.MOTOR_DEADZONE) {
-      if(value > 0){
-        correctedValue = (value + Constants.MOTOR_DEADZONE)/(1 - Constants.MOTOR_DEADZONE);
+    if (Math.abs(value) < Constants.MOTOR_DEADZONE) {
+      if (value > 0) {
+        correctedValue = (value + Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE);
       }
-      if(value < 0){
-        correctedValue = (value - Constants.MOTOR_DEADZONE)/(1 - Constants.MOTOR_DEADZONE);
+      if (value < 0) {
+        correctedValue = (value - Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE);
       }
     }
     return correctedValue;
   }
-=======
 
-  private Drive2019 drive = new Drive2019();
-  private Joystick controller = new Joystick(Constants.DRIVER_CONTROLLER);
->>>>>>> origin/master
+  private double getDriverLeftYAxis() {
+    return correctDeadzone(driverController.getRawAxis(Constants.LEFT_Y_AXIS));
+  }
 
-  private double getDriverLeftYAxis(){
-    return driverController.getRawAxis(Constants.LEFT_Y_AXIS);
+  private double getDriverLeftXAxis() {
+    return correctDeadzone(driverController.getRawAxis(Constants.LEFT_X_AXIS));
   }
-  private double getDriverLeftXAxis(){
-    return driverController.getRawAxis(Constants.LEFT_X_AXIS);
+
+  private double getDriverRightYAxis() {
+    return correctDeadzone(driverController.getRawAxis(Constants.RIGHT_Y_AXIS));
   }
-  private double getDriverRightYAxis(){
-    return driverController.getRawAxis(Constants.RIGHT_Y_AXIS);
+
+  private double getDriverRightXAxis() {
+    return correctDeadzone(driverController.getRawAxis(Constants.RIGHT_X_AXIS));
   }
-  private double getDriverRightXAxis(){
-    return driverController.getRawAxis(Constants.RIGHT_X_AXIS);
+
+  private double getOperatorLeftYAxis() {
+    return correctDeadzone(operatorController.getRawAxis(Constants.LEFT_Y_AXIS));
   }
- 
-  private double getOperatorLeftYAxis(){
-    return operatorController.getRawAxis(Constants.LEFT_Y_AXIS);
+
+  private double getOperatorLeftXAxis() {
+    return correctDeadzone(operatorController.getRawAxis(Constants.LEFT_X_AXIS));
   }
-  private double getOperatorLeftXAxis(){
-    return operatorController.getRawAxis(Constants.LEFT_X_AXIS);
+
+  private double getOperatorRightYAxis() {
+    return correctDeadzone(operatorController.getRawAxis(Constants.RIGHT_Y_AXIS));
   }
-  private double getOperatorRightYAxis(){
-    return operatorController.getRawAxis(Constants.RIGHT_Y_AXIS);
+
+  private double getOperatorRightXAxis() {
+    return correctDeadzone(operatorController.getRawAxis(Constants.RIGHT_X_AXIS));
   }
-  private double getOperatorRightXAxis(){
-    return operatorController.getRawAxis(Constants.RIGHT_X_AXIS);
-  }
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -85,8 +88,8 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> controller.getRawAxis(Constants.LEFT_Y_AXIS),
-        () -> controller.getRawAxis(Constants.RIGHT_X_AXIS)));
+    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(),
+        () -> getDriverRightXAxis()));
   }
 
   /**

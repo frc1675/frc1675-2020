@@ -17,7 +17,6 @@ package frc.robot;
  * It is advised to statically import this class (or one of its inner classes)
  * wherever the constants are needed, to reduce verbosity.
  */
-<<<<<<< HEAD
 public final class Constants {
     // OI Constants
 
@@ -45,16 +44,7 @@ public final class Constants {
     public static final int START_BUTTON = 7;
 
     public static final double MOTOR_DEADZONE = 0.1675;
-
-     
-
-}
-=======
-public class Constants {
-    // Controller Constants
-    public static final int DRIVER_CONTROLLER = 0;
-    public static final int LEFT_Y_AXIS = 1;
-    public static final int RIGHT_X_AXIS = 4;
+    
     // Drive Motor Constants
     public static final int RIGHT_MIDDLE = 3;
     public static final int LEFT_MIDDLE = 5;
@@ -63,4 +53,3 @@ public class Constants {
     public static final int RIGHT_FRONT = 1;
     public static final int LEFT_FRONT = 7;
 }
->>>>>>> origin/master
