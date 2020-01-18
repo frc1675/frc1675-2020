@@ -8,9 +8,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -21,12 +20,47 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Joystick driverController = new Joystick(Constants.DRIVER_CONTROLLER);
+  private final Joystick operatorController = new Joystick(Constants.OPERATOR_CONTROLLER);
+  
+  private double correctDeadZone(double value){
+    double correctedValue = 0;
+    if(Math.abs(value) < Constants.MOTOR_DEADZONE) {
+      if(value > 0){
+        correctedValue = (value + Constants.MOTOR_DEADZONE)/(1 - Constants.MOTOR_DEADZONE);
+      }
+      if(value < 0){
+        correctedValue = (value - Constants.MOTOR_DEADZONE)/(1 - Constants.MOTOR_DEADZONE);
+      }
+    }
+    return correctedValue;
+  }
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-
-
+  private double getDriverLeftYAxis(){
+    return driverController.getRawAxis(Constants.LEFT_Y_AXIS);
+  }
+  private double getDriverLeftXAxis(){
+    return driverController.getRawAxis(Constants.LEFT_X_AXIS);
+  }
+  private double getDriverRightYAxis(){
+    return driverController.getRawAxis(Constants.RIGHT_Y_AXIS);
+  }
+  private double getDriverRightXAxis(){
+    return driverController.getRawAxis(Constants.RIGHT_X_AXIS);
+  }
+ 
+  private double getOperatorLeftYAxis(){
+    return operatorController.getRawAxis(Constants.LEFT_Y_AXIS);
+  }
+  private double getOperatorLeftXAxis(){
+    return operatorController.getRawAxis(Constants.LEFT_X_AXIS);
+  }
+  private double getOperatorRightYAxis(){
+    return operatorController.getRawAxis(Constants.RIGHT_Y_AXIS);
+  }
+  private double getOperatorRightXAxis(){
+    return operatorController.getRawAxis(Constants.RIGHT_X_AXIS);
+  }
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
