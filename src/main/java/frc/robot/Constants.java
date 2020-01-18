@@ -16,4 +16,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public static final double COLOR_WHEEL_SPIN_SPEED = 0.5;
+    public static final double REVERSE_COLOR_WHEEL_SPIN_SPEED = -0.5;
 }
