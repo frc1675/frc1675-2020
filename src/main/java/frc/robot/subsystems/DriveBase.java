@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Drive extends SubsystemBase {
+public class DriveBase extends SubsystemBase {
   private CANSparkMax leftFront;
   private CANSparkMax leftBack;
   private CANSparkMax rightFront;
@@ -23,7 +23,7 @@ public class Drive extends SubsystemBase {
   /**
    * Creates a new Drive.
    */
-  public Drive() {
+  public DriveBase() {
     rightMiddle = new CANSparkMax(Constants.RIGHT_MIDDLE, MotorType.kBrushless);
     leftMiddle = new CANSparkMax(Constants.LEFT_MIDDLE, MotorType.kBrushless);
     rightBack = new CANSparkMax(Constants.RIGHT_BACK, MotorType.kBrushless);

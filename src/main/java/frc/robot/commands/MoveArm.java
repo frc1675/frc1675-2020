@@ -23,7 +23,7 @@ public class MoveArm extends CommandBase {
   @Override
   public void initialize() {
 	  arm.unlock();
-  	arm.moveArm(power)
+  	// arm.moveArm(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
