@@ -57,4 +57,7 @@ public final class Constants {
     public static final int ARM_MOTOR_LEFT = 6;
     public static final int ARM_Motor_RIGHT = 1;
     public static final int SOLENOID = 2;
+
+    public static final double COLOR_WHEEL_SPIN_SPEED = 0.5;
+    public static final double REVERSE_COLOR_WHEEL_SPIN_SPEED = -0.5;
 }   // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID. 
