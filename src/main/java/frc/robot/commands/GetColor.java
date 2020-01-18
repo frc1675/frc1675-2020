@@ -8,27 +8,28 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ColorWheel;
 
-public class MoveArm extends CommandBase {
-  private Arm arm = new Arm();
+public class GetColor extends CommandBase {
+  private ColorWheel colorWheel = new ColorWheel();
   /**
-   * Creates a new MoveArm.
+   * Creates a new GetColor.
    */
-  public MoveArm() {
+  public GetColor(ColorWheel colorWheel) {
+    this.colorWheel = colorWheel;
+    addRequirements(this.colorWheel);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-	  arm.unlock();
-  	// arm.moveArm(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    colorWheel.getColor();
   }
 
   // Called once the command ends or is interrupted.

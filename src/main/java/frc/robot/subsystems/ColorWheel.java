@@ -36,17 +36,15 @@ public class ColorWheel extends SubsystemBase {
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  
   private String currentColor;
 
   public ColorWheel() {
-    spinMotor = new VictorSPX(7);
+    SmartDashboard.putString("key", "value");
+    spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
   }
 
   public void robotInit() {
-    colorMatcher.addColorMatch(kBlueTarget);
-    colorMatcher.addColorMatch(kGreenTarget);
-    colorMatcher.addColorMatch(kRedTarget);
-    colorMatcher.addColorMatch(kYellowTarget);
   }
 
   public void turnWheel() {
@@ -62,38 +60,38 @@ public class ColorWheel extends SubsystemBase {
   }
 
   public String getColor() {
-    /**
-     * The method GetColor() returns a normalized color value from the sensor and
-     * can be useful if outputting the color to an RGB LED or similar. To read the
-     * raw color, use GetRawColor().
-     * 
-     */
+    colorMatcher.addColorMatch(kBlueTarget);
+    colorMatcher.addColorMatch(kGreenTarget);
+    colorMatcher.addColorMatch(kRedTarget);
+    colorMatcher.addColorMatch(kYellowTarget);
+
     Color detectedColor = colorSensor.getColor();
 
-    /**
-     * Run the color match algorithm on our detected color
-     */
-    String colorString;
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
 
     if (match.color == kBlueTarget) {
-      colorString = "Blue";
+      currentColor = "Blue";
     } else if (match.color == kRedTarget) {
-      colorString = "Red";
+      currentColor = "Red";
     } else if (match.color == kGreenTarget) {
-      colorString = "Green";
+      currentColor = "Green";
     } else if (match.color == kYellowTarget) {
-      colorString = "Yellow";
+      currentColor = "Yellow";
     } else {
-      colorString = "Unknown";
+      currentColor = "Unknown";
     }
-    currentColor = colorString;
-    return (colorString);
+
+    SmartDashboard.putNumber("Red", detectedColor.red);
+    SmartDashboard.putNumber("Green", detectedColor.green);
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    SmartDashboard.putNumber("Confidence", match.confidence);
+    SmartDashboard.putString("Detected Color", currentColor);
+
+    return currentColor;
   }
 
   @Override
   public void periodic() {
-    System.out.println(currentColor);
-    SmartDashboard.putString("Detected Color", currentColor);
+    
   }
 }
