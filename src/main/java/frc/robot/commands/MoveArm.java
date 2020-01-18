@@ -7,23 +7,30 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class MoveArm extends CommandBase {
   private Arm arm = new Arm();
+  private DoubleSupplier armValue;
   /**
    * Creates a new MoveArm.
    */
-  public MoveArm() {
+  public MoveArm(Arm arm, DoubleSupplier armValue) {
+    this.arm = arm; 
+    this.armValue = armValue;
+    addRequirements(this.arm);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    double armPower = armValue.getAsDouble();
 	  arm.unlock();
-  	// arm.moveArm(power);
+  	arm.moveArm(armPower);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

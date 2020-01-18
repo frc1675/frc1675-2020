@@ -23,7 +23,7 @@ public class Arm extends SubsystemBase {
    */
   public Arm() {
     ArmMotorLeft = new CANSparkMax(Constants.ARM_MOTOR_LEFT, MotorType.kBrushless);
-    ArmMotorRight = new CANSparkMax(Constants.ARM_Motor_RIGHT, MotorType.kBrushless);
+    ArmMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT, MotorType.kBrushless);
     solenoid = new Solenoid(Constants.SOLENOID);
   }
   public void moveArm(double power){
