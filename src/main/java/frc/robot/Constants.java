@@ -44,6 +44,12 @@ public final class Constants {
     public static final int START_BUTTON = 7;
 
     public static final double MOTOR_DEADZONE = 0.1675;
+
+    // Climber Motor Constants
+    public static final double CLIMBER_POWER = 0.5;
+    public static final int CLIMBER_MOTOR1 = 1;
+    public static final int CLIMBER_MOTOR2 = 2;
+    public static final int CLIMBER_SOLENOID = 0;
     
     // Drive Motor Constants
     public static final int RIGHT_MIDDLE = 3;
@@ -52,4 +58,9 @@ public final class Constants {
     public static final int LEFT_BACK = 6;
     public static final int RIGHT_FRONT = 1;
     public static final int LEFT_FRONT = 7;
-}
+
+    // Arm Motor Constants
+    public static final int ARM_MOTOR_LEFT = 6;
+    public static final int ARM_Motor_RIGHT = 1;
+    public static final int SOLENOID = 2;
+}   // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID.
