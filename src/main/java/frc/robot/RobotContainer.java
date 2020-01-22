@@ -29,7 +29,7 @@ public class RobotContainer {
   private final Joystick operatorController = new Joystick(Constants.OPERATOR_CONTROLLER);
 
   private Drive2019 drive = new Drive2019();
-  private Arm arm = new Arm();
+  //private Arm arm = new Arm();
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -93,7 +93,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(),
         () -> getDriverRightXAxis()));
-    arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
+    //arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
   }
 
   /**

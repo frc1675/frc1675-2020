@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Claw;
 
 public class Output extends CommandBase {
-  private Claw claw = new Claw();
+  private Claw claw;
   /**
    * Creates a new Output.
    */

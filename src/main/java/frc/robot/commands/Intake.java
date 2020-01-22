@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Claw;
 
 public class Intake extends CommandBase {
-  private Claw claw = new Claw();
+  private Claw claw;
   /**
    * Creates a new Intake.
    */
@@ -38,7 +38,6 @@ public class Intake extends CommandBase {
   public void end(boolean interrupted) {
     claw.stop();
   }
-
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

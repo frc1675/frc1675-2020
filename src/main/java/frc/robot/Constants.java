@@ -56,8 +56,12 @@ public final class Constants {
     // Arm Motor Constants
     public static final int ARM_MOTOR_LEFT = 6;
     public static final int ARM_MOTOR_RIGHT = 1;
-    public static final int SOLENOID = 2;
+    public static final int ARM_SOLENOID = 2;
+     // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID. 
+
     //Claw Motor Constants
     public static final int INTAKE_POWER = 1;
     public static final int OUTPUT_POWER = -1;
-}   // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID. 
+    public static final int CLAW_TOP_MOTOR = 2;
+    public static final int CLAW_BOTTOM_MOTOR = 2;
+} 

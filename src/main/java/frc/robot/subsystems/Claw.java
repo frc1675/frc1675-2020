@@ -7,28 +7,33 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Claw extends SubsystemBase {
-  public VictorSPX intakeMotor;
-  public VictorSPX outtakeMotor;
+  public VictorSPX topMotor;
+  public VictorSPX bottomMotor;
   /**
    * Creates a new Claw.
    */
   public Claw() {
-    intakeMotor = new VictorSPX(Constants.INTAKE_POWER);
-    outtakeMotor = new VictorSPX(Constants.OUTPUT_POWER);
+    topMotor = new VictorSPX(Constants.INTAKE_POWER);
+    bottomMotor = new VictorSPX(Constants.OUTPUT_POWER);
   }
   public void intake(){
- 
+    topMotor.set(ControlMode.PercentOutput,Constants.INTAKE_POWER);
+    bottomMotor.set(ControlMode.PercentOutput,Constants.OUTPUT_POWER);
   }
   public void output(){
-
+    topMotor.set(ControlMode.PercentOutput,Constants.INTAKE_POWER);
+    bottomMotor.set(ControlMode.PercentOutput,Constants.OUTPUT_POWER);
   }
   public void stop(){
+    topMotor.set(ControlMode.PercentOutput, 0);
+    bottomMotor.set(ControlMode.PercentOutput,0);
     
   }
   @Override
