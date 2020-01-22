@@ -44,7 +44,13 @@ public final class Constants {
     public static final int START_BUTTON = 7;
 
     public static final double MOTOR_DEADZONE = 0.1675;
-    
+
+    // Climber Motor Constants
+    public static final double CLIMBER_POWER = 0.5;
+    public static final int CLIMBER_MOTOR1 = 1;
+    public static final int CLIMBER_MOTOR2 = 2;
+    public static final int CLIMBER_SOLENOID = 0;
+
     // Drive Motor Constants
     public static final int RIGHT_MIDDLE = 3;
     public static final int LEFT_MIDDLE = 5;
