@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.CheesyDrive;
+import frc.robot.commands.MoveArm;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drive2019;
 
 /**
@@ -27,6 +29,7 @@ public class RobotContainer {
   private final Joystick operatorController = new Joystick(Constants.OPERATOR_CONTROLLER);
 
   private Drive2019 drive = new Drive2019();
+  //private Arm arm = new Arm();
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -90,6 +93,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(),
         () -> getDriverRightXAxis()));
+    //arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
   }
 
   /**
