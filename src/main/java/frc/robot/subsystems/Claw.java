@@ -25,10 +25,10 @@ public class Claw extends SubsystemBase {
   }
   public void intake(){
     topMotor.set(ControlMode.PercentOutput,Constants.INTAKE_POWER);
-    bottomMotor.set(ControlMode.PercentOutput,Constants.OUTPUT_POWER);
+    bottomMotor.set(ControlMode.PercentOutput,Constants.INTAKE_POWER);
   }
   public void output(){
-    topMotor.set(ControlMode.PercentOutput,Constants.INTAKE_POWER);
+    topMotor.set(ControlMode.PercentOutput,Constants.OUTPUT_POWER);
     bottomMotor.set(ControlMode.PercentOutput,Constants.OUTPUT_POWER);
   }
   public void stop(){

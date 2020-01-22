@@ -15,20 +15,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
-  private CANSparkMax ArmMotorLeft;
-  private CANSparkMax ArmMotorRight;
+  private CANSparkMax armMotorLeft;
+  private CANSparkMax armMotorRight;
   private Solenoid solenoid;
   /**
    * Creates a new Arm.
    */
   public Arm() {
-    ArmMotorLeft = new CANSparkMax(Constants.ARM_MOTOR_LEFT, MotorType.kBrushless);
-    ArmMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT, MotorType.kBrushless);
+    armMotorLeft = new CANSparkMax(Constants.ARM_MOTOR_LEFT, MotorType.kBrushless);
+    armMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT, MotorType.kBrushless);
     solenoid = new Solenoid(Constants.ARM_SOLENOID);
   }
   public void moveArm(double power){
-    ArmMotorLeft.set(power);
-    ArmMotorRight.set(power);
+    armMotorLeft.set(power);
+    armMotorRight.set(power);
   }
   public void lock(){
     solenoid.set(true);
