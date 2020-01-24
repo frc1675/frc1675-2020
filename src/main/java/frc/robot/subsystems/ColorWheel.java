@@ -42,9 +42,6 @@ public class ColorWheel extends SubsystemBase {
     spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
   }
 
-  public void robotInit() {
-  }
-
   public void turnWheel() {
     spinMotor.set(ControlMode.PercentOutput, Constants.COLOR_WHEEL_SPIN_SPEED);
   }
