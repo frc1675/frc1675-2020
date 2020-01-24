@@ -13,9 +13,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
-import frc.robot.commands.ReverseWheel;
-import frc.robot.commands.SpinWheel;
-import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.Drive2019;
 
 /**
@@ -66,6 +63,7 @@ public class RobotContainer {
     return correctDeadzone(driverController.getRawAxis(Constants.RIGHT_X_AXIS));
   }
 
+
   private double getOperatorLeftYAxis() {
     return correctDeadzone(operatorController.getRawAxis(Constants.LEFT_Y_AXIS));
   }
@@ -87,6 +85,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
+    configureButtonBindings();
   }
 
   /**
@@ -95,7 +94,11 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-
+  private void configureButtonBindings() {
+    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+    // operatorControllerLeftBumper.whileHeld(new ReverseWheel());
+    // operatorControllerRightBumper.whileHeld(new SpinWheel());
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
