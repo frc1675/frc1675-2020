@@ -58,6 +58,7 @@ public final class Constants {
     public static final int ARM_Motor_RIGHT = 1;
     public static final int SOLENOID = 2;
 
+    // Color Wheel Constants
     public static final double COLOR_WHEEL_SPIN_SPEED = 0.5;
     public static final double REVERSE_COLOR_WHEEL_SPIN_SPEED = -0.5;
     

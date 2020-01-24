@@ -27,7 +27,6 @@ public class ColorWheel extends SubsystemBase {
   private VictorSPX spinMotor;
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
-
   private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
 
   private final ColorMatch colorMatcher = new ColorMatch();
@@ -40,7 +39,6 @@ public class ColorWheel extends SubsystemBase {
   private String currentColor;
 
   public ColorWheel() {
-    SmartDashboard.putString("key", "value");
     spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
   }
 
@@ -60,6 +58,11 @@ public class ColorWheel extends SubsystemBase {
   }
 
   public String getColor() {
+    return currentColor;
+  }
+
+  @Override
+  public void periodic() {
     colorMatcher.addColorMatch(kBlueTarget);
     colorMatcher.addColorMatch(kGreenTarget);
     colorMatcher.addColorMatch(kRedTarget);
@@ -86,12 +89,5 @@ public class ColorWheel extends SubsystemBase {
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", currentColor);
-
-    return currentColor;
-  }
-
-  @Override
-  public void periodic() {
-    
   }
 }
