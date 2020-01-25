@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
+import frc.robot.commands.RotationControl;
+import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.Drive2019;
 
 /**
@@ -32,6 +34,7 @@ public class RobotContainer {
       Constants.RIGHT_BUMPER);
 
   private Drive2019 drive = new Drive2019();
+  private ColorWheel colorWheel = new ColorWheel();
   // private ColorWheel colorWheel = new ColorWheel();
 
   private double correctDeadzone(double value) {
@@ -62,7 +65,6 @@ public class RobotContainer {
   private double getDriverRightXAxis() {
     return correctDeadzone(driverController.getRawAxis(Constants.RIGHT_X_AXIS));
   }
-
 
   private double getOperatorLeftYAxis() {
     return correctDeadzone(operatorController.getRawAxis(Constants.LEFT_Y_AXIS));
@@ -96,6 +98,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+    colorWheel.setDefaultCommand(new RotationControl(colorWheel, 0));
     // operatorControllerLeftBumper.whileHeld(new ReverseWheel());
     // operatorControllerRightBumper.whileHeld(new SpinWheel());
   }
