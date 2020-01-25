@@ -10,7 +10,6 @@ package frc.robot.utils;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.auto.LoadingFromLeft;
 import frc.robot.commands.auto.LoadingFromMiddle;
 import frc.robot.commands.auto.LoadingFromRight;

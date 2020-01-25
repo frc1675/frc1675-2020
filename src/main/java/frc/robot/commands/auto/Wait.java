@@ -20,6 +20,8 @@ public class Wait extends SequentialCommandGroup {
     //addCommands(new WaitCommand(timeout));
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super((new WaitCommand(timeout)));
+    System.out.println("Start WaitCommand");
+    //super(new WaitCommand(timeout));
+    System.out.println("End WaitCommand");
   }
 }
