@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,6 +22,8 @@ public class Drive2019 extends SubsystemBase {
   public VictorSPX rightBack;
   public TalonSRX leftMiddle;
   public TalonSRX rightMiddle;
+  public int currentPosition;
+  public double power;
   /**
    * Creates a new Drive.
    */
@@ -37,15 +40,33 @@ public class Drive2019 extends SubsystemBase {
     rightFront.set(ControlMode.PercentOutput,power);
     rightMiddle.set(ControlMode.PercentOutput,power);
     rightBack.set(ControlMode.PercentOutput,power);
+    System.out.println(power);
   }
   public void setLeftMotors(double power){
     leftFront.set(ControlMode.PercentOutput,-power);
     leftMiddle.set(ControlMode.PercentOutput,-power);
     leftBack.set(ControlMode.PercentOutput,-power);
+    System.out.println(power);
+  }
+
+  public int getPosition(){
+    int rightPosition = rightMiddle.getSelectedSensorPosition();
+    int leftPosition = leftMiddle.getSelectedSensorPosition();
+    int averagePosition = (rightPosition + leftPosition)/2;
+
+    currentPosition = currentPosition + 1;
+    return currentPosition;
+  }
+
+  public void resetPosition(){
+    rightMiddle.setSelectedSensorPosition(0);
+    leftMiddle.setSelectedSensorPosition(0);
+    currentPosition = 0;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    double position = getPosition();
+    SmartDashboard.putNumber("Current Position", position);
   }
 }
