@@ -7,34 +7,18 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
-public class TrenchFromRight extends CommandBase {
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+public class TrenchFromRight extends ParallelCommandGroup {
   /**
    * Creates a new TrenchFromRight.
    */
   public TrenchFromRight() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    System.out.println("go to trench from right");
+    // Add your commands in the super() call, e.g.
+    // super(new FooCommand(), new BarCommand());super();
   }
 }
