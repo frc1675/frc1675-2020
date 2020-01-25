@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -53,9 +54,17 @@ public class Drive2019 extends SubsystemBase {
 
     return navx.getAngle();
   }
+  public double getHeading(){
+    double angle = getAngle();
+    double heading = (angle % 360);
+    System.out.println("Heading =" + heading);
+    return heading;
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    //SmartDashboard.putNumber("Heading", getHeading());
+    SmartDashboard.putNumber("Angle", getAngle());
   }
 }

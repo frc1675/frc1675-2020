@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.MoveArm;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drive2019;
 
@@ -33,7 +34,7 @@ public class RobotContainer {
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
-    if (Math.abs(value) < Constants.MOTOR_DEADZONE) {
+    if (Math.abs(value) > Constants.MOTOR_DEADZONE) {
       if (value > 0) {
         correctedValue = (value + Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE);
       }
@@ -103,6 +104,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return new TurnToAngle(drive, 90);
   }
 }
