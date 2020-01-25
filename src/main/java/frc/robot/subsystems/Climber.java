@@ -14,29 +14,36 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Arm extends SubsystemBase {
-  private CANSparkMax armMotorLeft;
-  private CANSparkMax armMotorRight;
+public class Climber extends SubsystemBase {
+  private CANSparkMax climberMotor1;
+  private CANSparkMax climberMotor2;
   private Solenoid solenoid;
   /**
-   * Creates a new Arm.
+   * Creates a new Climber.
    */
-  public Arm() {
-    armMotorLeft = new CANSparkMax(Constants.ARM_MOTOR_LEFT, MotorType.kBrushless);
-    armMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT, MotorType.kBrushless);
-    solenoid = new Solenoid(Constants.ARM_SOLENOID);
+  public Climber() {
+    climberMotor1 = new CANSparkMax(Constants.CLIMBER_MOTOR1, MotorType.kBrushless);
+    climberMotor2 = new CANSparkMax(Constants.CLIMBER_MOTOR2, MotorType.kBrushless);
+    solenoid = new Solenoid(Constants.CLIMBER_SOLENOID);
   }
-  public void moveArm(double power){
-    armMotorLeft.set(power);
-    armMotorRight.set(power);
-  }
-  public void lock(){
+
+  public void extend(){
     solenoid.set(true);
   }
-  public void unlock(){
+
+  public void lock(){
     solenoid.set(false);
   }
 
+  public void pullUp(){
+    climberMotor1.set(Constants.CLIMBER_POWER);
+    climberMotor2.set(Constants.CLIMBER_POWER);
+  }
+
+  public void stop(){
+    climberMotor1.set(0);
+    climberMotor2.set(0);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

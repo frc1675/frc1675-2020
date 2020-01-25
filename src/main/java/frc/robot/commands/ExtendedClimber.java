@@ -7,41 +7,34 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Climber;
 
-public class MoveArm extends CommandBase {
-  private Arm arm;
-  private DoubleSupplier armValue;
+public class ExtendedClimber extends CommandBase {
+  private Climber climber;
   /**
-   * Creates a new MoveArm.
+   * Creates a new ExtendedClimber.
    */
-  public MoveArm(Arm arm, DoubleSupplier armValue) {
-    this.arm = arm; 
-    this.armValue = armValue;
-    addRequirements(this.arm);
+  public ExtendedClimber(Climber climber) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.climber = climber;
+    addRequirements(this.climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-	  arm.unlock();
+    climber.extend();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double armPower = armValue.getAsDouble();
-    arm.moveArm(armPower);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.lock();
   }
 
   // Returns true when the command should end.
