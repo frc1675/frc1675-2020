@@ -15,6 +15,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.RotationControl;
 import frc.robot.subsystems.ColorWheel;
+import frc.robot.commands.DriveToDistance;
+import frc.robot.commands.MoveArm;
+import frc.robot.commands.TurnToAngle;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drive2019;
 
 /**
@@ -36,6 +40,7 @@ public class RobotContainer {
   // private Drive2019 drive = new Drive2019(); (Disables the 2019 drive, suggested by Justin because we changed the wheel motor from 4 to 1)
   private ColorWheel colorWheel = new ColorWheel();
   // private ColorWheel colorWheel = new ColorWheel();
+  // private Arm arm = new Arm();
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -101,6 +106,7 @@ public class RobotContainer {
     colorWheel.setDefaultCommand(new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED));
     // operatorControllerLeftBumper.whileHeld(new ReverseWheel());
     // operatorControllerRightBumper.whileHeld(new SpinWheel());
+    //arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
   }
 
   /**
@@ -111,5 +117,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return null;
+    // return new DriveToDistance(drive).beforeStarting(() -> drive.resetPosition());
+    // commenting out one of the auto commands for now -Caeleb
+    // return new TurnToAngle(drive, 90);
   }
 }
