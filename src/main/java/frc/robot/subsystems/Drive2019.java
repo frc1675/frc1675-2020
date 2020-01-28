@@ -25,9 +25,7 @@ public class Drive2019 extends SubsystemBase {
   public TalonSRX leftMiddle;
   public TalonSRX rightMiddle;
   public AHRS navx;
-  /**
-   * Creates a new Drive.
-   */
+
   public Drive2019() {
     rightMiddle = new TalonSRX(Constants.RIGHT_MIDDLE);
     leftMiddle = new TalonSRX(Constants.LEFT_MIDDLE);
@@ -35,26 +33,27 @@ public class Drive2019 extends SubsystemBase {
     rightFront = new VictorSPX(Constants.RIGHT_FRONT);
     leftBack = new VictorSPX(Constants.LEFT_BACK);
     leftFront = new VictorSPX(Constants.LEFT_FRONT);
-    navx= new AHRS(SerialPort.Port.kMXP);
-
+    navx = new AHRS(SerialPort.Port.kMXP);
 
   }
-  public void setRightMotors(double power){
-    rightFront.set(ControlMode.PercentOutput,power);
-    rightMiddle.set(ControlMode.PercentOutput,power);
-    rightBack.set(ControlMode.PercentOutput,power);
+
+  public void setRightMotors(double power) {
+    rightFront.set(ControlMode.PercentOutput, power);
+    rightMiddle.set(ControlMode.PercentOutput, power);
+    rightBack.set(ControlMode.PercentOutput, power);
   }
-  public void setLeftMotors(double power){
-    leftFront.set(ControlMode.PercentOutput,-power);
-    leftMiddle.set(ControlMode.PercentOutput,-power);
-    leftBack.set(ControlMode.PercentOutput,-power);
+
+  public void setLeftMotors(double power) {
+    leftFront.set(ControlMode.PercentOutput, -power);
+    leftMiddle.set(ControlMode.PercentOutput, -power);
+    leftBack.set(ControlMode.PercentOutput, -power);
   }
 
   public double getAngle() {
-
     return navx.getAngle();
   }
-  public double getHeading(){
+
+  public double getHeading() {
     double angle = getAngle();
     double heading = (angle % 360);
     System.out.println("Heading =" + heading);
@@ -64,7 +63,7 @@ public class Drive2019 extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("Heading", getHeading());
+    // SmartDashboard.putNumber("Heading", getHeading());
     SmartDashboard.putNumber("Angle", getAngle());
   }
 }
