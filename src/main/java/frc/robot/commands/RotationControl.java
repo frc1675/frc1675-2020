@@ -39,7 +39,8 @@ public class RotationControl extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    boolean requiredRotations = colorCounts == Constants.ROTATION_COUNTS_NEEDED ? true : false;
+    boolean requiredRotations = colorWheel.getColorCount() >= colorCounts ? true : false;
+    // boolean requiredRotations = colorCounts == Constants.ROTATION_COUNTS_NEEDED ? true : false;
     SmartDashboard.putBoolean("Has the spinner reached the required amount of rotations?", requiredRotations);
     return requiredRotations;
   }

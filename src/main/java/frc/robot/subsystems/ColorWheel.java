@@ -72,10 +72,6 @@ public class ColorWheel extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
-  }
-
-  public String getColor() {
     Color detectedColor = colorSensor.getColor();
     System.out.println("detColor " + detectedColor);
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
@@ -104,7 +100,9 @@ public class ColorWheel extends SubsystemBase {
     SmartDashboard.putString("Detected Color", currentColor);
     SmartDashboard.putString("Transition Color", transitionColor);
     SmartDashboard.putNumber("Color Count", colorTransitions);
+  }
 
+  public String getColor() {
     return currentColor;
   }
 }
