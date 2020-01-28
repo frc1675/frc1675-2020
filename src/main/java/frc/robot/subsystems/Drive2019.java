@@ -24,6 +24,8 @@ public class Drive2019 extends SubsystemBase {
   public VictorSPX rightBack;
   public TalonSRX leftMiddle;
   public TalonSRX rightMiddle;
+  public int currentPosition;
+  public double power;
   public AHRS navx;
 
   public Drive2019() {
@@ -60,10 +62,25 @@ public class Drive2019 extends SubsystemBase {
     return heading;
   }
 
+  public int getPosition(){
+    int rightPosition = rightMiddle.getSelectedSensorPosition();
+    int leftPosition = leftMiddle.getSelectedSensorPosition();
+    int averagePosition = (rightPosition + leftPosition)/2;
+
+    currentPosition = currentPosition + 1;
+    return currentPosition;
+  }
+
+  public void resetPosition(){
+    rightMiddle.setSelectedSensorPosition(0);
+    leftMiddle.setSelectedSensorPosition(0);
+    currentPosition = 0;
+  }
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("Heading", getHeading());
+    double position = getPosition();
+    SmartDashboard.putNumber("Current Position", position);
     SmartDashboard.putNumber("Angle", getAngle());
   }
 }

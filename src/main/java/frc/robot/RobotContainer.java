@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
+import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Arm;
@@ -112,6 +113,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new TurnToAngle(drive, 90);
+    return new DriveToDistance(drive).beforeStarting(() -> drive.resetPosition());
+    // commenting out one of the auto commands for now -Caeleb
+    // return new TurnToAngle(drive, 90);
   }
 }
