@@ -11,8 +11,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.DriveToDistance;
+import frc.robot.commands.MoveArm;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drive2019;
 
 /**
@@ -26,12 +29,18 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Joystick driverController = new Joystick(Constants.DRIVER_CONTROLLER);
   private final Joystick operatorController = new Joystick(Constants.OPERATOR_CONTROLLER);
+  private final JoystickButton operatorControllerLeftBumper = new JoystickButton(operatorController,
+      Constants.LEFT_BUMPER);
+  private final JoystickButton operatorControllerRightBumper = new JoystickButton(operatorController,
+      Constants.RIGHT_BUMPER);
 
   private Drive2019 drive = new Drive2019();
+  // private ColorWheel colorWheel = new ColorWheel();
+  // private Arm arm = new Arm();
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
-    if (Math.abs(value) < Constants.MOTOR_DEADZONE) {
+    if (Math.abs(value) > Constants.MOTOR_DEADZONE) {
       if (value > 0) {
         correctedValue = (value + Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE);
       }
@@ -57,6 +66,7 @@ public class RobotContainer {
   private double getDriverRightXAxis() {
     return correctDeadzone(driverController.getRawAxis(Constants.RIGHT_X_AXIS));
   }
+
 
   private double getOperatorLeftYAxis() {
     return correctDeadzone(operatorController.getRawAxis(Constants.LEFT_Y_AXIS));
@@ -89,8 +99,10 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(),
-        () -> getDriverRightXAxis()));
+    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+    // operatorControllerLeftBumper.whileHeld(new ReverseWheel());
+    // operatorControllerRightBumper.whileHeld(new SpinWheel());
+    //arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
   }
 
   /**

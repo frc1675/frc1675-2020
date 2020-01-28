@@ -61,12 +61,22 @@ public final class Constants {
 
     // Arm Motor Constants
     public static final int ARM_MOTOR_LEFT = 6;
-    public static final int ARM_Motor_RIGHT = 1;
-    public static final int SOLENOID = 2;
+    public static final int ARM_MOTOR_RIGHT = 1;
+    public static final int ARM_SOLENOID = 2;
+     // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID. 
 
     //Drive To Distance Constants
     public static final double DRIVE_P = 1/10000;
 
+    //Claw Motor Constants
+    public static final int INTAKE_POWER = 1;
+    public static final int OUTPUT_POWER = -1;
+    public static final int CLAW_TOP_MOTOR = 2;
+    public static final int CLAW_BOTTOM_MOTOR = 2;
+
+    // Color Wheel Constants
     public static final double COLOR_WHEEL_SPIN_SPEED = 0.5;
     public static final double REVERSE_COLOR_WHEEL_SPIN_SPEED = -0.5;
+    
+    public static final int WHEEL_MOTOR = 4;
 }   // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID. 
