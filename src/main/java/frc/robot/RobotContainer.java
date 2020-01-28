@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.MoveArm;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drive2019;
 
@@ -113,5 +114,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return new DriveToDistance(drive).beforeStarting(() -> drive.resetPosition());
+    // commenting out one of the auto commands for now -Caeleb
+    // return new TurnToAngle(drive, 90);
   }
 }
