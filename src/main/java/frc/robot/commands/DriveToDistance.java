@@ -33,7 +33,6 @@ public class DriveToDistance extends PIDCommand {
           // Use the output here
           drive.setRightMotors(output);
           drive.setLeftMotors(output);
-          System.out.println("dr phil says goodbye");
         });
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;

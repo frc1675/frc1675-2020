@@ -40,13 +40,11 @@ public class Drive2019 extends SubsystemBase {
     rightFront.set(ControlMode.PercentOutput,power);
     rightMiddle.set(ControlMode.PercentOutput,power);
     rightBack.set(ControlMode.PercentOutput,power);
-    System.out.println(power);
   }
   public void setLeftMotors(double power){
     leftFront.set(ControlMode.PercentOutput,-power);
     leftMiddle.set(ControlMode.PercentOutput,-power);
     leftBack.set(ControlMode.PercentOutput,-power);
-    System.out.println(power);
   }
 
   public int getPosition(){
