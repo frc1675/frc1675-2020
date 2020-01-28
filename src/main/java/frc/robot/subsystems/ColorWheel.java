@@ -27,7 +27,6 @@ public class ColorWheel extends SubsystemBase {
   private VictorSPX spinMotor;
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
-
   private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
 
   private final ColorMatch colorMatcher = new ColorMatch();
@@ -36,17 +35,11 @@ public class ColorWheel extends SubsystemBase {
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  
   private String currentColor;
 
   public ColorWheel() {
-    spinMotor = new VictorSPX(7);
-  }
-
-  public void robotInit() {
-    colorMatcher.addColorMatch(kBlueTarget);
-    colorMatcher.addColorMatch(kGreenTarget);
-    colorMatcher.addColorMatch(kRedTarget);
-    colorMatcher.addColorMatch(kYellowTarget);
+    spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
   }
 
   public void turnWheel() {
@@ -62,38 +55,36 @@ public class ColorWheel extends SubsystemBase {
   }
 
   public String getColor() {
-    /**
-     * The method GetColor() returns a normalized color value from the sensor and
-     * can be useful if outputting the color to an RGB LED or similar. To read the
-     * raw color, use GetRawColor().
-     * 
-     */
-    Color detectedColor = colorSensor.getColor();
-
-    /**
-     * Run the color match algorithm on our detected color
-     */
-    String colorString;
-    ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
-
-    if (match.color == kBlueTarget) {
-      colorString = "Blue";
-    } else if (match.color == kRedTarget) {
-      colorString = "Red";
-    } else if (match.color == kGreenTarget) {
-      colorString = "Green";
-    } else if (match.color == kYellowTarget) {
-      colorString = "Yellow";
-    } else {
-      colorString = "Unknown";
-    }
-    currentColor = colorString;
-    return (colorString);
+    return currentColor;
   }
 
   @Override
   public void periodic() {
-    System.out.println(currentColor);
+    colorMatcher.addColorMatch(kBlueTarget);
+    colorMatcher.addColorMatch(kGreenTarget);
+    colorMatcher.addColorMatch(kRedTarget);
+    colorMatcher.addColorMatch(kYellowTarget);
+
+    Color detectedColor = colorSensor.getColor();
+
+    ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
+
+    if (match.color == kBlueTarget) {
+      currentColor = "Blue";
+    } else if (match.color == kRedTarget) {
+      currentColor = "Red";
+    } else if (match.color == kGreenTarget) {
+      currentColor = "Green";
+    } else if (match.color == kYellowTarget) {
+      currentColor = "Yellow";
+    } else {
+      currentColor = "Unknown";
+    }
+
+    SmartDashboard.putNumber("Red", detectedColor.red);
+    SmartDashboard.putNumber("Green", detectedColor.green);
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", currentColor);
   }
 }

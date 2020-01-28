@@ -71,6 +71,9 @@ public final class Constants {
     public static final int CLAW_TOP_MOTOR = 2;
     public static final int CLAW_BOTTOM_MOTOR = 2;
 
+    // Color Wheel Constants
     public static final double COLOR_WHEEL_SPIN_SPEED = 0.5;
     public static final double REVERSE_COLOR_WHEEL_SPIN_SPEED = -0.5;
+    
+    public static final int WHEEL_MOTOR = 4;
 }   // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID. 
