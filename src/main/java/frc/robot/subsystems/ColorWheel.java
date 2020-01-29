@@ -36,10 +36,17 @@ public class ColorWheel extends SubsystemBase {
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
   
-  private String currentColor;
+  private String transitionColor = "Unknown";
+  private int colorTransitions = 0;
+  private String currentColor = "Unknown";
 
   public ColorWheel() {
     spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
+    
+    colorMatcher.addColorMatch(kBlueTarget);
+    colorMatcher.addColorMatch(kGreenTarget);
+    colorMatcher.addColorMatch(kRedTarget);
+    colorMatcher.addColorMatch(kYellowTarget);
   }
 
   public void turnWheel() {
@@ -54,20 +61,21 @@ public class ColorWheel extends SubsystemBase {
     spinMotor.set(ControlMode.PercentOutput, 0);
   }
 
-  public String getColor() {
-    return currentColor;
+  public int getColorCount() {;
+     return colorTransitions;
+  }
+
+  public void resetColorCount() {
+    colorTransitions = 0;
+    transitionColor = currentColor;
   }
 
   @Override
   public void periodic() {
-    colorMatcher.addColorMatch(kBlueTarget);
-    colorMatcher.addColorMatch(kGreenTarget);
-    colorMatcher.addColorMatch(kRedTarget);
-    colorMatcher.addColorMatch(kYellowTarget);
-
     Color detectedColor = colorSensor.getColor();
-
+    System.out.println("detColor " + detectedColor);
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
+    System.out.println("match " + match);
 
     if (match.color == kBlueTarget) {
       currentColor = "Blue";
@@ -80,11 +88,21 @@ public class ColorWheel extends SubsystemBase {
     } else {
       currentColor = "Unknown";
     }
+    System.out.println("currColor" + currentColor);
 
-    SmartDashboard.putNumber("Red", detectedColor.red);
-    SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
-    SmartDashboard.putNumber("Confidence", match.confidence);
+    if (currentColor != transitionColor) {
+      colorTransitions = colorTransitions + 1;
+      transitionColor = currentColor;
+      System.out.println("colorTransit" + colorTransitions);
+    }
+    
+
     SmartDashboard.putString("Detected Color", currentColor);
+    SmartDashboard.putString("Transition Color", transitionColor);
+    SmartDashboard.putNumber("Color Count", colorTransitions);
+  }
+
+  public String getColor() {
+    return currentColor;
   }
 }

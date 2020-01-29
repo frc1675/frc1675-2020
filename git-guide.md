@@ -31,6 +31,6 @@ In general you should only use the below commands in git. If you have a problem 
 1. `git commit -m "My message"`
 1. `git fetch`
 1. `git merge origin/master`
-1. `git push origin my-branch`
+1. `git push`
 1. Make PR, review with team
 1. Make and push additional commits to fix review comments
