@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class LoadingFromMiddle extends ParallelCommandGroup {
+public class StartLeftToLoadingStation extends ParallelCommandGroup {
   /**
-   * Creates a new LoadingFromMiddle.
+   * Creates a new LoadingFromLeft.
    */
-  public LoadingFromMiddle() {
-    System.out.println("go to loading station from middle");
+  public StartLeftToLoadingStation() {
+    System.out.println("go to loading station from left");
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
   }

@@ -7,18 +7,20 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DriveToDistance;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class LoadingFromRight extends ParallelCommandGroup {
+public class DriveForward extends SequentialCommandGroup {
   /**
-   * Creates a new LoadingFromRight.
+   * Creates a new DriveForward.
    */
-  public LoadingFromRight() {
-    System.out.println("go to loading station from right");
+  public DriveForward() {
     // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();
+    // super(new FooCommand(), new BarCommand());
+    super(new DriveToDistance());
   }
 }

@@ -7,18 +7,19 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ShieldFromMiddle extends ParallelCommandGroup {
+public class StartLeftToScore extends SequentialCommandGroup {
   /**
-   * Creates a new ShieldFromMiddle.
+   * Creates a new ScoreFromLeft.
    */
-  public ShieldFromMiddle() {
-    System.out.println("go to sheild generator from middle");
+  public StartLeftToScore() {
+    System.out.println("Scoring from left");
     // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();
+    // super(new FooCommand(), new BarCommand());
+    //super();
   }
 }

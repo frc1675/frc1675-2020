@@ -10,23 +10,24 @@ package frc.robot.utils;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.auto.LoadingFromLeft;
-import frc.robot.commands.auto.LoadingFromMiddle;
-import frc.robot.commands.auto.LoadingFromRight;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.auto.DriveForward;
+import frc.robot.commands.auto.StartLeftToLoadingStation;
+import frc.robot.commands.auto.StartMiddleToLoadingStation;
+import frc.robot.commands.auto.StartRightToLoadingStation;
 import frc.robot.commands.auto.MoveBackward;
 import frc.robot.commands.auto.MoveToLeft;
 import frc.robot.commands.auto.MoveToMiddle;
 import frc.robot.commands.auto.MoveToRight;
-import frc.robot.commands.auto.ScoreFromLeft;
-import frc.robot.commands.auto.ScoreFromMiddle;
-import frc.robot.commands.auto.ScoreFromRight;
-import frc.robot.commands.auto.ShieldFromLeft;
-import frc.robot.commands.auto.ShieldFromMiddle;
-import frc.robot.commands.auto.ShieldFromRight;
-import frc.robot.commands.auto.TrenchFromLeft;
-import frc.robot.commands.auto.TrenchFromMiddle;
-import frc.robot.commands.auto.TrenchFromRight;
-import frc.robot.commands.auto.Wait;
+import frc.robot.commands.auto.StartLeftToScore;
+import frc.robot.commands.auto.StartMiddleToScore;
+import frc.robot.commands.auto.StartRightToScore;
+import frc.robot.commands.auto.StartLeftToShieldGenerator;
+import frc.robot.commands.auto.StartMiddleToShieldGenerator;
+import frc.robot.commands.auto.StartRightToShieldGenerator;
+import frc.robot.commands.auto.StartLeftToTrench;
+import frc.robot.commands.auto.StartMiddleToTrench;
+import frc.robot.commands.auto.StartRightToTrench;
 
 /**
  * Add your docs here.
@@ -46,13 +47,18 @@ public class AutoChooser {
         FOUR_SECONDS,
         FIVE_SECONDS,
         SIX_SECONDS,
+        SEVEN_SECONDS,
+        EIGHT_SECONDS,
+        NINE_SECONDS,
+        TEN_SECONDS
     }
 
     public enum StartPosition {
         SCORE_FROM_RIGHT,
         SCORE_FROM_MIDDLE,
         SCORE_FROM_LEFT,
-        DONT_SCORE //just move backwards
+        DONT_SCORE,
+        DRIVE_FORWARD
     }
 
     public enum AfterScoring {
@@ -83,11 +89,16 @@ public class AutoChooser {
         waitChooser.addOption("Wait four seconds", WaitTime.FOUR_SECONDS);
         waitChooser.addOption("Wait five seconds", WaitTime.FIVE_SECONDS);
         waitChooser.addOption("Wait six seconds", WaitTime.SIX_SECONDS);
+        waitChooser.addOption("Wait seven seconds", WaitTime.SEVEN_SECONDS);
+        waitChooser.addOption("Wait eight seconds", WaitTime.EIGHT_SECONDS);
+        waitChooser.addOption("Wait nine seconds", WaitTime.NINE_SECONDS);
+        waitChooser.addOption("Wait ten seconds", WaitTime.TEN_SECONDS);
 
         startPositionChooser.addOption("Start right", StartPosition.SCORE_FROM_RIGHT);
         startPositionChooser.addOption("Start center", StartPosition.SCORE_FROM_MIDDLE);
         startPositionChooser.addOption("Start left", StartPosition.SCORE_FROM_LEFT);
         startPositionChooser.addOption("Go backwards", StartPosition.DONT_SCORE);
+        startPositionChooser.addOption("Test driving forward", StartPosition.DRIVE_FORWARD);
 
         afterScoringChooser.addOption("Go to right", AfterScoring.RIGHT);
         afterScoringChooser.addOption("Go to center", AfterScoring.MIDDLE);
@@ -115,39 +126,43 @@ public class AutoChooser {
             break;
 
         case ONE_SECOND:
-            System.out.println("Start waiting(1)");
-            auto.addCommands(new Wait(1));
-            System.out.println("End waiting");
+            auto.addCommands(new WaitCommand(1));
             break;
 
         case TWO_SECONDS:
-            System.out.println("Start waiting(2)");
-            auto.addCommands(new Wait(2));
-            System.out.println("End waiting");
+            auto.addCommands(new WaitCommand(2));
             break;
 
         case THREE_SECONDS:
-            System.out.println("Start waiting(3)");
-            auto.addCommands(new Wait(3));
-            System.out.println("End waiting");
+            auto.addCommands(new WaitCommand(3));
             break;
 
         case FOUR_SECONDS:
-            System.out.println("Start waiting(4)");
-            auto.addCommands(new Wait(4));
-            System.out.println("End waiting");
+            auto.addCommands(new WaitCommand(4));
             break;
 
         case FIVE_SECONDS:
-            System.out.println("Start waiting(5)");
-            auto.addCommands(new Wait(5));
-            System.out.println("End waiting");
+            auto.addCommands(new WaitCommand(5));
             break;
 
         case SIX_SECONDS:
-            System.out.println("Start waiting(6)");
-            auto.addCommands(new Wait(6));
-            System.out.println("End waiting");
+            auto.addCommands(new WaitCommand(6));
+            break;
+
+        case SEVEN_SECONDS:
+            auto.addCommands(new WaitCommand(7));
+            break;
+
+        case EIGHT_SECONDS:
+            auto.addCommands(new WaitCommand(8));
+            break;
+
+        case NINE_SECONDS:
+            auto.addCommands(new WaitCommand(9));
+            break;
+
+        case TEN_SECONDS:
+            auto.addCommands(new WaitCommand(10));
             break;
 
         default:
@@ -160,20 +175,23 @@ public class AutoChooser {
 
         switch (selectedStart) {
             case SCORE_FROM_RIGHT:
-                auto.addCommands(new ScoreFromRight());
+                auto.addCommands(new StartRightToScore());
                 break;
 
             case SCORE_FROM_MIDDLE:
-                auto.addCommands(new ScoreFromMiddle());
+                auto.addCommands(new StartMiddleToScore());
                 break;
 
             case SCORE_FROM_LEFT:
-                auto.addCommands(new ScoreFromLeft());
+                auto.addCommands(new StartLeftToScore());
                 break;
 
             case DONT_SCORE:
                 auto.addCommands(new MoveBackward());
                 return auto;
+
+            case DRIVE_FORWARD:
+                auto.addCommands(new DriveForward());
 
             default:
 
@@ -189,15 +207,15 @@ public class AutoChooser {
                 auto.addCommands(new MoveToRight());
                 switch(gatherBalls) {
                     case TRENCH:
-                        auto.addCommands(new TrenchFromRight());
+                        auto.addCommands(new StartRightToTrench());
                         break;
         
                     case SHIELD_GENERATOR:
-                        auto.addCommands(new ShieldFromRight());
+                        auto.addCommands(new StartRightToShieldGenerator());
                         break;
         
                     case LOADING_STATION:
-                        auto.addCommands(new LoadingFromRight());
+                        auto.addCommands(new StartRightToLoadingStation());
                         break;
         
                     case NOTHING:
@@ -211,15 +229,15 @@ public class AutoChooser {
                 auto.addCommands(new MoveToMiddle());
                 switch(gatherBalls) {
                     case TRENCH:
-                        auto.addCommands(new TrenchFromMiddle());
+                        auto.addCommands(new StartMiddleToTrench());
                         break;
         
                     case SHIELD_GENERATOR:
-                        auto.addCommands(new ShieldFromMiddle());
+                        auto.addCommands(new StartMiddleToShieldGenerator());
                         break;
         
                     case LOADING_STATION:
-                        auto.addCommands(new LoadingFromMiddle());
+                        auto.addCommands(new StartMiddleToLoadingStation());
                         break;
         
                     case NOTHING:
@@ -233,15 +251,15 @@ public class AutoChooser {
                 auto.addCommands(new MoveToLeft());
                 switch(gatherBalls) {
                     case TRENCH:
-                        auto.addCommands(new TrenchFromLeft());
+                        auto.addCommands(new StartLeftToTrench());
                         break;
         
                     case SHIELD_GENERATOR:
-                        auto.addCommands(new ShieldFromLeft());
+                        auto.addCommands(new StartLeftToShieldGenerator());
                         break;
         
                     case LOADING_STATION:
-                        auto.addCommands(new LoadingFromLeft());
+                        auto.addCommands(new StartLeftToLoadingStation());
                         break;
         
                     case NOTHING:

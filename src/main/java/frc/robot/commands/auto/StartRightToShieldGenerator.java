@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TrenchFromRight extends ParallelCommandGroup {
+public class StartRightToShieldGenerator extends ParallelCommandGroup {
   /**
-   * Creates a new TrenchFromRight.
+   * Creates a new ShieldFromRight.
    */
-  public TrenchFromRight() {
-    System.out.println("go to trench from right");
+  public StartRightToShieldGenerator() {
+    System.out.println("go to shield generator from right");
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
   }
