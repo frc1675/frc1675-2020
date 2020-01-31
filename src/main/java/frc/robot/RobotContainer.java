@@ -37,10 +37,14 @@ public class RobotContainer {
   private final JoystickButton operatorControllerRightBumper = new JoystickButton(operatorController,
       Constants.RIGHT_BUMPER);
 
-  // private Drive2019 drive = new Drive2019(); (Disables the 2019 drive, suggested by Justin because we changed the wheel motor from 4 to 1)
-  private ColorWheel colorWheel = new ColorWheel();
-  // private ColorWheel colorWheel = new ColorWheel();
-  // private Arm arm = new Arm();
+  
+  private Drive2019 drive = new Drive2019();
+  
+  // Disable the 2019 drive when testing ColorWheel, suggested by 
+  // Justin because we changed the wheel motor from 4 to 1
+  //private ColorWheel colorWheel = new ColorWheel();
+  
+  //private Arm arm = new Arm();
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -102,8 +106,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis())); (Commented out with line 36 for 2019 drive)
-  
+    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
   }
 
   /**

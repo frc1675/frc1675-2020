@@ -58,7 +58,6 @@ public class Drive2019 extends SubsystemBase {
   public double getHeading() {
     double angle = getAngle();
     double heading = (angle % 360);
-    System.out.println("Heading =" + heading);
     return heading;
   }
 
@@ -82,5 +81,6 @@ public class Drive2019 extends SubsystemBase {
     double position = getPosition();
     SmartDashboard.putNumber("Current Position", position);
     SmartDashboard.putNumber("Angle", getAngle());
+    SmartDashboard.putNumber("Heading", getHeading());
   }
 }
