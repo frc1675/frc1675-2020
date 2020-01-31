@@ -112,11 +112,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    
-    return new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED);
-    // return new DriveToDistance(drive).beforeStarting(() -> drive.resetPosition());
-    // commenting out one of the auto commands for now -Caeleb
-    // return new TurnToAngle(drive, 90);
+    return null;
   }
 }
