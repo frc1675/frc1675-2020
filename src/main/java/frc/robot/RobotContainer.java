@@ -103,10 +103,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis())); (Commented out with line 36 for 2019 drive)
-    colorWheel.setDefaultCommand(new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED));
-    // operatorControllerLeftBumper.whileHeld(new ReverseWheel());
-    // operatorControllerRightBumper.whileHeld(new SpinWheel());
-    //arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
+  
   }
 
   /**
@@ -116,7 +113,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    
+    return new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED);
     // return new DriveToDistance(drive).beforeStarting(() -> drive.resetPosition());
     // commenting out one of the auto commands for now -Caeleb
     // return new TurnToAngle(drive, 90);
