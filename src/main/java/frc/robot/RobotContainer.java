@@ -37,10 +37,14 @@ public class RobotContainer {
   private final JoystickButton operatorControllerRightBumper = new JoystickButton(operatorController,
       Constants.RIGHT_BUMPER);
 
-  private Drive2019 drive = new Drive2019(); //(Disables the 2019 drive, suggested by Justin because we changed the wheel motor from 4 to 1)
+  
+  private Drive2019 drive = new Drive2019();
+  
+  // Disable the 2019 drive when testing ColorWheel, suggested by 
+  // Justin because we changed the wheel motor from 4 to 1
   //private ColorWheel colorWheel = new ColorWheel();
-  // private ColorWheel colorWheel = new ColorWheel();
-  // private Arm arm = new Arm();
+  
+  //private Arm arm = new Arm();
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -103,10 +107,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
-    //colorWheel.setDefaultCommand(new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED));
-    // operatorControllerLeftBumper.whileHeld(new ReverseWheel());
-    // operatorControllerRightBumper.whileHeld(new SpinWheel());
-    //arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
   }
 
   /**
@@ -115,10 +115,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    //return null;
-    // return new DriveToDistance(drive).beforeStarting(() -> drive.resetPosition());
-    // commenting out one of the auto commands for now -Caeleb
     return null;
   }
 }
