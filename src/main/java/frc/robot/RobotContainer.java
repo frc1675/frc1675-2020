@@ -102,7 +102,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis())); //(Commented out with line 36 for 2019 drive)
+    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
     //colorWheel.setDefaultCommand(new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED));
     // operatorControllerLeftBumper.whileHeld(new ReverseWheel());
     // operatorControllerRightBumper.whileHeld(new SpinWheel());
@@ -119,6 +119,6 @@ public class RobotContainer {
     //return null;
     // return new DriveToDistance(drive).beforeStarting(() -> drive.resetPosition());
     // commenting out one of the auto commands for now -Caeleb
-    return new TurnToAngle(drive, 90);
+    return null;
   }
 }
