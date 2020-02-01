@@ -10,20 +10,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-<<<<<<< HEAD
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.subsystems.Drive2019;
 import frc.robot.subsystems.Vision;
-=======
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.CheesyDrive;
-import frc.robot.commands.DriveToDistance;
-import frc.robot.subsystems.Drive2019;
-import frc.robot.Constants;
->>>>>>> origin/master
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -42,11 +33,8 @@ public class RobotContainer {
       Constants.RIGHT_BUMPER);
 
   private Drive2019 drive = new Drive2019();
-<<<<<<< HEAD
   private Vision vision = new Vision();
   //private Arm arm = new Arm();
-=======
->>>>>>> origin/master
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
