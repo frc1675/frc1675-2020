@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
@@ -42,18 +43,22 @@ public class RobotContainer {
   private double correctDeadzone(double value) {
     double correctedValue = 0;
     if (Math.abs(value) > Constants.MOTOR_DEADZONE) {
-      if (value > 0) {
-        correctedValue = (1 / (1 - Constants.MOTOR_DEADZONE)) * value - ((1 / (1 - Constants.MOTOR_DEADZONE)) + 1);
-      }
       if (value < 0) {
-        correctedValue = (-1 / (1 - Constants.MOTOR_DEADZONE)) * value + ((-1 / (1 - Constants.MOTOR_DEADZONE)) - 1);
+        System.out.println("val " + value);
+        correctedValue = -((value + Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE));
+        System.out.println("corVal " + correctedValue);
+      }
+      if (value > 0) {
+        System.out.println("val " + value);
+        correctedValue = -((value - Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE));
+        System.out.println("corVal " + correctedValue);
       }
     }
     return correctedValue;
   }
 
   private double getDriverLeftYAxis() {
-    return -correctDeadzone(driverController.getRawAxis(Constants.LEFT_Y_AXIS));
+    return correctDeadzone(driverController.getRawAxis(Constants.LEFT_Y_AXIS));
   }
 
   private double getDriverLeftXAxis() {
