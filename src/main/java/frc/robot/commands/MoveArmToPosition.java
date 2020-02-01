@@ -7,9 +7,12 @@
 
 package frc.robot.commands;
 
+import java.util.Map;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Arm;
 
@@ -17,8 +20,9 @@ import frc.robot.subsystems.Arm;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class MoveArmToPosition extends PIDCommand {
-private DoubleSupplier armValue;
-private Arm arm;
+  private DoubleSupplier armValue;
+  private Arm arm;
+
   /**
    * Creates a new MoveArmToPosition.
    */
@@ -35,21 +39,24 @@ private Arm arm;
           // Use the output here
           arm.moveArm(output);
         });
-      this.arm = arm;
-      addRequirements(arm);
+    this.arm = arm;
+    addRequirements(arm);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(1000);
   }
 
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     boolean atSetpoint = getController().atSetpoint();
-    if (atSetpoint){
+    if (atSetpoint) {
       arm.lock();
     }
+
     return atSetpoint;
-  }
+
   }
 
+}

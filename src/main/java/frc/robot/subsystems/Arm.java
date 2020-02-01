@@ -7,11 +7,15 @@
 
 package frc.robot.subsystems;
 
+import java.util.Map;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
@@ -58,5 +62,7 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Arm Position", getPosition() );
+    NetworkTableEntry ShuffleboardTab = Shuffleboard.getTab("Arm Position").add("Arm Position", false)
+        .withWidget("Boolean Box").withProperties(Map.of("colorWhenTrue", "blue", "colorWhenFalse", "red")).getEntry();
   }
 }

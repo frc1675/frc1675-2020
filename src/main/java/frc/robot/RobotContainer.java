@@ -14,13 +14,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.DriveToDistance;
-<<<<<<< HEAD
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArmToPosition;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Arm;
-=======
->>>>>>> origin/master
 import frc.robot.subsystems.Drive2019;
 import frc.robot.Constants;
 
@@ -40,7 +37,6 @@ public class RobotContainer {
   private final JoystickButton operatorControllerRightBumper = new JoystickButton(operatorController,
       Constants.RIGHT_BUMPER);
 
-<<<<<<< HEAD
   
   //private Drive2019 drive = new Drive2019();
   
@@ -49,9 +45,7 @@ public class RobotContainer {
   //private ColorWheel colorWheel = new ColorWheel();
   
   private Arm arm = new Arm();
-=======
   private Drive2019 drive = new Drive2019();
->>>>>>> origin/master
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
