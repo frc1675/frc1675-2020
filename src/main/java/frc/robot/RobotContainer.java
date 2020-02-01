@@ -34,7 +34,7 @@ public class RobotContainer {
 
   private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
-  //private Arm arm = new Arm();
+  // private Arm arm = new Arm();
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -99,7 +99,7 @@ public class RobotContainer {
     drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
   }
 
-/**
+  /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
