@@ -44,21 +44,17 @@ public class RobotContainer {
     double correctedValue = 0;
     if (Math.abs(value) > Constants.MOTOR_DEADZONE) {
       if (value < 0) {
-        System.out.println("val " + value);
-        correctedValue = -((value + Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE));
-        System.out.println("corVal " + correctedValue);
+        correctedValue = ((value + Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE));
       }
       if (value > 0) {
-        System.out.println("val " + value);
-        correctedValue = -((value - Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE));
-        System.out.println("corVal " + correctedValue);
+        correctedValue = ((value - Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE));
       }
     }
     return correctedValue;
   }
 
   private double getDriverLeftYAxis() {
-    return correctDeadzone(driverController.getRawAxis(Constants.LEFT_Y_AXIS));
+    return -correctDeadzone(driverController.getRawAxis(Constants.LEFT_Y_AXIS));
   }
 
   private double getDriverLeftXAxis() {
