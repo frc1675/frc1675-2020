@@ -40,7 +40,6 @@ public class CheesyDrive extends CommandBase {
     double turnPower = turnValue.getAsDouble();
     double forwardPower = forwardValue.getAsDouble();
     double rightPower = (1 * forwardPower + -1 * turnPower);
-    System.out.println(forwardPower);
     double leftPower = (1 * forwardPower + 1 * turnPower);
     drive.setLeftMotors(leftPower);
     drive.setRightMotors(rightPower);
