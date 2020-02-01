@@ -30,6 +30,8 @@ public class ColorWheel extends SubsystemBase {
   private String transitionColor = "Unknown";
   private int colorTransitions = 0;
   private String currentColor = "Unknown";
+  private String targetColor = "Unknown";
+  private String theirDetectedColor = "Unknown";
 
   public ColorWheel() {
     spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
@@ -63,6 +65,14 @@ public class ColorWheel extends SubsystemBase {
   public String getColor() {
     return currentColor;
   }
+ 
+  public String getTheirColor() {
+    return theirDetectedColor;
+  }
+
+  public String getTargetColor(){
+    return targetColor;
+  }
 
   @Override
   public void periodic() {
@@ -70,14 +80,19 @@ public class ColorWheel extends SubsystemBase {
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
     if (match.color == kBlueTarget) {
       currentColor = "Blue";
+      theirDetectedColor = "Red";
     } else if (match.color == kRedTarget) {
       currentColor = "Red";
+      theirDetectedColor = "Blue";
     } else if (match.color == kGreenTarget) {
       currentColor = "Green";
+      theirDetectedColor = "Yellow";
     } else if (match.color == kYellowTarget) {
       currentColor = "Yellow";
+      theirDetectedColor = "Green";
     } else {
       currentColor = "Unknown";
+      theirDetectedColor = "Unknown";
     }
 
     if (currentColor != transitionColor) {
@@ -88,5 +103,7 @@ public class ColorWheel extends SubsystemBase {
     SmartDashboard.putString("Detected Color", currentColor);
     SmartDashboard.putString("Transition Color", transitionColor);
     SmartDashboard.putNumber("Color Count", colorTransitions);
+    SmartDashboard.putString("Competition Detected Color", theirDetectedColor);
+    SmartDashboard.putString("Target Color", targetColor);
   }
 }
