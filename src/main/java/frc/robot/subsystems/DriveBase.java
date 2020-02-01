@@ -65,7 +65,6 @@ public class DriveBase extends SubsystemBase {
   public double getHeading() {
     double angle = getAngle();
     double heading = (angle % 360);
-    System.out.println("Heading =" + heading);
     return heading;
   }
 }

@@ -32,6 +32,8 @@ public class ColorWheel extends SubsystemBase {
   private String currentColor = "Unknown";
   private String targetColor = "Unknown";
   private String theirDetectedColor = "Unknown";
+  private String anticipatedColor = "Unknown";
+  private String readColor = "Unknown";
 
   public ColorWheel() {
     spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
@@ -79,31 +81,65 @@ public class ColorWheel extends SubsystemBase {
     Color detectedColor = colorSensor.getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
     if (match.color == kBlueTarget) {
-      currentColor = "Blue";
-      theirDetectedColor = "Red";
+      readColor = "Blue";
+      if (anticipatedColor == "Unknown"){
+        anticipatedColor = "Yellow";
+      }
     } else if (match.color == kRedTarget) {
-      currentColor = "Red";
-      theirDetectedColor = "Blue";
+      readColor = "Red";
+      if (anticipatedColor == "Unknown"){
+        anticipatedColor = "Green";
+      }
     } else if (match.color == kGreenTarget) {
-      currentColor = "Green";
-      theirDetectedColor = "Yellow";
+      readColor = "Green";
+      if (anticipatedColor == "Unknown"){
+        anticipatedColor = "Blue";
+      }
     } else if (match.color == kYellowTarget) {
-      currentColor = "Yellow";
-      theirDetectedColor = "Green";
+      readColor = "Yellow";
+      if (anticipatedColor == "Unknown"){
+        anticipatedColor = "Red";
+      }
     } else {
+      readColor = "Unknown";
+    }
+
+    if (readColor == "Blue" && readColor == anticipatedColor) {
+      currentColor = "Blue";
+      anticipatedColor = "Yellow";
+      theirDetectedColor = "Red";
+    } else if (readColor == "Red" && readColor == anticipatedColor) {
+      currentColor = "Red";
+      anticipatedColor = "Green";
+      theirDetectedColor = "Blue";
+    } else if (readColor == "Green" && readColor == anticipatedColor) {
+      currentColor = "Green";
+      anticipatedColor = "Blue";
+      theirDetectedColor = "Yellow";
+    } else if (readColor == "Yellow" && readColor == anticipatedColor) {
+      currentColor = "Yellow";
+      anticipatedColor = "Red";
+      theirDetectedColor = "Green";
+    } /*else {
       currentColor = "Unknown";
       theirDetectedColor = "Unknown";
-    }
+    }*/
+    System.out.println("Read Color: "+readColor);
+
+    // System.out.println("Current color: "+currentColor);
 
     if (currentColor != transitionColor) {
       colorTransitions = colorTransitions + 1;
       transitionColor = currentColor;
+      System.out.println("CurrentColor: " +currentColor);
     }
 
-    SmartDashboard.putString("Detected Color", currentColor);
+    SmartDashboard.putString("Current Color", currentColor);
+    SmartDashboard.putString("read Color", readColor);
+    SmartDashboard.putString("anticipated Color", anticipatedColor);
     SmartDashboard.putString("Transition Color", transitionColor);
     SmartDashboard.putNumber("Color Count", colorTransitions);
-    SmartDashboard.putString("Competition Detected Color", theirDetectedColor);
+    SmartDashboard.putString("Competition Color", theirDetectedColor);
     SmartDashboard.putString("Target Color", targetColor);
   }
 }
