@@ -80,6 +80,11 @@ public class Vision extends SubsystemBase {
 
     public void periodic() {
       // This method will be called once per scheduler run
+      SmartDashboard.putBoolean("Has target?", hasTarget());
+      SmartDashboard.putNumber("X offset", getXOffSet());
+      SmartDashboard.putNumber("Y offset", getYOffSet());
+      SmartDashboard.putNumber("Target area", getTargetArea());
+      
       Pipeline pipeline = getPipeline();
       if (pipeline == Pipeline.LIGHT_OFF) {
         SmartDashboard.getString("Pipeline", "Driver mode on");
