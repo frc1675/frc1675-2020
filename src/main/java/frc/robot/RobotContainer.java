@@ -17,6 +17,7 @@ import frc.robot.commands.RotationControl;
 import frc.robot.subsystems.ColorWheel;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArmToPosition;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drive2019;
@@ -38,13 +39,13 @@ public class RobotContainer {
       Constants.RIGHT_BUMPER);
 
   
-  private Drive2019 drive = new Drive2019();
+  //private Drive2019 drive = new Drive2019();
   
   // Disable the 2019 drive when testing ColorWheel, suggested by 
   // Justin because we changed the wheel motor from 4 to 1
   //private ColorWheel colorWheel = new ColorWheel();
   
-  //private Arm arm = new Arm();
+  private Arm arm = new Arm();
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -106,7 +107,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+    //drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
   }
 
   /**
@@ -115,6 +116,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return new MoveArmToPosition(arm, 10000).beforeStarting(arm::unlock);
   }
 }
