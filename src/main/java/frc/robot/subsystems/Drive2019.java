@@ -37,18 +37,20 @@ public class Drive2019 extends SubsystemBase {
     leftFront = new VictorSPX(Constants.LEFT_FRONT);
     navx = new AHRS(SerialPort.Port.kMXP);
 
+    leftMiddle.setSensorPhase(true);
+    rightMiddle.setSensorPhase(true);
   }
 
   public void setRightMotors(double power) {
-    rightFront.set(ControlMode.PercentOutput, power);
-    rightMiddle.set(ControlMode.PercentOutput, power);
-    rightBack.set(ControlMode.PercentOutput, power);
+    rightFront.set(ControlMode.PercentOutput, -power);
+    rightMiddle.set(ControlMode.PercentOutput, -power);
+    rightBack.set(ControlMode.PercentOutput, -power);
   }
 
   public void setLeftMotors(double power) {
-    leftFront.set(ControlMode.PercentOutput, -power);
-    leftMiddle.set(ControlMode.PercentOutput, -power);
-    leftBack.set(ControlMode.PercentOutput, -power);
+    leftFront.set(ControlMode.PercentOutput, power);
+    leftMiddle.set(ControlMode.PercentOutput, power);
+    leftBack.set(ControlMode.PercentOutput, power);
   }
 
   public double getAngle() {
@@ -67,8 +69,9 @@ public class Drive2019 extends SubsystemBase {
     int leftPosition = leftMiddle.getSelectedSensorPosition();
     int averagePosition = (rightPosition + leftPosition)/2;
 
-    currentPosition = currentPosition + 1;
-    return currentPosition;
+    //currentPosition = currentPosition + 1;
+    //return currentPosition;
+    return averagePosition;
   }
 
   public void resetPosition(){

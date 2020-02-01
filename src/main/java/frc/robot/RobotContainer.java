@@ -13,14 +13,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
-import frc.robot.commands.RotationControl;
-import frc.robot.subsystems.ColorWheel;
 import frc.robot.commands.DriveToDistance;
+<<<<<<< HEAD
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArmToPosition;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Arm;
+=======
+>>>>>>> origin/master
 import frc.robot.subsystems.Drive2019;
+import frc.robot.Constants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -38,6 +40,7 @@ public class RobotContainer {
   private final JoystickButton operatorControllerRightBumper = new JoystickButton(operatorController,
       Constants.RIGHT_BUMPER);
 
+<<<<<<< HEAD
   
   //private Drive2019 drive = new Drive2019();
   
@@ -46,22 +49,25 @@ public class RobotContainer {
   //private ColorWheel colorWheel = new ColorWheel();
   
   private Arm arm = new Arm();
+=======
+  private Drive2019 drive = new Drive2019();
+>>>>>>> origin/master
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
     if (Math.abs(value) > Constants.MOTOR_DEADZONE) {
       if (value > 0) {
-        correctedValue = (value + Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE);
+        correctedValue = (1 / (1 - Constants.MOTOR_DEADZONE)) * value - ((1 / (1 - Constants.MOTOR_DEADZONE)) + 1);
       }
       if (value < 0) {
-        correctedValue = (value - Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE);
+        correctedValue = (-1 / (1 - Constants.MOTOR_DEADZONE)) * value + ((-1 / (1 - Constants.MOTOR_DEADZONE)) - 1);
       }
     }
     return correctedValue;
   }
 
   private double getDriverLeftYAxis() {
-    return correctDeadzone(driverController.getRawAxis(Constants.LEFT_Y_AXIS));
+    return -correctDeadzone(driverController.getRawAxis(Constants.LEFT_Y_AXIS));
   }
 
   private double getDriverLeftXAxis() {
@@ -69,7 +75,7 @@ public class RobotContainer {
   }
 
   private double getDriverRightYAxis() {
-    return correctDeadzone(driverController.getRawAxis(Constants.RIGHT_Y_AXIS));
+    return -correctDeadzone(driverController.getRawAxis(Constants.RIGHT_Y_AXIS));
   }
 
   private double getDriverRightXAxis() {
@@ -77,7 +83,7 @@ public class RobotContainer {
   }
 
   private double getOperatorLeftYAxis() {
-    return correctDeadzone(operatorController.getRawAxis(Constants.LEFT_Y_AXIS));
+    return -correctDeadzone(operatorController.getRawAxis(Constants.LEFT_Y_AXIS));
   }
 
   private double getOperatorLeftXAxis() {
@@ -85,7 +91,7 @@ public class RobotContainer {
   }
 
   private double getOperatorRightYAxis() {
-    return correctDeadzone(operatorController.getRawAxis(Constants.RIGHT_Y_AXIS));
+    return -correctDeadzone(operatorController.getRawAxis(Constants.RIGHT_Y_AXIS));
   }
 
   private double getOperatorRightXAxis() {
