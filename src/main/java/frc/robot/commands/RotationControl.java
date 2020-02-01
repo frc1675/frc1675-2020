@@ -7,46 +7,40 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ColorWheel;
+import frc.robot.Constants;
 
-public class MoveArm extends CommandBase {
-  private Arm arm;
-  private DoubleSupplier armValue;
-  /**
-   * Creates a new MoveArm.
-   */
-  public MoveArm(Arm arm, DoubleSupplier armValue) {
-    this.arm = arm; 
-    this.armValue = armValue;
-    addRequirements(this.arm);
-    // Use addRequirements() here to declare subsystem dependencies.
+public class RotationControl extends CommandBase {
+  private ColorWheel colorWheel;
+  private int colorCounts;
+
+  public RotationControl(ColorWheel colorWheel, int colorCounts) {
+    this.colorWheel = colorWheel;
+    this.colorCounts = colorCounts;
+    addRequirements(colorWheel);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-	  arm.unlock();
+    colorWheel.resetColorCount();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double armPower = armValue.getAsDouble();
-    arm.moveArm(armPower);
+    colorWheel.turnWheel();
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.lock();
+    colorWheel.stopWheel();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    boolean requiredRotations = colorWheel.getColorCount() >= colorCounts ? true : false;
+    SmartDashboard.putBoolean("Rotations Control Complete", requiredRotations);
+    return requiredRotations;
   }
 }

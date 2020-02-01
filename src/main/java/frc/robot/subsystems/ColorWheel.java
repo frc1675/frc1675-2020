@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
-
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -20,29 +19,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ColorWheel extends SubsystemBase {
-  /**
-   * Creates a new ColorWheel.
-   */
-
   private VictorSPX spinMotor;
-
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
-
   private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
-
   private final ColorMatch colorMatcher = new ColorMatch();
-
   private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-  private String currentColor;
+  private String transitionColor = "Unknown";
+  private int colorTransitions = 0;
+  private String currentColor = "Unknown";
 
   public ColorWheel() {
-    spinMotor = new VictorSPX(7);
-  }
-
-  public void robotInit() {
+    spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
     colorMatcher.addColorMatch(kBlueTarget);
     colorMatcher.addColorMatch(kGreenTarget);
     colorMatcher.addColorMatch(kRedTarget);
@@ -61,39 +51,42 @@ public class ColorWheel extends SubsystemBase {
     spinMotor.set(ControlMode.PercentOutput, 0);
   }
 
+  public int getColorCount() {;
+     return colorTransitions;
+  }
+
+  public void resetColorCount() {
+    colorTransitions = 0;
+    transitionColor = currentColor;
+  }
+
   public String getColor() {
-    /**
-     * The method GetColor() returns a normalized color value from the sensor and
-     * can be useful if outputting the color to an RGB LED or similar. To read the
-     * raw color, use GetRawColor().
-     * 
-     */
-    Color detectedColor = colorSensor.getColor();
-
-    /**
-     * Run the color match algorithm on our detected color
-     */
-    String colorString;
-    ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
-
-    if (match.color == kBlueTarget) {
-      colorString = "Blue";
-    } else if (match.color == kRedTarget) {
-      colorString = "Red";
-    } else if (match.color == kGreenTarget) {
-      colorString = "Green";
-    } else if (match.color == kYellowTarget) {
-      colorString = "Yellow";
-    } else {
-      colorString = "Unknown";
-    }
-    currentColor = colorString;
-    return (colorString);
+    return currentColor;
   }
 
   @Override
   public void periodic() {
-    System.out.println(currentColor);
+    Color detectedColor = colorSensor.getColor();
+    ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
+    if (match.color == kBlueTarget) {
+      currentColor = "Blue";
+    } else if (match.color == kRedTarget) {
+      currentColor = "Red";
+    } else if (match.color == kGreenTarget) {
+      currentColor = "Green";
+    } else if (match.color == kYellowTarget) {
+      currentColor = "Yellow";
+    } else {
+      currentColor = "Unknown";
+    }
+
+    if (currentColor != transitionColor) {
+      colorTransitions = colorTransitions + 1;
+      transitionColor = currentColor;
+    }
+
     SmartDashboard.putString("Detected Color", currentColor);
+    SmartDashboard.putString("Transition Color", transitionColor);
+    SmartDashboard.putNumber("Color Count", colorTransitions);
   }
 }
