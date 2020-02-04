@@ -107,7 +107,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
   }
 
   /**
@@ -116,6 +116,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new MoveArmToPosition(arm, 10000).beforeStarting(arm::unlock);
+   return null;
+   // return new MoveArmToPosition(arm, 10000).beforeStarting(arm::unlock);
   }
 }

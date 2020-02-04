@@ -54,7 +54,7 @@ public class MoveArmToPosition extends PIDCommand {
     if (atSetpoint) {
       arm.lock();
     }
-
+    
     return atSetpoint;
 
   }
