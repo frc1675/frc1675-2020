@@ -12,22 +12,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.auto.DriveForward;
-import frc.robot.commands.auto.StartLeftToLoadingStation;
-import frc.robot.commands.auto.StartMiddleToLoadingStation;
-import frc.robot.commands.auto.StartRightToLoadingStation;
 import frc.robot.commands.auto.MoveBackward;
 import frc.robot.commands.auto.MoveToLeft;
 import frc.robot.commands.auto.MoveToMiddle;
 import frc.robot.commands.auto.MoveToRight;
 import frc.robot.commands.auto.StartLeftToScore;
-import frc.robot.commands.auto.StartMiddleToScore;
-import frc.robot.commands.auto.StartRightToScore;
 import frc.robot.commands.auto.StartLeftToShieldGenerator;
-import frc.robot.commands.auto.StartMiddleToShieldGenerator;
-import frc.robot.commands.auto.StartRightToShieldGenerator;
 import frc.robot.commands.auto.StartLeftToTrench;
+import frc.robot.commands.auto.StartMiddleToScore;
+import frc.robot.commands.auto.StartMiddleToShieldGenerator;
 import frc.robot.commands.auto.StartMiddleToTrench;
+import frc.robot.commands.auto.StartRightToScore;
+import frc.robot.commands.auto.StartRightToShieldGenerator;
 import frc.robot.commands.auto.StartRightToTrench;
+import frc.robot.subsystems.Drive2019;
 
 /**
  * Add your docs here.
@@ -38,6 +36,8 @@ public class AutoChooser {
     private SendableChooser<WaitTime> waitChooser;
     private SendableChooser<AfterScoring> afterScoringChooser;
     private SendableChooser<GatherBalls> gatherBallsChooser;
+
+    private Drive2019 drive;
 
     public enum WaitTime {
         ZERO_SECONDS,
@@ -64,17 +64,19 @@ public class AutoChooser {
     public enum AfterScoring {
         RIGHT,
         MIDDLE,
-        LEFT
+        LEFT,
+        NOTHING
     }
 
     public enum GatherBalls {
         TRENCH,
         SHIELD_GENERATOR,
-        LOADING_STATION,
+        //LOADING_STATION,
         NOTHING
     }
 
-    public AutoChooser() {
+    public AutoChooser(Drive2019 drive) {
+        this.drive = drive;
 
         //make choosers on smartdashboard
         waitChooser = new SendableChooser<WaitTime>();
@@ -103,10 +105,11 @@ public class AutoChooser {
         afterScoringChooser.addOption("Go to right", AfterScoring.RIGHT);
         afterScoringChooser.addOption("Go to center", AfterScoring.MIDDLE);
         afterScoringChooser.addOption("Go to left", AfterScoring.LEFT);
+        afterScoringChooser.addOption("Do nothing", AfterScoring.NOTHING);
 
         gatherBallsChooser.addOption("Trench", GatherBalls.TRENCH);
         gatherBallsChooser.addOption("Shield gernerator", GatherBalls.SHIELD_GENERATOR);
-        gatherBallsChooser.addOption("Loading station", GatherBalls.LOADING_STATION);
+        //gatherBallsChooser.addOption("Loading station", GatherBalls.LOADING_STATION);
         gatherBallsChooser.addOption("Nothing", GatherBalls.NOTHING);
 
         SmartDashboard.putData("Wait", waitChooser);
@@ -191,8 +194,9 @@ public class AutoChooser {
                 return auto;
 
             case DRIVE_FORWARD:
-                auto.addCommands(new DriveForward());
+                auto.addCommands(new DriveForward(drive));
 
+                return auto;
             default:
 
                 break;
@@ -214,10 +218,10 @@ public class AutoChooser {
                         auto.addCommands(new StartRightToShieldGenerator());
                         break;
         
-                    case LOADING_STATION:
+                    /*case LOADING_STATION:
                         auto.addCommands(new StartRightToLoadingStation());
                         break;
-        
+                        */
                     case NOTHING:
         
                         break;
@@ -236,10 +240,10 @@ public class AutoChooser {
                         auto.addCommands(new StartMiddleToShieldGenerator());
                         break;
         
-                    case LOADING_STATION:
+                    /*case LOADING_STATION:
                         auto.addCommands(new StartMiddleToLoadingStation());
                         break;
-        
+                        */
                     case NOTHING:
         
                         break;
@@ -258,16 +262,17 @@ public class AutoChooser {
                         auto.addCommands(new StartLeftToShieldGenerator());
                         break;
         
-                    case LOADING_STATION:
+                    /*case LOADING_STATION:
                         auto.addCommands(new StartLeftToLoadingStation());
                         break;
-        
+                        */
                     case NOTHING:
         
                         break;
         
                 }
-                break;
+                case NOTHING:
+                    return auto;
 
         }
 

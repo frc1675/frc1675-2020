@@ -14,13 +14,9 @@ import frc.robot.utils.AutoChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
-import frc.robot.commands.RotationControl;
-import frc.robot.subsystems.ColorWheel;
 import frc.robot.commands.DriveToDistance;
-import frc.robot.commands.MoveArm;
-import frc.robot.commands.TurnToAngle;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drive2019;
+import frc.robot.Constants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -38,28 +34,25 @@ public class RobotContainer {
   private final JoystickButton operatorControllerRightBumper = new JoystickButton(operatorController,
       Constants.RIGHT_BUMPER);
 
-  // private Drive2019 drive = new Drive2019(); (Disables the 2019 drive, suggested by Justin because we changed the wheel motor from 4 to 1)
-  private ColorWheel colorWheel = new ColorWheel();
-  // private ColorWheel colorWheel = new ColorWheel();
-  // private Arm arm = new Arm();
+  private Drive2019 drive = new Drive2019();
 
-  private AutoChooser autoChooser = new AutoChooser();
+  private AutoChooser autoChooser = new AutoChooser(drive);
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
     if (Math.abs(value) > Constants.MOTOR_DEADZONE) {
       if (value > 0) {
-        correctedValue = (value + Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE);
+        correctedValue = (1 / (1 - Constants.MOTOR_DEADZONE)) * value - ((1 / (1 - Constants.MOTOR_DEADZONE)) + 1);
       }
       if (value < 0) {
-        correctedValue = (value - Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE);
+        correctedValue = (-1 / (1 - Constants.MOTOR_DEADZONE)) * value + ((-1 / (1 - Constants.MOTOR_DEADZONE)) - 1);
       }
     }
     return correctedValue;
   }
 
   private double getDriverLeftYAxis() {
-    return correctDeadzone(driverController.getRawAxis(Constants.LEFT_Y_AXIS));
+    return -correctDeadzone(driverController.getRawAxis(Constants.LEFT_Y_AXIS));
   }
 
   private double getDriverLeftXAxis() {
@@ -67,7 +60,7 @@ public class RobotContainer {
   }
 
   private double getDriverRightYAxis() {
-    return correctDeadzone(driverController.getRawAxis(Constants.RIGHT_Y_AXIS));
+    return -correctDeadzone(driverController.getRawAxis(Constants.RIGHT_Y_AXIS));
   }
 
   private double getDriverRightXAxis() {
@@ -75,7 +68,7 @@ public class RobotContainer {
   }
 
   private double getOperatorLeftYAxis() {
-    return correctDeadzone(operatorController.getRawAxis(Constants.LEFT_Y_AXIS));
+    return -correctDeadzone(operatorController.getRawAxis(Constants.LEFT_Y_AXIS));
   }
 
   private double getOperatorLeftXAxis() {
@@ -83,7 +76,7 @@ public class RobotContainer {
   }
 
   private double getOperatorRightYAxis() {
-    return correctDeadzone(operatorController.getRawAxis(Constants.RIGHT_Y_AXIS));
+    return -correctDeadzone(operatorController.getRawAxis(Constants.RIGHT_Y_AXIS));
   }
 
   private double getOperatorRightXAxis() {
@@ -105,11 +98,7 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis())); (Commented out with line 36 for 2019 drive)
-    colorWheel.setDefaultCommand(new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED));
-    // operatorControllerLeftBumper.whileHeld(new ReverseWheel());
-    // operatorControllerRightBumper.whileHeld(new SpinWheel());
-    //arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
+    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
   }
 
   /**

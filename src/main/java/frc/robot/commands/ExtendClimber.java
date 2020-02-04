@@ -10,12 +10,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
-public class ExtendedClimber extends CommandBase {
+public class ExtendClimber extends CommandBase {
   private Climber climber;
   /**
    * Creates a new ExtendedClimber.
    */
-  public ExtendedClimber(Climber climber) {
+  public ExtendClimber(Climber climber) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.climber = climber;
     addRequirements(this.climber);

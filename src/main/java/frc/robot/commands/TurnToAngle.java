@@ -22,7 +22,7 @@ public class TurnToAngle extends PIDCommand {
   public TurnToAngle(Drive2019 drive, double angle) {
     super(
         // The controller that the command will use
-        new PIDController(1 / 360, 0, 0),
+        new PIDController(0.00278, 0, 0),
         // This should return the measurement
         drive::getHeading,
         // This should return the setpoint (can also be a constant)

@@ -9,18 +9,20 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveToDistance;
+import frc.robot.subsystems.Drive2019;
 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class DriveForward extends SequentialCommandGroup {
+
   /**
    * Creates a new DriveForward.
    */
-  public DriveForward() {
+  public DriveForward(Drive2019 drive) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new DriveToDistance());
+    super(new DriveToDistance(drive, 1000));
   }
 }
