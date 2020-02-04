@@ -13,13 +13,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
+<<<<<<< HEAD
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArmToPosition;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Arm;
+=======
+>>>>>>> origin/master
 import frc.robot.subsystems.Drive2019;
-import frc.robot.Constants;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -46,15 +49,17 @@ public class RobotContainer {
   
   private Arm arm = new Arm();
   private Drive2019 drive = new Drive2019();
+  private Vision vision = new Vision();
+  // private Arm arm = new Arm();
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
     if (Math.abs(value) > Constants.MOTOR_DEADZONE) {
-      if (value > 0) {
-        correctedValue = (1 / (1 - Constants.MOTOR_DEADZONE)) * value - ((1 / (1 - Constants.MOTOR_DEADZONE)) + 1);
-      }
       if (value < 0) {
-        correctedValue = (-1 / (1 - Constants.MOTOR_DEADZONE)) * value + ((-1 / (1 - Constants.MOTOR_DEADZONE)) - 1);
+        correctedValue = ((value + Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE));
+      }
+      if (value > 0) {
+        correctedValue = ((value - Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE));
       }
     }
     return correctedValue;
