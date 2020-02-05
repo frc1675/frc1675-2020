@@ -12,7 +12,10 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
+
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -85,8 +88,9 @@ public class ColorWheel extends SubsystemBase {
       transitionColor = currentColor;
     }
 
-    SmartDashboard.putString("Detected Color", currentColor);
-    SmartDashboard.putString("Transition Color", transitionColor);
-    SmartDashboard.putNumber("Color Count", colorTransitions);
+    ShuffleboardTab colorWheelTab = Shuffleboard.getTab("Color Wheel");
+    colorWheelTab.add("Detected Color", currentColor);
+    colorWheelTab.add("Transition Color", transitionColor);
+    colorWheelTab.add("Color Count", colorTransitions);
   }
 }

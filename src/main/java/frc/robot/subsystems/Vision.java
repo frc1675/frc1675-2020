@@ -9,7 +9,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
@@ -80,16 +81,18 @@ public class Vision extends SubsystemBase {
 
     public void periodic() {
       // This method will be called once per scheduler run
-      SmartDashboard.putBoolean("Has target?", hasTarget());
-      SmartDashboard.putNumber("X offset", getXOffSet());
-      SmartDashboard.putNumber("Y offset", getYOffSet());
-      SmartDashboard.putNumber("Target area", getTargetArea());
+
+      ShuffleboardTab visionTab = Shuffleboard.getTab("Vision");
+      visionTab.add("Has Target?", hasTarget());
+      visionTab.add("X offset", getXOffSet());
+      visionTab.add("Y offset", getYOffSet());
+      visionTab.add("Target area", getTargetArea());
       
       Pipeline pipeline = getPipeline();
       if (pipeline == Pipeline.LIGHT_OFF) {
-        SmartDashboard.getString("Pipeline", "Driver mode on");
+        visionTab.add("Pipeline", "Driver mode on");
       } else if (pipeline == Pipeline.LIGHT_ON) {
-        SmartDashboard.putString("Pipeline", "Target mode on");
+        visionTab.add("Pipeline", "Target mode on");
       }
     }
   }

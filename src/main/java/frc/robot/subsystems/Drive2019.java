@@ -13,7 +13,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -83,8 +84,11 @@ public class Drive2019 extends SubsystemBase {
   @Override
   public void periodic() {
     double position = getPosition();
-    SmartDashboard.putNumber("Current Position", position);
-    SmartDashboard.putNumber("Angle", getAngle());
-    SmartDashboard.putNumber("Heading", getHeading());
+    
+    ShuffleboardTab drive2019Tab = Shuffleboard.getTab("Drive2019");
+    drive2019Tab.add("Current Position", position);
+    drive2019Tab.add("Angle", getAngle());
+    drive2019Tab.add("Heading", getHeading());
+    
   }
 }

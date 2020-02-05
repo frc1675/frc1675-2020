@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorWheel;
@@ -40,7 +42,10 @@ public class RotationControl extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean requiredRotations = colorWheel.getColorCount() >= colorCounts ? true : false;
-    SmartDashboard.putBoolean("Rotations Control Complete", requiredRotations);
+    ShuffleboardTab rotationControl = Shuffleboard.getTab("Rotation Control");
+    rotationControl.add("Rotataions Control Complete", requiredRotations);
+    
+
     return requiredRotations;
   }
 }
