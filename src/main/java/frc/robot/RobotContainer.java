@@ -10,10 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.DriveToDistance;
+import frc.robot.commands.PositionControl;
 import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.Drive2019;
 import frc.robot.Constants;
@@ -35,6 +37,7 @@ public class RobotContainer {
       Constants.RIGHT_BUMPER);
 
   private Drive2019 drive = new Drive2019();
+  private ColorWheel colorWheel = new ColorWheel();
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -81,6 +84,8 @@ public class RobotContainer {
     return correctDeadzone(operatorController.getRawAxis(Constants.RIGHT_X_AXIS));
   }
 
+  
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -97,6 +102,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+    operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
   }
 
   /**

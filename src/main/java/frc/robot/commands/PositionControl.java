@@ -13,10 +13,8 @@ import frc.robot.subsystems.ColorWheel;
 
 public class PositionControl extends CommandBase {
   private ColorWheel colorWheel;
-  private String theirDetectedColor;
 
-  public PositionControl(ColorWheel colorWheel, String theirDetectedColor) {
-    this.theirDetectedColor = theirDetectedColor;
+  public PositionControl(ColorWheel colorWheel) {
     this.colorWheel = colorWheel;
     addRequirements(colorWheel);
   }
@@ -38,7 +36,7 @@ public class PositionControl extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    boolean colorMatch = colorWheel.getTargetColor() == theirDetectedColor ? true : false;
+    boolean colorMatch = colorWheel.getTargetColor() == colorWheel.getWheelColor() ? true : false;
     SmartDashboard.putBoolean("Target Color Match", colorMatch);
     return colorMatch;
   }

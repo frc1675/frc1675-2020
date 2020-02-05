@@ -30,8 +30,8 @@ public class ColorWheel extends SubsystemBase {
   private String transitionColor = "Unknown";
   private int colorTransitions = 0;
   private String currentColor = "Unknown";
-  private String targetColor = "Unknown";
-  private String theirDetectedColor = "Unknown";
+  private String targetColor = "Blue";
+  private String wheelColor = "Unknown";
   private String anticipatedColor = "Unknown";
   private String readColor = "Unknown";
 
@@ -68,8 +68,8 @@ public class ColorWheel extends SubsystemBase {
     return currentColor;
   }
  
-  public String getTheirColor() {
-    return theirDetectedColor;
+  public String getWheelColor() {
+    return wheelColor;
   }
 
   public String getTargetColor(){
@@ -107,39 +107,31 @@ public class ColorWheel extends SubsystemBase {
     if (readColor == "Blue" && readColor == anticipatedColor) {
       currentColor = "Blue";
       anticipatedColor = "Yellow";
-      theirDetectedColor = "Red";
+      wheelColor = "Red";
     } else if (readColor == "Red" && readColor == anticipatedColor) {
       currentColor = "Red";
       anticipatedColor = "Green";
-      theirDetectedColor = "Blue";
+      wheelColor = "Blue";
     } else if (readColor == "Green" && readColor == anticipatedColor) {
       currentColor = "Green";
       anticipatedColor = "Blue";
-      theirDetectedColor = "Yellow";
+      wheelColor = "Yellow";
     } else if (readColor == "Yellow" && readColor == anticipatedColor) {
       currentColor = "Yellow";
       anticipatedColor = "Red";
-      theirDetectedColor = "Green";
-    } /*else {
-      currentColor = "Unknown";
-      theirDetectedColor = "Unknown";
-    }*/
-    System.out.println("Read Color: "+readColor);
-
-    // System.out.println("Current color: "+currentColor);
+      wheelColor = "Green";
+    }
 
     if (currentColor != transitionColor) {
       colorTransitions = colorTransitions + 1;
       transitionColor = currentColor;
-      System.out.println("CurrentColor: " +currentColor);
     }
 
     SmartDashboard.putString("Current Color", currentColor);
     SmartDashboard.putString("read Color", readColor);
-    SmartDashboard.putString("anticipated Color", anticipatedColor);
-    SmartDashboard.putString("Transition Color", transitionColor);
     SmartDashboard.putNumber("Color Count", colorTransitions);
-    SmartDashboard.putString("Competition Color", theirDetectedColor);
     SmartDashboard.putString("Target Color", targetColor);
+    SmartDashboard.putString("Anticipated Color", anticipatedColor);
+    SmartDashboard.putString("Wheel Color", wheelColor);
   }
 }
