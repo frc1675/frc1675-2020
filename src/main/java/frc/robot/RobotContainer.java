@@ -13,14 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
-<<<<<<< HEAD
-import frc.robot.commands.DriveToDistance;
-import frc.robot.commands.MoveArm;
-import frc.robot.commands.MoveArmToPosition;
-import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Arm;
-=======
->>>>>>> origin/master
 import frc.robot.subsystems.Drive2019;
 import frc.robot.subsystems.Vision;
 
