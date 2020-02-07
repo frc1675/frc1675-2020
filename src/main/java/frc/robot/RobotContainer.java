@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
+import frc.robot.commands.RotationControl;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.Drive2019;
@@ -34,13 +35,12 @@ public class RobotContainer {
   private final JoystickButton operatorControllerRightBumper = new JoystickButton(operatorController,
       Constants.RIGHT_BUMPER);
 
-  
-  // Disable the 2019 drive when testing ColorWheel, suggested by 
+  // Disable the 2019 drive when testing ColorWheel, suggested by
   // Justin because we changed the wheel motor from 4 to 1
   //private ColorWheel colorWheel = new ColorWheel();
-  
-  //private Arm arm = new Arm();
-  private Drive2019 drive = new Drive2019();
+
+  private Arm arm = new Arm();
+  // private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
 
   private double correctDeadzone(double value) {
@@ -103,7 +103,8 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+    // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
+    // -> getDriverRightXAxis()));
   }
 
   /**
@@ -112,7 +113,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-   return null;
-   // return new MoveArmToPosition(arm, 10000).beforeStarting(arm::unlock);
+    return null;
+    // return new MoveArmToPosition(arm, 10000).beforeStarting(arm::unlock);
   }
 }

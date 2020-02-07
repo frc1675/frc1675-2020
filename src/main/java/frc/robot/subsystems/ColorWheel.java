@@ -33,6 +33,7 @@ public class ColorWheel extends SubsystemBase {
   private String transitionColor = "Unknown";
   private int colorTransitions = 0;
   private String currentColor = "Unknown";
+  private ShuffleboardTab colorWheelTab = Shuffleboard.getTab("Color Wheel");
 
   public ColorWheel() {
     spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
@@ -40,6 +41,10 @@ public class ColorWheel extends SubsystemBase {
     colorMatcher.addColorMatch(kGreenTarget);
     colorMatcher.addColorMatch(kRedTarget);
     colorMatcher.addColorMatch(kYellowTarget);
+
+    colorWheelTab.addString("Detected Color", () -> currentColor);
+    colorWheelTab.addString("Transition Color", () -> transitionColor);
+    colorWheelTab.addNumber("Color Count", () -> colorTransitions);
   }
 
   public void turnWheel() {
@@ -54,8 +59,9 @@ public class ColorWheel extends SubsystemBase {
     spinMotor.set(ControlMode.PercentOutput, 0);
   }
 
-  public int getColorCount() {;
-     return colorTransitions;
+  public int getColorCount() {
+    ;
+    return colorTransitions;
   }
 
   public void resetColorCount() {
@@ -87,10 +93,5 @@ public class ColorWheel extends SubsystemBase {
       colorTransitions = colorTransitions + 1;
       transitionColor = currentColor;
     }
-
-    ShuffleboardTab colorWheelTab = Shuffleboard.getTab("Color Wheel");
-    colorWheelTab.add("Detected Color", currentColor);
-    colorWheelTab.add("Transition Color", transitionColor);
-    colorWheelTab.add("Color Count", colorTransitions);
   }
 }

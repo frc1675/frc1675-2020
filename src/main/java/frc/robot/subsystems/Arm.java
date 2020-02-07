@@ -19,6 +19,7 @@ import frc.robot.Constants;
 public class Arm extends SubsystemBase {
   public TalonSRX leftMiddle;
   public TalonSRX rightMiddle;
+  private ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
 
   // private CANSparkMax armMotorLeft;
   // private CANSparkMax armMotorRight;
@@ -36,6 +37,7 @@ public class Arm extends SubsystemBase {
     // solenoid = new Solenoid(Constants.ARM_SOLENOID);
     rightMiddle.setSensorPhase(true);
     leftMiddle.setSensorPhase(true);
+    armTab.addNumber("Position", () -> getPosition());
   }
 
   public void moveArm(double power) {
@@ -65,7 +67,5 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
-    armTab.add("Position", getPosition());
   }
 }

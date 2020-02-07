@@ -28,6 +28,7 @@ public class Drive2019 extends SubsystemBase {
   public int currentPosition;
   public double power;
   public AHRS navx;
+  private ShuffleboardTab drive2019Tab = Shuffleboard.getTab("Drive2019");
 
   public Drive2019() {
     rightMiddle = new TalonSRX(Constants.RIGHT_MIDDLE);
@@ -40,6 +41,10 @@ public class Drive2019 extends SubsystemBase {
 
     leftMiddle.setSensorPhase(true);
     rightMiddle.setSensorPhase(true);
+
+    drive2019Tab.addNumber("Current Position", () -> getPosition());
+    drive2019Tab.addNumber("Angle", () -> getAngle());
+    drive2019Tab.addNumber("Heading", () -> getHeading());
   }
 
   public void setRightMotors(double power) {
@@ -64,18 +69,17 @@ public class Drive2019 extends SubsystemBase {
     return heading;
   }
 
-
-  public int getPosition(){
+  public int getPosition() {
     int rightPosition = rightMiddle.getSelectedSensorPosition();
     int leftPosition = leftMiddle.getSelectedSensorPosition();
-    int averagePosition = (rightPosition + leftPosition)/2;
+    int averagePosition = (rightPosition + leftPosition) / 2;
 
-    //currentPosition = currentPosition + 1;
-    //return currentPosition;
+    // currentPosition = currentPosition + 1;
+    // return currentPosition;
     return averagePosition;
   }
 
-  public void resetPosition(){
+  public void resetPosition() {
     rightMiddle.setSelectedSensorPosition(0);
     leftMiddle.setSelectedSensorPosition(0);
     currentPosition = 0;
@@ -84,11 +88,6 @@ public class Drive2019 extends SubsystemBase {
   @Override
   public void periodic() {
     double position = getPosition();
-    
-    ShuffleboardTab drive2019Tab = Shuffleboard.getTab("Drive2019");
-    drive2019Tab.add("Current Position", position);
-    drive2019Tab.add("Angle", getAngle());
-    drive2019Tab.add("Heading", getHeading());
-    
+
   }
 }
