@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorWheel;
 
+
 public class PositionControl extends CommandBase {
   private ColorWheel colorWheel;
+  private String targetColor;
 
   public PositionControl(ColorWheel colorWheel) {
     this.colorWheel = colorWheel;
@@ -21,7 +23,7 @@ public class PositionControl extends CommandBase {
 
   @Override
   public void initialize() {
-    colorWheel.getTargetColor();
+    targetColor = colorWheel.getTargetColor();
   }
 
    @Override
@@ -36,7 +38,10 @@ public class PositionControl extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    boolean colorMatch = colorWheel.getTargetColor() == colorWheel.getWheelColor() ? true : false;
+    if (targetColor == "Unknown"){
+      return true; 
+    }
+    boolean colorMatch = targetColor == colorWheel.getWheelColor() ? true : false;
     SmartDashboard.putBoolean("Target Color Match", colorMatch);
     return colorMatch;
   }

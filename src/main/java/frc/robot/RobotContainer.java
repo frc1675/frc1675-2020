@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.PositionControl;
+import frc.robot.commands.RotationControl;
 import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drive2019;
@@ -44,9 +45,9 @@ public class RobotContainer {
   // Justin because we changed the wheel motor from 4 to 1
   //private ColorWheel colorWheel = new ColorWheel();
   
-  private Arm arm = new Arm();
-  private Drive2019 drive = new Drive2019();
-  private ColorWheel colorWheel = new ColorWheel();
+  //private Arm arm = new Arm();
+  //private Drive2019 drive = new Drive2019();
+  //private ColorWheel colorWheel = new ColorWheel();
   private Vision vision = new Vision();
   // private Arm arm = new Arm();
 
@@ -112,8 +113,9 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
-    operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
+    //drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+   //operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel)); //its the left one 
+   //operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED)); //its the right one
   }
 
   /**

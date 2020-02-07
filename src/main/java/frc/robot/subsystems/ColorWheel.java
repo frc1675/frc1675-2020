@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.DriverStation;
+
 
 public class ColorWheel extends SubsystemBase {
   private VictorSPX spinMotor;
@@ -30,7 +32,8 @@ public class ColorWheel extends SubsystemBase {
   private String transitionColor = "Unknown";
   private int colorTransitions = 0;
   private String currentColor = "Unknown";
-  private String targetColor = "Blue";
+  private String gameData;
+  private String targetColor = "Unknown";
   private String wheelColor = "Unknown";
   private String anticipatedColor = "Unknown";
   private String readColor = "Unknown";
@@ -73,6 +76,31 @@ public class ColorWheel extends SubsystemBase {
   }
 
   public String getTargetColor(){
+    gameData = DriverStation.getInstance().getGameSpecificMessage();
+if(gameData.length() > 0)
+{
+  switch (gameData.charAt(0))
+  {
+    case 'B' :
+      targetColor = "Blue";
+      break;
+    case 'G' :
+      targetColor = "Green";
+      break;
+    case 'R' :
+      targetColor = "Red";
+      break;
+    case 'Y' :
+      targetColor = "Yellow";
+      break;
+    default :
+      //This is corrupt data
+      break;
+  }
+} else {
+  targetColor = "Unknown";
+}
+    
     return targetColor;
   }
 
@@ -128,10 +156,10 @@ public class ColorWheel extends SubsystemBase {
     }
 
     SmartDashboard.putString("Current Color", currentColor);
-    SmartDashboard.putString("read Color", readColor);
+    SmartDashboard.putString("Wheel Detector", wheelColor);
     SmartDashboard.putNumber("Color Count", colorTransitions);
     SmartDashboard.putString("Target Color", targetColor);
-    SmartDashboard.putString("Anticipated Color", anticipatedColor);
-    SmartDashboard.putString("Wheel Color", wheelColor);
+    
+    
   }
 }
