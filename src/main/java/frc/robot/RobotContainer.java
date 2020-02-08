@@ -10,13 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.subsystems.Drive2019;
-import frc.robot.Constants;
+import frc.robot.subsystems.DriveBase;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -34,7 +33,9 @@ public class RobotContainer {
   private final JoystickButton operatorControllerRightBumper = new JoystickButton(operatorController,
       Constants.RIGHT_BUMPER);
 
-  private Drive2019 drive = new Drive2019(); // (Disables the 2019 drive, suggested by Justin because we changed the
+  //private Drive2019 drive = new Drive2019();
+  private DriveBase driveBase = new DriveBase();
+  // (Disables the 2019 drive, suggested by Justin because we changed the
                                              // wheel motor from 4 to 1)
   // private ColorWheel colorWheel = new ColorWheel();
   // private ColorWheel colorWheel = new ColorWheel();
@@ -99,12 +100,10 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));// (Commented
-                                                                                                             // out with
-                                                                                                             // line 36
-                                                                                                             // for 2019
-                                                                                                             // drive)
+   // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+    driveBase.setDefaultCommand(new CheesyDrive(driveBase, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
     // colorWheel.setDefaultCommand(new RotationControl(colorWheel,
     // Constants.ROTATION_COUNTS_NEEDED));
     // operatorControllerLeftBumper.whileHeld(new ReverseWheel());
@@ -119,8 +118,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    // return null;
-    return new DriveToDistance(drive, 100000).beforeStarting(() -> drive.resetPosition());
+    return null;
+    //return new DriveToDistance(drive, 100000).beforeStarting(() -> drive.resetPosition());
     // commenting out one of the auto commands for now -Caeleb
     // return new TurnToAngle(drive, 90);
   }
