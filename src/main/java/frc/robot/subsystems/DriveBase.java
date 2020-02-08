@@ -12,7 +12,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -23,7 +24,8 @@ public class DriveBase extends SubsystemBase {
   private CANSparkMax rightBack;
   private CANSparkMax leftMiddle;
   private CANSparkMax rightMiddle;
-  public AHRS navx;
+  private AHRS navx;
+  private ShuffleboardTab driveBaseTab = Shuffleboard.getTab("Drive Base");
 
   /**
    * Creates a new Drive.
@@ -36,6 +38,9 @@ public class DriveBase extends SubsystemBase {
     leftBack = new CANSparkMax(Constants.LEFT_BACK, MotorType.kBrushless);
     leftFront = new CANSparkMax(Constants.LEFT_FRONT, MotorType.kBrushless);
     navx = new AHRS(SerialPort.Port.kMXP);
+
+    driveBaseTab.addNumber("Angle", () -> getAngle());
+    driveBaseTab.addNumber("Heading", () -> getHeading());
   }
 
   public void setRightMotors(double power) {
@@ -53,8 +58,6 @@ public class DriveBase extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("Heading", getHeading());
-    SmartDashboard.putNumber("Angle", getAngle());
   }
 
   public double getAngle() {
