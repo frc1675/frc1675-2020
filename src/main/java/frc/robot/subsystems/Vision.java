@@ -34,19 +34,24 @@ public class Vision extends SubsystemBase {
    */
   public Vision() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
-    setPipeline(Vision.Pipeline.LIGHT_OFF);
+    setPipeline(Vision.Pipeline.LIGHT_ON);
 
     visionTab.addBoolean("Has Target?", () -> hasTarget());
     visionTab.addNumber("X offset", () -> getXOffSet());
     visionTab.addNumber("Y offset", () -> getYOffSet());
     visionTab.addNumber("Target area", () -> getTargetArea());
+    visionTab.addString("Pipeline", () -> getPipelineString());
+    System.out.println("Hi");
+  }
 
+  public String getPipelineString() {
     Pipeline pipeline = getPipeline();
     if (pipeline == Pipeline.LIGHT_OFF) {
-      visionTab.add("Pipeline", "Driver mode on");
+      return "Driver mode on";
     } else if (pipeline == Pipeline.LIGHT_ON) {
-      visionTab.add("Pipeline", "Target mode on");
+      return "Target mode on";
     }
+    return null;
   }
 
   public double getXOffSet() {
@@ -79,6 +84,7 @@ public class Vision extends SubsystemBase {
     } else if (pipeline == Pipeline.LIGHT_ON) {
       table.getEntry("pipeline").setDouble(1);
     }
+
   }
 
   public boolean hasTarget() {

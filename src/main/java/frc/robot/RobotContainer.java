@@ -37,9 +37,9 @@ public class RobotContainer {
 
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // Justin because we changed the wheel motor from 4 to 1
-  //private ColorWheel colorWheel = new ColorWheel();
+  // private ColorWheel colorWheel = new ColorWheel();
 
-  private Arm arm = new Arm();
+  // private Arm arm = new Arm();
   // private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
 

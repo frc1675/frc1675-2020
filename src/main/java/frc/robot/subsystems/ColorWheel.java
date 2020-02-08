@@ -60,7 +60,6 @@ public class ColorWheel extends SubsystemBase {
   }
 
   public int getColorCount() {
-    ;
     return colorTransitions;
   }
 
