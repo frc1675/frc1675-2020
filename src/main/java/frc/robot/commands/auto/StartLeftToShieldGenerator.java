@@ -8,6 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.subsystems.Drive2019;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -16,7 +17,7 @@ public class StartLeftToShieldGenerator extends ParallelCommandGroup {
   /**
    * Creates a new ShieldFromLeft.
    */
-  public StartLeftToShieldGenerator() {
+  public StartLeftToShieldGenerator(Drive2019 drive) {
     System.out.println("go to shield generator from left");
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();

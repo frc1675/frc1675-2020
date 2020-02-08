@@ -178,19 +178,19 @@ public class AutoChooser {
 
         switch (selectedStart) {
             case SCORE_FROM_RIGHT:
-                auto.addCommands(new StartRightToScore());
+                auto.addCommands(new StartRightToScore(drive));
                 break;
 
             case SCORE_FROM_MIDDLE:
-                auto.addCommands(new StartMiddleToScore());
+                auto.addCommands(new StartMiddleToScore(drive));
                 break;
 
             case SCORE_FROM_LEFT:
-                auto.addCommands(new StartLeftToScore());
+                auto.addCommands(new StartLeftToScore(drive));
                 break;
 
             case DONT_SCORE:
-                auto.addCommands(new MoveBackward());
+                auto.addCommands(new MoveBackward(drive));
                 return auto;
 
             case DRIVE_FORWARD:
@@ -208,14 +208,14 @@ public class AutoChooser {
 
         switch(selectedPosition) {
             case RIGHT:
-                auto.addCommands(new AfterScoreToRight());
+                auto.addCommands(new AfterScoreToRight(drive));
                 switch(gatherBalls) {
                     case TRENCH:
-                        auto.addCommands(new StartRightToTrench());
+                        auto.addCommands(new StartRightToTrench(drive));
                         break;
         
                     case SHIELD_GENERATOR:
-                        auto.addCommands(new StartRightToShieldGenerator());
+                        auto.addCommands(new StartRightToShieldGenerator(drive));
                         break;
         
                     /*case LOADING_STATION:
@@ -230,14 +230,14 @@ public class AutoChooser {
                 break;
 
             case MIDDLE:
-                auto.addCommands(new AfterScoreToMiddle());
+                auto.addCommands(new AfterScoreToMiddle(drive));
                 switch(gatherBalls) {
                     case TRENCH:
-                        auto.addCommands(new StartMiddleToTrench());
+                        auto.addCommands(new StartMiddleToTrench(drive));
                         break;
         
                     case SHIELD_GENERATOR:
-                        auto.addCommands(new StartMiddleToShieldGenerator());
+                        auto.addCommands(new StartMiddleToShieldGenerator(drive));
                         break;
         
                     /*case LOADING_STATION:
@@ -252,14 +252,14 @@ public class AutoChooser {
                 break;
 
             case LEFT:
-                auto.addCommands(new AfterScoreToLeft());
+                auto.addCommands(new AfterScoreToLeft(drive));
                 switch(gatherBalls) {
                     case TRENCH:
-                        auto.addCommands(new StartLeftToTrench());
+                        auto.addCommands(new StartLeftToTrench(drive));
                         break;
         
                     case SHIELD_GENERATOR:
-                        auto.addCommands(new StartLeftToShieldGenerator());
+                        auto.addCommands(new StartLeftToShieldGenerator(drive));
                         break;
         
                     /*case LOADING_STATION:
