@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorWheel;
@@ -30,6 +31,7 @@ public class PositionControl extends CommandBase {
    @Override
   public void execute() {
     colorWheel.turnWheel();
+    // operatorJoystick.setRumble(RumbleType.kLeftRumble, 1);
   }
 
   @Override
