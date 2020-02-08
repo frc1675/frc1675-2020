@@ -12,7 +12,10 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
+
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -46,6 +49,11 @@ public class ColorWheel extends SubsystemBase {
     colorMatcher.addColorMatch(kGreenTarget);
     colorMatcher.addColorMatch(kRedTarget);
     colorMatcher.addColorMatch(kYellowTarget);
+
+    // Ahhh please help this was added in the merge and it's throwing up all kinds of errors
+    // colorWheelTab.addString("Detected Color", () -> currentColor);
+    // colorWheelTab.addString("Transition Color", () -> transitionColor);
+    // colorWheelTab.addNumber("Color Count", () -> colorTransitions);
   }
 
   public void turnWheel() {

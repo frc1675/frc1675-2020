@@ -9,6 +9,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorWheel;
@@ -18,12 +21,15 @@ public class RotationControl extends CommandBase {
   private ColorWheel colorWheel;
   private int colorCounts;
   private Joystick operatorController;
+  private ShuffleboardTab colorWheelTab = Shuffleboard.getTab("Color Wheel");
+  private NetworkTableEntry rotationComplete;
 
   public RotationControl(ColorWheel colorWheel, int colorCounts, Joystick operatorController) {
     this.colorWheel = colorWheel;
     this.colorCounts = colorCounts;
     this.operatorController = operatorController;
     addRequirements(colorWheel);
+    rotationComplete = colorWheelTab.add("Rotation Complete", false).getEntry();
   }
 
   @Override
