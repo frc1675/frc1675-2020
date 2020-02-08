@@ -20,7 +20,7 @@ package frc.robot;
 public final class Constants {
     
     // Autonomous Constants
-    public static final double TICKS_PER_INCH = 1;
+    public static final double TICKS_PER_INCH_2019 = 13.6; //256 ticks per revolution and 6" wheels
     public static final double TOLERANCE = 1;
 
     // OI Constants
@@ -65,9 +65,8 @@ public final class Constants {
 
     // Arm Motor Constants
     public static final int ARM_MOTOR_LEFT = 6;
-    public static final int ARM_MOTOR_RIGHT = 1;
+    public static final int ARM_MOTOR_RIGHT = 1; // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID.
     public static final int ARM_SOLENOID = 2;
-     // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID. 
 
     //Drive To Distance Constants
     public static final double DRIVE_P = 0.001;

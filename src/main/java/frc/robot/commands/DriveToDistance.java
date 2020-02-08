@@ -27,7 +27,7 @@ public class DriveToDistance extends PIDCommand {
         // This should return the measurement
         () -> drive.getPosition(),
         // This should return the setpoint (can also be a constant)
-        () -> position,
+        () -> position * Constants.TICKS_PER_INCH_2019,
         // This uses the output
         output -> {
           // Use the output here

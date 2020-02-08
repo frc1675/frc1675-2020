@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.auto.DriveForward;
 import frc.robot.commands.auto.MoveBackward;
-import frc.robot.commands.auto.MoveToLeft;
-import frc.robot.commands.auto.MoveToMiddle;
-import frc.robot.commands.auto.MoveToRight;
+import frc.robot.commands.auto.AfterScoreToLeft;
+import frc.robot.commands.auto.AfterScoreToMiddle;
+import frc.robot.commands.auto.AfterScoreToRight;
 import frc.robot.commands.auto.StartLeftToScore;
 import frc.robot.commands.auto.StartLeftToShieldGenerator;
 import frc.robot.commands.auto.StartLeftToTrench;
@@ -208,7 +208,7 @@ public class AutoChooser {
 
         switch(selectedPosition) {
             case RIGHT:
-                auto.addCommands(new MoveToRight());
+                auto.addCommands(new AfterScoreToRight());
                 switch(gatherBalls) {
                     case TRENCH:
                         auto.addCommands(new StartRightToTrench());
@@ -230,7 +230,7 @@ public class AutoChooser {
                 break;
 
             case MIDDLE:
-                auto.addCommands(new MoveToMiddle());
+                auto.addCommands(new AfterScoreToMiddle());
                 switch(gatherBalls) {
                     case TRENCH:
                         auto.addCommands(new StartMiddleToTrench());
@@ -252,7 +252,7 @@ public class AutoChooser {
                 break;
 
             case LEFT:
-                auto.addCommands(new MoveToLeft());
+                auto.addCommands(new AfterScoreToLeft());
                 switch(gatherBalls) {
                     case TRENCH:
                         auto.addCommands(new StartLeftToTrench());
