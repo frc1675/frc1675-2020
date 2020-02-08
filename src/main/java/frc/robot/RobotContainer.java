@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.RotationControl;
+import frc.robot.commands.TurnToTarget;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.Drive2019;
@@ -40,7 +41,7 @@ public class RobotContainer {
   // private ColorWheel colorWheel = new ColorWheel();
 
   // private Arm arm = new Arm();
-  // private Drive2019 drive = new Drive2019();
+  private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
 
   private double correctDeadzone(double value) {
@@ -113,7 +114,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return new TurnToTarget(drive, vision);
     // return new MoveArmToPosition(arm, 10000).beforeStarting(arm::unlock);
   }
 }

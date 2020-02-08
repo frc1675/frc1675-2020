@@ -41,7 +41,6 @@ public class Vision extends SubsystemBase {
     visionTab.addNumber("Y offset", () -> getYOffSet());
     visionTab.addNumber("Target area", () -> getTargetArea());
     visionTab.addString("Pipeline", () -> getPipelineString());
-    System.out.println("Hi");
   }
 
   public String getPipelineString() {

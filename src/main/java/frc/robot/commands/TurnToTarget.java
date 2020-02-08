@@ -18,12 +18,12 @@ import frc.robot.subsystems.Vision;
 public class TurnToTarget extends PIDCommand {
 
   /**
-   * Creates a new TurnToAngle.
+   * Creates a new TurnToAngle
    */
   public TurnToTarget(Drive2019 drive, Vision vision) {
     super(
         // The controller that the command will use
-        new PIDController(0.00278, 0, 0),
+        new PIDController(0.01111, 0, 0),
         // This should return the measurement
         vision::getXOffSet,
         // This should return the setpoint (can also be a constant)
