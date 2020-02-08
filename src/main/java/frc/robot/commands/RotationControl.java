@@ -25,6 +25,7 @@ public class RotationControl extends CommandBase {
   @Override
   public void initialize() {
     colorWheel.resetColorCount();
+    colorWheel.resetNewColors();
   }
 
   @Override

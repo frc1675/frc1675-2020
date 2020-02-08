@@ -58,8 +58,12 @@ public class ColorWheel extends SubsystemBase {
     spinMotor.set(ControlMode.PercentOutput, 0);
   }
 
-  public int getColorCount() {;
-     return colorTransitions;
+  public int getColorCount() {
+    return colorTransitions;
+  }
+
+  public void resetNewColors(){
+    anticipatedColor = readColor;
   }
 
   public void resetColorCount() {
@@ -159,7 +163,7 @@ if(gameData.length() > 0)
     SmartDashboard.putString("Wheel Detector", wheelColor);
     SmartDashboard.putNumber("Color Count", colorTransitions);
     SmartDashboard.putString("Target Color", targetColor);
-    
+    SmartDashboard.putString("Read Color", readColor);
     
   }
 }

@@ -47,7 +47,7 @@ public class RobotContainer {
   
   //private Arm arm = new Arm();
   //private Drive2019 drive = new Drive2019();
-  //private ColorWheel colorWheel = new ColorWheel();
+  private ColorWheel colorWheel = new ColorWheel();
   private Vision vision = new Vision();
   // private Arm arm = new Arm();
 
@@ -114,8 +114,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
-   //operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel)); //its the left one 
-   //operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED)); //its the right one
+   operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel)); //its the left one 
+   operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED)); //its the right one
   }
 
   /**

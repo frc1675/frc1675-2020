@@ -24,6 +24,7 @@ public class PositionControl extends CommandBase {
   @Override
   public void initialize() {
     targetColor = colorWheel.getTargetColor();
+    colorWheel.resetNewColors();
   }
 
    @Override
