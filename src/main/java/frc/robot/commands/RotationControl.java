@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorWheel;
@@ -15,10 +17,12 @@ import frc.robot.subsystems.ColorWheel;
 public class RotationControl extends CommandBase {
   private ColorWheel colorWheel;
   private int colorCounts;
+  private Joystick operatorController;
 
-  public RotationControl(ColorWheel colorWheel, int colorCounts) {
+  public RotationControl(ColorWheel colorWheel, int colorCounts, Joystick operatorController) {
     this.colorWheel = colorWheel;
     this.colorCounts = colorCounts;
+    this.operatorController = operatorController;
     addRequirements(colorWheel);
   }
 
@@ -31,6 +35,8 @@ public class RotationControl extends CommandBase {
   @Override
   public void execute() {
     colorWheel.turnWheel();
+    operatorController.setRumble(RumbleType.kLeftRumble, colorWheel.vibrationControl(colorWheel.getColorCount()));
+    SmartDashboard.putNumber("Vibration Power", colorWheel.vibrationControl(colorWheel.getColorCount()));
   }
 
   @Override
@@ -42,6 +48,9 @@ public class RotationControl extends CommandBase {
   public boolean isFinished() {
     boolean requiredRotations = colorWheel.getColorCount() >= colorCounts ? true : false;
     SmartDashboard.putBoolean("Rotations Control Complete", requiredRotations);
+    if (requiredRotations == true){
+      operatorController.setRumble(RumbleType.kLeftRumble, 0);
+    }
     return requiredRotations;
   }
 }

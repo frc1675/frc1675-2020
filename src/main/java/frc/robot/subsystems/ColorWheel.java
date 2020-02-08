@@ -37,6 +37,8 @@ public class ColorWheel extends SubsystemBase {
   private String wheelColor = "Unknown";
   private String anticipatedColor = "Unknown";
   private String readColor = "Unknown";
+  private double vibrationPower;
+
 
   public ColorWheel() {
     spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
@@ -77,6 +79,11 @@ public class ColorWheel extends SubsystemBase {
  
   public String getWheelColor() {
     return wheelColor;
+  }
+
+  public double vibrationControl(int colorTransitions){
+    vibrationPower = ((double)colorTransitions / Constants.ROTATION_COUNTS_NEEDED -1) * -1;
+    return vibrationPower;
   }
 
   public String getTargetColor(){
@@ -164,6 +171,5 @@ if(gameData.length() > 0)
     SmartDashboard.putNumber("Color Count", colorTransitions);
     SmartDashboard.putString("Target Color", targetColor);
     SmartDashboard.putString("Read Color", readColor);
-    
   }
 }

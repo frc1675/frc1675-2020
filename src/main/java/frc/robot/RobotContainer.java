@@ -115,7 +115,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
    operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel)); //its the left one 
-   operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED)); //its the right one
+   operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED, operatorController)); //its the right one
   }
 
   /**
