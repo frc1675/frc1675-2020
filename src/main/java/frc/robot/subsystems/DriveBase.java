@@ -14,7 +14,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -28,6 +29,7 @@ public class DriveBase extends SubsystemBase {
   private AHRS navx;
   private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
   private static final int kCPR = 8192;
+  private ShuffleboardTab driveBaseTab = Shuffleboard.getTab("Drive Base");
 
   /**
    * Creates a new Drive.
@@ -44,6 +46,9 @@ public class DriveBase extends SubsystemBase {
     rightAlternateEncoder.setInverted(true);
     leftAlternateEncoder.setPosition(0);
     rightAlternateEncoder.setPosition(0);
+    driveBaseTab.addNumber("Angle", () -> getAngle());
+    driveBaseTab.addNumber("Heading", () -> getHeading());
+    driveBaseTab.addNumber("Position", () -> getPosition());
   }
 
   public void setRightMotors(double power) {
@@ -60,8 +65,8 @@ public class DriveBase extends SubsystemBase {
    double leftEncoderValue = leftAlternateEncoder.getPosition();
    double rightEncoderValue = rightAlternateEncoder.getPosition();
    double averagePosition = (rightEncoderValue + leftEncoderValue)/2;
-   SmartDashboard.putNumber("LeftEncoder", leftEncoderValue);
-   SmartDashboard.putNumber("RightEncoder", rightEncoderValue);
+   //SmartDashboard.putNumber("LeftEncoder", leftEncoderValue);
+   //SmartDashboard.putNumber("RightEncoder", rightEncoderValue);
 
    return averagePosition;
    }
@@ -73,8 +78,7 @@ public class DriveBase extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Position", getPosition());
-    SmartDashboard.putNumber("Angle", getAngle());
+    // This method will be called once per scheduler run
   }
 
   public double getAngle() {
@@ -84,7 +88,6 @@ public class DriveBase extends SubsystemBase {
   public double getHeading() {
     double angle = getAngle();
     double heading = (angle % 360);
-    System.out.println("Heading =" + heading);
     return heading;
   }
 

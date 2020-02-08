@@ -7,6 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorWheel;
@@ -15,11 +18,14 @@ import frc.robot.Constants;
 public class RotationControl extends CommandBase {
   private ColorWheel colorWheel;
   private int colorCounts;
+  private ShuffleboardTab colorWheelTab = Shuffleboard.getTab("Color Wheel");
+  private NetworkTableEntry rotationComplete;
 
   public RotationControl(ColorWheel colorWheel, int colorCounts) {
     this.colorWheel = colorWheel;
     this.colorCounts = colorCounts;
     addRequirements(colorWheel);
+    rotationComplete = colorWheelTab.add("Rotation Complete", false).getEntry();
   }
 
   @Override
@@ -40,8 +46,9 @@ public class RotationControl extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean requiredRotations = colorWheel.getColorCount() >= colorCounts ? true : false;
-    // boolean requiredRotations = colorCounts == Constants.ROTATION_COUNTS_NEEDED ? true : false;
-    SmartDashboard.putBoolean("Has the spinner reached the required amount of rotations?", requiredRotations);
+
+    rotationComplete.setBoolean(requiredRotations);
+
     return requiredRotations;
   }
 }

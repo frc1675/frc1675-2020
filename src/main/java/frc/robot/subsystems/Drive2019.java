@@ -13,7 +13,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -27,6 +28,7 @@ public class Drive2019 extends SubsystemBase {
   public int currentPosition;
   public double power;
   public AHRS navx;
+  private ShuffleboardTab drive2019Tab = Shuffleboard.getTab("Drive2019");
 
   public Drive2019() {
     rightMiddle = new TalonSRX(Constants.RIGHT_MIDDLE);
@@ -39,6 +41,11 @@ public class Drive2019 extends SubsystemBase {
 
     leftMiddle.setSensorPhase(true);
     rightMiddle.setSensorPhase(true);
+
+    drive2019Tab.addNumber("Current Position", () -> getPosition());
+    drive2019Tab.addNumber("Angle", () -> getAngle());
+    drive2019Tab.addNumber("Heading", () -> getHeading());
+
   }
 
   public void setRightMotors(double power) {
@@ -60,21 +67,20 @@ public class Drive2019 extends SubsystemBase {
   public double getHeading() {
     double angle = getAngle();
     double heading = (angle % 360);
-    System.out.println("Heading =" + heading);
     return heading;
   }
 
-  public int getPosition(){
+  public int getPosition() {
     int rightPosition = rightMiddle.getSelectedSensorPosition();
     int leftPosition = leftMiddle.getSelectedSensorPosition();
-    int averagePosition = (rightPosition + leftPosition)/2;
+    int averagePosition = (rightPosition + leftPosition) / 2;
 
-    //currentPosition = currentPosition + 1;
-    //return currentPosition;
+    // currentPosition = currentPosition + 1;
+    // return currentPosition;
     return averagePosition;
   }
 
-  public void resetPosition(){
+  public void resetPosition() {
     rightMiddle.setSelectedSensorPosition(0);
     leftMiddle.setSelectedSensorPosition(0);
     currentPosition = 0;
@@ -83,7 +89,6 @@ public class Drive2019 extends SubsystemBase {
   @Override
   public void periodic() {
     double position = getPosition();
-    SmartDashboard.putNumber("Current Position", position);
-    SmartDashboard.putNumber("Angle", getAngle());
+
   }
 }
