@@ -18,7 +18,7 @@ public class Vision extends SubsystemBase {
   private ShuffleboardTab visionTab = Shuffleboard.getTab("Vision");
 
   public static enum Pipeline {
-    LIGHT_ON(0), LIGHT_OFF(1);
+    LIGHT_ON(1), LIGHT_OFF(0);
 
     double pipeline;
 
