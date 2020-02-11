@@ -11,21 +11,26 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 
 public class CheesyDrive extends CommandBase {
+  private DriveBase driveBase;
   private Drive2019 drive;
   private DoubleSupplier forwardValue;
   private DoubleSupplier turnValue;
   
-  /**
-   * Creates a new CheesyDrive.
-   */
-  public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue, DoubleSupplier turnValue) {
-    this.drive = drive;
+ // public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue, DoubleSupplier turnValue) {
+  //   this.drive = drive;
+  //   this.forwardValue = forwardValue;
+  //   this.turnValue = turnValue;
+  //   addRequirements(this.drive);
+  // }
+
+  public CheesyDrive(DriveBase driveBase, DoubleSupplier forwardValue, DoubleSupplier turnValue) {
+    this.driveBase = driveBase;
     this.forwardValue = forwardValue;
     this.turnValue = turnValue;
-    addRequirements(this.drive);
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(this.driveBase);
   }
 
   // Called when the command is initially scheduled.
@@ -40,17 +45,16 @@ public class CheesyDrive extends CommandBase {
     double turnPower = turnValue.getAsDouble();
     double forwardPower = forwardValue.getAsDouble();
     double rightPower = (1 * forwardPower + -1 * turnPower);
-    System.out.println(forwardPower);
     double leftPower = (1 * forwardPower + 1 * turnPower);
-    drive.setLeftMotors(leftPower);
-    drive.setRightMotors(rightPower);
+    driveBase.setLeftMotors(leftPower);
+    driveBase.setRightMotors(rightPower);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive.setLeftMotors(0);
-    drive.setRightMotors(0);
+    driveBase.setLeftMotors(0);
+    driveBase.setRightMotors(0);
   }
 
   // Returns true when the command should end.

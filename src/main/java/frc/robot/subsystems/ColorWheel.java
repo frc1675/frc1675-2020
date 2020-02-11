@@ -12,7 +12,10 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
+
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,6 +33,7 @@ public class ColorWheel extends SubsystemBase {
   private String transitionColor = "Unknown";
   private int colorTransitions = 0;
   private String currentColor = "Unknown";
+  private ShuffleboardTab colorWheelTab = Shuffleboard.getTab("Color Wheel");
 
   public ColorWheel() {
     spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
@@ -37,6 +41,10 @@ public class ColorWheel extends SubsystemBase {
     colorMatcher.addColorMatch(kGreenTarget);
     colorMatcher.addColorMatch(kRedTarget);
     colorMatcher.addColorMatch(kYellowTarget);
+
+    colorWheelTab.addString("Detected Color", () -> currentColor);
+    colorWheelTab.addString("Transition Color", () -> transitionColor);
+    colorWheelTab.addNumber("Color Count", () -> colorTransitions);
   }
 
   public void turnWheel() {
@@ -51,8 +59,8 @@ public class ColorWheel extends SubsystemBase {
     spinMotor.set(ControlMode.PercentOutput, 0);
   }
 
-  public int getColorCount() {;
-     return colorTransitions;
+  public int getColorCount() {
+    return colorTransitions;
   }
 
   public void resetColorCount() {
@@ -84,9 +92,5 @@ public class ColorWheel extends SubsystemBase {
       colorTransitions = colorTransitions + 1;
       transitionColor = currentColor;
     }
-
-    SmartDashboard.putString("Detected Color", currentColor);
-    SmartDashboard.putString("Transition Color", transitionColor);
-    SmartDashboard.putNumber("Color Count", colorTransitions);
   }
 }

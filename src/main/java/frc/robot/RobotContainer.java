@@ -14,9 +14,11 @@ import frc.robot.utils.AutoChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
-import frc.robot.commands.DriveToDistance;
+import frc.robot.commands.RotationControl;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.Drive2019;
-import frc.robot.Constants;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -34,18 +36,24 @@ public class RobotContainer {
   private final JoystickButton operatorControllerRightBumper = new JoystickButton(operatorController,
       Constants.RIGHT_BUMPER);
 
-  private Drive2019 drive = new Drive2019();
+  // Disable the 2019 drive when testing ColorWheel, suggested by
+  // Justin because we changed the wheel motor from 4 to 1
+  // private ColorWheel colorWheel = new ColorWheel();
+
+  // private Arm arm = new Arm();
+  // private Drive2019 drive = new Drive2019();
+  private Vision vision = new Vision();
 
   private AutoChooser autoChooser = new AutoChooser(drive);
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
     if (Math.abs(value) > Constants.MOTOR_DEADZONE) {
-      if (value > 0) {
-        correctedValue = (1 / (1 - Constants.MOTOR_DEADZONE)) * value - ((1 / (1 - Constants.MOTOR_DEADZONE)) + 1);
-      }
       if (value < 0) {
-        correctedValue = (-1 / (1 - Constants.MOTOR_DEADZONE)) * value + ((-1 / (1 - Constants.MOTOR_DEADZONE)) - 1);
+        correctedValue = ((value + Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE));
+      }
+      if (value > 0) {
+        correctedValue = ((value - Constants.MOTOR_DEADZONE) / (1 - Constants.MOTOR_DEADZONE));
       }
     }
     return correctedValue;
@@ -97,8 +105,10 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+    // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
+    // -> getDriverRightXAxis()));
   }
 
   /**
@@ -107,7 +117,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return autoChooser.GenerateAuto();
+    return null;
   }
 }
