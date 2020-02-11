@@ -20,7 +20,7 @@ package frc.robot;
 public final class Constants {
     
     // Autonomous Constants
-    public static final double TICKS_PER_INCH_2019 = 13.6; //256 ticks per revolution and 6" wheels
+    public static final double TICKS_PER_INCH = 13.6; //not accurate
     public static final double TOLERANCE = 1;
 
     // OI Constants
