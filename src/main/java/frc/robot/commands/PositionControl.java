@@ -7,17 +7,22 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorWheel;
 
 public class PositionControl extends CommandBase {
   private ColorWheel colorWheel;
   private String targetColor;
+  private ShuffleboardTab colorWheelTab = Shuffleboard.getTab("Color Wheel");
+  private NetworkTableEntry targetColorMatch;
 
   public PositionControl(ColorWheel colorWheel) {
     this.colorWheel = colorWheel;
     addRequirements(colorWheel);
+    targetColorMatch = colorWheelTab.add("Rotation Complete", false).getEntry();
   }
 
   @Override
@@ -42,7 +47,7 @@ public class PositionControl extends CommandBase {
       return true;
     }
     boolean colorMatch = targetColor == colorWheel.getWheelColor() ? true : false;
-    SmartDashboard.putBoolean("Target Color Match", colorMatch);
+    targetColorMatch.setBoolean(colorMatch);
     return colorMatch;
   }
 }

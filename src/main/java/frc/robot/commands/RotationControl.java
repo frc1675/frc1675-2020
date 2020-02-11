@@ -23,6 +23,7 @@ public class RotationControl extends CommandBase {
   private Joystick operatorController;
   private ShuffleboardTab colorWheelTab = Shuffleboard.getTab("Color Wheel");
   private NetworkTableEntry rotationComplete;
+  private NetworkTableEntry vibrationPowerValue;
 
   public RotationControl(ColorWheel colorWheel, int colorCounts, Joystick operatorController) {
     this.colorWheel = colorWheel;
@@ -30,6 +31,7 @@ public class RotationControl extends CommandBase {
     this.operatorController = operatorController;
     addRequirements(colorWheel);
     rotationComplete = colorWheelTab.add("Rotation Complete", false).getEntry();
+    vibrationPowerValue = colorWheelTab.add("Vibration Power", false).getEntry();
   }
 
   public double vibrationPower(int colorTransitions) {
@@ -46,7 +48,7 @@ public class RotationControl extends CommandBase {
   public void execute() {
     colorWheel.turnWheel();
     operatorController.setRumble(RumbleType.kLeftRumble, vibrationPower(colorWheel.getColorCount()));
-    SmartDashboard.putNumber("Vibration Power", vibrationPower(colorWheel.getColorCount()));
+    vibrationPowerValue.setDouble(vibrationPower(colorWheel.getColorCount()));
   }
 
   @Override
