@@ -10,17 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
-import frc.robot.commands.DriveToDistance;
-import frc.robot.commands.PositionControl;
-import frc.robot.commands.RotationControl;
-import frc.robot.subsystems.ColorWheel;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.ColorWheel;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
 
 /**
@@ -41,13 +34,13 @@ public class RobotContainer {
 
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // Justin because we changed the wheel motor from 4 to 1
-  //private ColorWheel colorWheel = new ColorWheel();
-  
-  //private Arm arm = new Arm();
-  //private Drive2019 drive = new Drive2019();
-  private ColorWheel colorWheel = new ColorWheel();
-  private Vision vision = new Vision();
   // private ColorWheel colorWheel = new ColorWheel();
+
+  // private Arm arm = new Arm();
+  private DriveBase drive = new DriveBase();
+  private Vision vision = new Vision();
+
+  // private AutoChooser autoChooser = new AutoChooser(drive);
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -94,8 +87,6 @@ public class RobotContainer {
     return correctDeadzone(operatorController.getRawAxis(Constants.RIGHT_X_AXIS));
   }
 
-  
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -112,9 +103,11 @@ public class RobotContainer {
    */
 
   private void configureButtonBindings() {
-    //drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
-   operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel)); //its the left one 
-   operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel, Constants.ROTATION_COUNTS_NEEDED, operatorController)); //its the right one
+    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+    // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
+    // //its the left one
+    // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
+    // Constants.ROTATION_COUNTS_NEEDED, operatorController)); //its the right one
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
     // -> getDriverRightXAxis()));
   }
@@ -126,6 +119,5 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return null;
-    // return new MoveArmToPosition(arm, 10000).beforeStarting(arm::unlock);
   }
 }
