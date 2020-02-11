@@ -23,8 +23,7 @@ public class Arm extends SubsystemBase {
   private CANSparkMax armMotorLeft;
   private CANSparkMax armMotorRight;
   private Solenoid solenoid;
-  private CANEncoder leftAlternateEncoder;
-  private CANEncoder rightAlternateEncoder;
+  private CANEncoder armEncoder;
   private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
   private static final int kCPR = 8192;
 
@@ -35,13 +34,10 @@ public class Arm extends SubsystemBase {
     armMotorLeft = new CANSparkMax(Constants.ARM_MOTOR_LEFT, MotorType.kBrushless);
     armMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT, MotorType.kBrushless);
     solenoid = new Solenoid(Constants.ARM_SOLENOID);
-    armTab.addNumber("Position", () -> getPosition());
 
-    leftAlternateEncoder = armMotorLeft.getAlternateEncoder(kAltEncType, kCPR);
-    rightAlternateEncoder = armMotorRight.getAlternateEncoder(kAltEncType, kCPR);
-    
-    leftAlternateEncoder.setPosition(0);
-    rightAlternateEncoder.setPosition(0);
+    armEncoder = armMotorLeft.getAlternateEncoder(kAltEncType, kCPR);
+    armEncoder.setPosition(0);
+    armTab.addNumber("Position", () -> getPosition());
   }
 
   public void moveArm(double power) {
@@ -51,25 +47,21 @@ public class Arm extends SubsystemBase {
 
   public void lock() {
     solenoid.set(true);
-    System.out.println("arm lock");
   }
 
   public void unlock() {
-    // solenoid.set(false);
-    System.out.println("arm unlock");
+    solenoid.set(false);
   }
 
   public double getPosition() {
-    double leftEncoderValue = leftAlternateEncoder.getPosition();
-    double rightEncoderValue = rightAlternateEncoder.getPosition();
-    double averagePosition = (leftEncoderValue + rightEncoderValue) / 2;
-    return averagePosition;
+    double armEncoderValue = armEncoder.getPosition();
+    return armEncoderValue;
   }
 
-  public void resetPosition(){
-    leftAlternateEncoder.setPosition(0);
-    rightAlternateEncoder.setPosition(0);
+  public void resetPosition() {
+    armEncoder.setPosition(0);
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
