@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.utils.AutoChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
@@ -42,6 +43,8 @@ public class RobotContainer {
   // private Arm arm = new Arm();
   // private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
+
+  private AutoChooser autoChooser = new AutoChooser(drive);
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -115,6 +118,5 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return null;
-    // return new MoveArmToPosition(arm, 10000).beforeStarting(arm::unlock);
   }
 }
