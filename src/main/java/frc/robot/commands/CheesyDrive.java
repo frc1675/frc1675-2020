@@ -15,7 +15,6 @@ import frc.robot.subsystems.DriveBase;
 
 public class CheesyDrive extends CommandBase {
   private DriveBase driveBase;
-  private Drive2019 drive;
   private DoubleSupplier forwardValue;
   private DoubleSupplier turnValue;
   
