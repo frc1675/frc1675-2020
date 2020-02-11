@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ColorWheel;
-
 
 public class RotationControl extends CommandBase {
   private ColorWheel colorWheel;
@@ -32,17 +32,21 @@ public class RotationControl extends CommandBase {
     rotationComplete = colorWheelTab.add("Rotation Complete", false).getEntry();
   }
 
+  public double vibrationPower(int colorTransitions) {
+    double vibrationPower = ((double) colorTransitions / Constants.ROTATION_COUNTS_NEEDED - 1) * -1;
+    return vibrationPower;
+  }
+
   @Override
   public void initialize() {
-    colorWheel.resetColorCount();
-    colorWheel.resetNewColors();
+    colorWheel.resetColorState();
   }
 
   @Override
   public void execute() {
     colorWheel.turnWheel();
-    operatorController.setRumble(RumbleType.kLeftRumble, colorWheel.vibrationControl(colorWheel.getColorCount()));
-    SmartDashboard.putNumber("Vibration Power", colorWheel.vibrationControl(colorWheel.getColorCount()));
+    operatorController.setRumble(RumbleType.kLeftRumble, vibrationPower(colorWheel.getColorCount()));
+    SmartDashboard.putNumber("Vibration Power", vibrationPower(colorWheel.getColorCount()));
   }
 
   @Override
@@ -53,10 +57,10 @@ public class RotationControl extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean requiredRotations = colorWheel.getColorCount() >= colorCounts ? true : false;
-    SmartDashboard.putBoolean("Rotations Control Complete", requiredRotations);
-    if (requiredRotations == true){
+    if (requiredRotations == true) {
       operatorController.setRumble(RumbleType.kLeftRumble, 0);
     }
+    rotationComplete.setBoolean(requiredRotations);
     return requiredRotations;
   }
 }
