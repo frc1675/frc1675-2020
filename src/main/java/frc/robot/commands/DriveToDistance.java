@@ -20,14 +20,14 @@ public class DriveToDistance extends PIDCommand {
   /**
    * Creates a new DriveToDistance.
    */
-  public DriveToDistance(Drive2019 drive, double position) {
+  public DriveToDistance(Drive2019 drive, double inches) {
     super(
         // The controller that the command will use
         new PIDController(Constants.DRIVE_P, 0, 0),
         // This should return the measurement
         () -> drive.getPosition(),
         // This should return the setpoint (can also be a constant)
-        () -> position * Constants.TICKS_PER_INCH,
+        () -> inches * Constants.TICKS_PER_INCH,
         // This uses the output
         output -> {
           // Use the output here
