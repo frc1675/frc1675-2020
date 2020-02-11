@@ -7,61 +7,59 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.AlternateEncoderType;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
-  public TalonSRX leftMiddle;
-  public TalonSRX rightMiddle;
   private ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
+  private CANSparkMax armMotorLeft;
+  private CANSparkMax armMotorRight;
+  private Solenoid solenoid;
+  private CANEncoder armEncoder;
+  private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
+  private static final int kCPR = 8192;
 
-  // private CANSparkMax armMotorLeft;
-  // private CANSparkMax armMotorRight;
-  // private Solenoid solenoid;
   /**
    * Creates a new Arm.
    */
   public Arm() {
-    rightMiddle = new TalonSRX(Constants.RIGHT_MIDDLE);
-    leftMiddle = new TalonSRX(Constants.LEFT_MIDDLE);
-    // armMotorLeft = new CANSparkMax(Constants.ARM_MOTOR_LEFT,
-    // MotorType.kBrushless);
-    // armMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT,
-    // MotorType.kBrushless);
-    // solenoid = new Solenoid(Constants.ARM_SOLENOID);
-    rightMiddle.setSensorPhase(true);
-    leftMiddle.setSensorPhase(true);
+    armMotorLeft = new CANSparkMax(Constants.ARM_MOTOR_LEFT, MotorType.kBrushless);
+    armMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT, MotorType.kBrushless);
+    solenoid = new Solenoid(Constants.ARM_SOLENOID);
+
+    armEncoder = armMotorLeft.getAlternateEncoder(kAltEncType, kCPR);
+    armEncoder.setPosition(0);
     armTab.addNumber("Position", () -> getPosition());
   }
 
   public void moveArm(double power) {
-    rightMiddle.set(ControlMode.PercentOutput, power);
-    leftMiddle.set(ControlMode.PercentOutput, -power);
-    // armMotorLeft.set(power);
-    // armMotorRight.set(power);
+    armMotorLeft.set(power);
+    armMotorRight.set(power);
   }
 
   public void lock() {
-    // solenoid.set(true);
-    System.out.println("arm lock");
+    solenoid.set(true);
   }
 
   public void unlock() {
-    // solenoid.set(false);
-    System.out.println("arm unlock");
+    solenoid.set(false);
   }
 
-  public int getPosition() {
-    int rightPosition = rightMiddle.getSelectedSensorPosition();
-    int leftPosition = leftMiddle.getSelectedSensorPosition();
-    int averagePosition = (rightPosition + leftPosition) / 2;
-    return averagePosition;
+  public double getPosition() {
+    double armEncoderValue = armEncoder.getPosition();
+    return armEncoderValue;
+  }
+
+  public void resetPosition() {
+    armEncoder.setPosition(0);
   }
 
   @Override
