@@ -10,16 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.utils.AutoChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
-import frc.robot.commands.RotationControl;
-import frc.robot.commands.StopCompressor;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.ColorWheel;
-import frc.robot.subsystems.Drive2019;
-import frc.robot.subsystems.Pneumatics;
+import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
 
 /**
@@ -41,12 +35,12 @@ public class RobotContainer {
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // Justin because we changed the wheel motor from 4 to 1
   // private ColorWheel colorWheel = new ColorWheel();
-  private Pneumatics pneumatics = new Pneumatics();
-  private Arm arm = new Arm();
-  // private Drive2019 drive = new Drive2019();
+
+  // private Arm arm = new Arm();
+  private DriveBase drive = new DriveBase();
   private Vision vision = new Vision();
 
-  //private AutoChooser autoChooser = new AutoChooser(drive);
+  // private AutoChooser autoChooser = new AutoChooser(drive);
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -109,9 +103,14 @@ public class RobotContainer {
    */
 
   private void configureButtonBindings() {
+    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis()));
+    // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
+    // //its the left one
+    // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
+    // Constants.ROTATION_COUNTS_NEEDED, operatorController)); //its the right one
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
     // -> getDriverRightXAxis()));
-    operatorControllerLeftBumper.toggleWhenPressed(new StopCompressor(pneumatics));
+    //operatorControllerLeftBumper.toggleWhenPressed(new StopCompressor(pneumatics));
   }
 
   /**
