@@ -74,6 +74,8 @@ public final class Constants {
 
     //Drive To Distance Constants
     public static final double DRIVE_P = 0.001;
+    public static final double LOW_POWER_DRIVE = 0.5;
+    public static final double HIGH_POWER_DRIVE = 1.0;
 
     //Claw Motor Constants
     public static final int INTAKE_POWER = 1;
