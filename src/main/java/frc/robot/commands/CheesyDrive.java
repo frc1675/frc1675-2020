@@ -16,21 +16,21 @@ public class CheesyDrive extends CommandBase {
   private DriveBase driveBase;
   private DoubleSupplier forwardValue;
   private DoubleSupplier turnValue;
-  private double ScalingPower;
+  private double scalingPower;
   
 //  public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue, DoubleSupplier turnValue, double ScalingPower) {
 //     this.driveBase = drive;
 //     this.forwardValue = forwardValue;
 //     this.turnValue = turnValue;
-//     this.ScalingPower = ScalingPower;
+//     this.scalingPower = ScalingPower;
 //     addRequirements(this.driveBase);
 //   }
 
-  public CheesyDrive(DriveBase driveBase, DoubleSupplier forwardValue, DoubleSupplier turnValue, double ScalingPower) {
+  public CheesyDrive(DriveBase driveBase, DoubleSupplier forwardValue, DoubleSupplier turnValue, double scalingPower) {
     this.driveBase = driveBase;
     this.forwardValue = forwardValue;
     this.turnValue = turnValue;
-    this.ScalingPower = ScalingPower;
+    this.scalingPower = scalingPower;
     addRequirements(this.driveBase);
   }
 
@@ -47,8 +47,8 @@ public class CheesyDrive extends CommandBase {
     double forwardPower = forwardValue.getAsDouble();
     double rightPower = (1 * forwardPower + -1 * turnPower);
     double leftPower = (1 * forwardPower + 1 * turnPower);
-    driveBase.setLeftMotors(leftPower * ScalingPower);
-    driveBase.setRightMotors(rightPower * ScalingPower);
+    driveBase.setLeftMotors(leftPower * scalingPower);
+    driveBase.setRightMotors(rightPower * scalingPower);
   }
 
   // Called once the command ends or is interrupted.
