@@ -40,6 +40,12 @@ public class DriveToDistance extends PIDCommand {
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(10);
   }
+
+  @Override
+  public void initialize() {
+    drive.resetPosition();
+    m_controller.reset();
+  }
   
     // Returns true when the command should end.
   @Override

@@ -10,15 +10,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.utils.AutoChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.CheesyDrive;
-import frc.robot.commands.RotationControl;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.ColorWheel;
+import frc.robot.commands.DriveToDistance;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Drive2019;
 import frc.robot.subsystems.Vision;
+import frc.robot.utils.AutoChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -40,8 +38,8 @@ public class RobotContainer {
   // Justin because we changed the wheel motor from 4 to 1
   // private ColorWheel colorWheel = new ColorWheel();
 
-  // private Arm arm = new Arm();
-  // private Drive2019 drive = new Drive2019();
+  //private Arm arm = new Arm();
+  private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
 
   private AutoChooser autoChooser = new AutoChooser(drive);
@@ -117,6 +115,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return autoChooser.GenerateAuto();
+    
   }
 }

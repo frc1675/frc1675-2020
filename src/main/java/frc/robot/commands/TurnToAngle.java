@@ -15,6 +15,7 @@ import frc.robot.subsystems.Drive2019;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToAngle extends PIDCommand {
+  Drive2019 drive;
 
   /**
    * Creates a new TurnToAngle.
@@ -29,16 +30,22 @@ public class TurnToAngle extends PIDCommand {
         angle,
         // This uses the output
         output -> {
-          drive.setRightMotors(output);
-          drive.setLeftMotors(-output);
-          System.out.println("Value = " + output);
+          drive.setRightMotors(-output);
+          drive.setLeftMotors(output);
           // Use the output here
         });
+    this.drive = drive;
     addRequirements(drive);
     getController().enableContinuousInput(-180, 180);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(10);
+  }
+
+  @Override
+  public void initialize() {
+    drive.resetAngle();
+    m_controller.reset();
   }
 
   // Returns true when the command should end.

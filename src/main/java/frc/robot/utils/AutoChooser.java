@@ -7,15 +7,22 @@
 
 package frc.robot.utils;
 
+import java.util.Map;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.auto.DriveForward;
-import frc.robot.commands.auto.MoveBackward;
 import frc.robot.commands.auto.AfterScoreToLeft;
 import frc.robot.commands.auto.AfterScoreToMiddle;
 import frc.robot.commands.auto.AfterScoreToRight;
+import frc.robot.commands.auto.DriveForward;
+import frc.robot.commands.auto.MoveBackward;
 import frc.robot.commands.auto.StartLeftToScore;
 import frc.robot.commands.auto.StartLeftToShieldGenerator;
 import frc.robot.commands.auto.StartLeftToTrench;
@@ -33,25 +40,18 @@ import frc.robot.subsystems.Drive2019;
 public class AutoChooser {
 
     private SendableChooser<StartPosition> startPositionChooser;
-    private SendableChooser<WaitTime> waitChooser;
     private SendableChooser<AfterScoring> afterScoringChooser;
     private SendableChooser<GatherBalls> gatherBallsChooser;
+    public ShuffleboardTab driverTab = Shuffleboard.getTab("Driver Station");
+    private ShuffleboardTab autoTab = Shuffleboard.getTab("Autonomous");
+    NetworkTableEntry waitSlider;
+    private ComplexWidget startWidget;
+    private ComplexWidget afterScoringWidget;
+    private ComplexWidget gatherBallsWidget;
 
     private Drive2019 drive;
 
-    public enum WaitTime {
-        ZERO_SECONDS,
-        ONE_SECOND,
-        TWO_SECONDS,
-        THREE_SECONDS,
-        FOUR_SECONDS,
-        FIVE_SECONDS,
-        SIX_SECONDS,
-        SEVEN_SECONDS,
-        EIGHT_SECONDS,
-        NINE_SECONDS,
-        TEN_SECONDS
-    }
+    private double waitTime;
 
     public enum StartPosition {
         SCORE_FROM_RIGHT,
@@ -79,22 +79,15 @@ public class AutoChooser {
         this.drive = drive;
 
         //make choosers on smartdashboard
-        waitChooser = new SendableChooser<WaitTime>();
         startPositionChooser = new SendableChooser<StartPosition>();
         afterScoringChooser = new SendableChooser<AfterScoring>();
         gatherBallsChooser = new SendableChooser<GatherBalls>();
 
-        waitChooser.addOption("Don't wait", WaitTime.ZERO_SECONDS);
-        waitChooser.addOption("Wait one second", WaitTime.ONE_SECOND);
-        waitChooser.addOption("Wait two seconds", WaitTime.TWO_SECONDS);
-        waitChooser.addOption("Wait three seconds", WaitTime.THREE_SECONDS);
-        waitChooser.addOption("Wait four seconds", WaitTime.FOUR_SECONDS);
-        waitChooser.addOption("Wait five seconds", WaitTime.FIVE_SECONDS);
-        waitChooser.addOption("Wait six seconds", WaitTime.SIX_SECONDS);
-        waitChooser.addOption("Wait seven seconds", WaitTime.SEVEN_SECONDS);
-        waitChooser.addOption("Wait eight seconds", WaitTime.EIGHT_SECONDS);
-        waitChooser.addOption("Wait nine seconds", WaitTime.NINE_SECONDS);
-        waitChooser.addOption("Wait ten seconds", WaitTime.TEN_SECONDS);
+        waitSlider = Shuffleboard.getTab("Autonomous")
+            .add("Wait time", 2)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", 0, "max", 10, "block increment", .5))
+            .getEntry();
 
         startPositionChooser.addOption("Start right", StartPosition.SCORE_FROM_RIGHT);
         startPositionChooser.addOption("Start center", StartPosition.SCORE_FROM_MIDDLE);
@@ -102,17 +95,25 @@ public class AutoChooser {
         startPositionChooser.addOption("Go backwards", StartPosition.DONT_SCORE);
         startPositionChooser.addOption("Test driving forward", StartPosition.DRIVE_FORWARD);
 
+        startWidget = autoTab.add("Start psition", startPositionChooser)
+            .withWidget(BuiltInWidgets.kComboBoxChooser);
+
         afterScoringChooser.addOption("Go to right", AfterScoring.RIGHT);
         afterScoringChooser.addOption("Go to center", AfterScoring.MIDDLE);
         afterScoringChooser.addOption("Go to left", AfterScoring.LEFT);
         afterScoringChooser.addOption("Do nothing", AfterScoring.NOTHING);
+
+        afterScoringWidget = autoTab.add("After scoring position", afterScoringChooser)
+            .withWidget(BuiltInWidgets.kComboBoxChooser); 
 
         gatherBallsChooser.addOption("Trench", GatherBalls.TRENCH);
         gatherBallsChooser.addOption("Shield gernerator", GatherBalls.SHIELD_GENERATOR);
         //gatherBallsChooser.addOption("Loading station", GatherBalls.LOADING_STATION);
         gatherBallsChooser.addOption("Nothing", GatherBalls.NOTHING);
 
-        SmartDashboard.putData("Wait", waitChooser);
+        gatherBallsWidget = autoTab.add("Gather balls location", gatherBallsChooser)
+            .withWidget(BuiltInWidgets.kComboBoxChooser); 
+
         SmartDashboard.putData("Start", startPositionChooser);
         SmartDashboard.putData("After scoring", afterScoringChooser);
         SmartDashboard.putData("Gather balls", gatherBallsChooser);
@@ -121,58 +122,11 @@ public class AutoChooser {
     public SequentialCommandGroup GenerateAuto() {
         SequentialCommandGroup auto = new SequentialCommandGroup();
 
-        WaitTime waitTime = (WaitTime) waitChooser.getSelected();
+        waitTime = waitSlider.getDouble(0);
+        System.out.println("Wait time: "+waitTime);
+        
 
-        switch (waitTime) {
-        case ZERO_SECONDS:
-
-            break;
-
-        case ONE_SECOND:
-            auto.addCommands(new WaitCommand(1));
-            break;
-
-        case TWO_SECONDS:
-            auto.addCommands(new WaitCommand(2));
-            break;
-
-        case THREE_SECONDS:
-            auto.addCommands(new WaitCommand(3));
-            break;
-
-        case FOUR_SECONDS:
-            auto.addCommands(new WaitCommand(4));
-            break;
-
-        case FIVE_SECONDS:
-            auto.addCommands(new WaitCommand(5));
-            break;
-
-        case SIX_SECONDS:
-            auto.addCommands(new WaitCommand(6));
-            break;
-
-        case SEVEN_SECONDS:
-            auto.addCommands(new WaitCommand(7));
-            break;
-
-        case EIGHT_SECONDS:
-            auto.addCommands(new WaitCommand(8));
-            break;
-
-        case NINE_SECONDS:
-            auto.addCommands(new WaitCommand(9));
-            break;
-
-        case TEN_SECONDS:
-            auto.addCommands(new WaitCommand(10));
-            break;
-
-        default:
-
-            break;
-
-        }
+        auto.addCommands(new WaitCommand(waitTime));
 
         StartPosition selectedStart = (StartPosition) startPositionChooser.getSelected();
 
@@ -191,12 +145,12 @@ public class AutoChooser {
 
             case DONT_SCORE:
                 auto.addCommands(new MoveBackward(drive));
-                return auto;
+                break;
 
             case DRIVE_FORWARD:
                 auto.addCommands(new DriveForward(drive));
-
-                return auto;
+                break;
+                
             default:
 
                 break;
