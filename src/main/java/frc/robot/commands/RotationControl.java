@@ -7,35 +7,48 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ColorWheel;
 import frc.robot.Constants;
+import frc.robot.subsystems.ColorWheel;
 
 public class RotationControl extends CommandBase {
   private ColorWheel colorWheel;
   private int colorCounts;
+  private Joystick operatorController;
   private ShuffleboardTab colorWheelTab = Shuffleboard.getTab("Color Wheel");
   private NetworkTableEntry rotationComplete;
+  private NetworkTableEntry vibrationPowerValue;
 
-  public RotationControl(ColorWheel colorWheel, int colorCounts) {
+  public RotationControl(ColorWheel colorWheel, int colorCounts, Joystick operatorController) {
     this.colorWheel = colorWheel;
     this.colorCounts = colorCounts;
+    this.operatorController = operatorController;
     addRequirements(colorWheel);
     rotationComplete = colorWheelTab.add("Rotation Complete", false).getEntry();
+    vibrationPowerValue = colorWheelTab.add("Vibration Power", false).getEntry();
+  }
+
+  public double vibrationPower(int colorTransitions) {
+    double vibrationPower = ((double) colorTransitions / Constants.ROTATION_COUNTS_NEEDED - 1) * -1;
+    return vibrationPower;
   }
 
   @Override
   public void initialize() {
-    colorWheel.resetColorCount();
+    colorWheel.resetColorState();
   }
 
   @Override
   public void execute() {
     colorWheel.turnWheel();
+    operatorController.setRumble(RumbleType.kLeftRumble, vibrationPower(colorWheel.getColorCount()));
+    vibrationPowerValue.setDouble(vibrationPower(colorWheel.getColorCount()));
   }
 
   @Override
@@ -46,9 +59,10 @@ public class RotationControl extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean requiredRotations = colorWheel.getColorCount() >= colorCounts ? true : false;
-
+    if (requiredRotations == true) {
+      operatorController.setRumble(RumbleType.kLeftRumble, 0);
+    }
     rotationComplete.setBoolean(requiredRotations);
-
     return requiredRotations;
   }
 }
