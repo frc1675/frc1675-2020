@@ -12,10 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.DriveToDistance;
-import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Drive2019;
-import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
 import frc.robot.utils.AutoChooser;
 
@@ -40,10 +37,10 @@ public class RobotContainer {
   // private ColorWheel colorWheel = new ColorWheel();
 
   //private Arm arm = new Arm();
-  private DriveBase drive = new DriveBase();
+  private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
 
-  //private AutoChooser autoChooser = new AutoChooser(drive);
+  private AutoChooser autoChooser = new AutoChooser(drive);
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -116,7 +113,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return autoChooser.GenerateAuto();
     
   }
 }

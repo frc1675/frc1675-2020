@@ -25,7 +25,7 @@ public class MoveBackward extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new DriveToDistance(drive, SEGMENT_1)
+      new DriveToDistance(drive, SEGMENT_1).withTimeout(3)
     );
   }
 }

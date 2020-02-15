@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.Drive2019;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -16,6 +17,7 @@ import frc.robot.subsystems.Drive2019;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToAngle extends PIDCommand {
   private Drive2019 drive;
+  private int count = 0;
 
   /**
    * Creates a new TurnToAngle.
@@ -23,7 +25,7 @@ public class TurnToAngle extends PIDCommand {
   public TurnToAngle(Drive2019 drive, double angle) {
     super(
         // The controller that the command will use
-        new PIDController(0.01111, 0, 0),
+        new PIDController(Constants.ANGLE_P, 0, Constants.ANGLE_D),
         // This should return the measurement
         drive::getHeading,
         // This should return the setpoint (can also be a constant)
@@ -39,7 +41,7 @@ public class TurnToAngle extends PIDCommand {
     getController().enableContinuousInput(-180, 180);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(10);
+    getController().setTolerance(Constants.ANGLE_TOLERANCE);
   }
 
   @Override
@@ -51,6 +53,12 @@ public class TurnToAngle extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    if (getController().atSetpoint()) {
+      count ++;
+    }
+    else {
+      count = 0;
+    }
+    return count >= 10;
   }
 }

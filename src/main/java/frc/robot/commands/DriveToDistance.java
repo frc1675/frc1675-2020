@@ -17,13 +17,14 @@ import frc.robot.subsystems.Drive2019;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class DriveToDistance extends PIDCommand {
     private Drive2019 drive;
+    private int count = 0;
   /**
    * Creates a new DriveToDistance.
    */
   public DriveToDistance(Drive2019 drive, double inches) {
     super(
         // The controller that the command will use
-        new PIDController(Constants.DRIVE_P, 0, 0),
+        new PIDController(Constants.DRIVE_P, 0, Constants.DRIVE_D),
         // This should return the measurement
         () -> drive.getPosition(),
         // This should return the setpoint (can also be a constant)
@@ -38,7 +39,7 @@ public class DriveToDistance extends PIDCommand {
     this.drive = drive;
     addRequirements(this.drive);
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(10);
+    getController().setTolerance(Constants.DISTANCE_TOLERANCE * Constants.TICKS_PER_INCH);
   }
 
   @Override
@@ -46,10 +47,16 @@ public class DriveToDistance extends PIDCommand {
     drive.resetPosition();
     m_controller.reset();
   }
-  
+
     // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    if (getController().atSetpoint()) {
+      count ++;
+    }
+    else {
+      count = 0;
+    }
+    return count >= 10;
   }
 }

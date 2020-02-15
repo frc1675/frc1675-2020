@@ -23,6 +23,8 @@ public class StartMiddleToScore extends SequentialCommandGroup {
   public StartMiddleToScore(Drive2019 drive) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new DriveToDistance(drive, SEGMENT_1));
+    super(
+      new DriveToDistance(drive, SEGMENT_1).withTimeout(3)
+    );
   }
 }

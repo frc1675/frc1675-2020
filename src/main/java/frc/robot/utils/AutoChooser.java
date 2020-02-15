@@ -145,11 +145,11 @@ public class AutoChooser {
 
             case DONT_SCORE:
                 auto.addCommands(new MoveBackward(drive));
-                break;
+                return auto;
 
             case DRIVE_FORWARD:
                 auto.addCommands(new DriveForward(drive));
-                break;
+                return auto;
                 
             default:
 

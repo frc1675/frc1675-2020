@@ -31,9 +31,10 @@ public class StartLeftToScore extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new TurnToAngle(drive, TURN_1_ANGLE),  
-      new DriveToDistance(drive, SEGMENT_1),
-      new TurnToAngle(drive, TURN_2_ANGLE),
-      new DriveToDistance(drive, SEGMENT_2));
+      new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(2),  
+      new DriveToDistance(drive, SEGMENT_1).withTimeout(3),
+      new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(2),
+      new DriveToDistance(drive, SEGMENT_2).withTimeout(1)
+    );
   }
 }

@@ -30,9 +30,9 @@ public class StartLeftToTrench extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(
-      new TurnToAngle(drive, TURN_1_ANGLE),
-      new DriveToDistance(drive, SEGMENT_1),
-      new TurnToAngle(drive, -TURN_1_ANGLE)
+      new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(2),
+      new DriveToDistance(drive, SEGMENT_1).withTimeout(3),
+      new TurnToAngle(drive, -TURN_1_ANGLE).withTimeout(2)
       //new IntakeBallsWhileDrivingCommand(drive, SEGMENT_2)
     );
   }
