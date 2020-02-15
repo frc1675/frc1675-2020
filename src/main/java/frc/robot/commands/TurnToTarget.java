@@ -16,6 +16,7 @@ import frc.robot.subsystems.Vision;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToTarget extends PIDCommand {
+  private Vision vision;
 
   /**
    * Creates a new TurnToAngle
@@ -35,6 +36,7 @@ public class TurnToTarget extends PIDCommand {
           System.out.println("Value = " + output);
           // Use the output here
         });
+    this.vision = vision;
     addRequirements(drive);
     getController().enableContinuousInput(-180, 180);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -45,6 +47,7 @@ public class TurnToTarget extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    boolean atSetpoint = getController().atSetpoint();
+    return atSetpoint;    
   }
 }

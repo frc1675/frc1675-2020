@@ -18,7 +18,7 @@ public class Vision extends SubsystemBase {
   private ShuffleboardTab visionTab = Shuffleboard.getTab("Vision");
 
   public static enum Pipeline {
-    LIGHT_ON(1), LIGHT_OFF(0);
+    LIGHT_ON(0), LIGHT_OFF(1);
 
     double pipeline;
 
@@ -34,7 +34,7 @@ public class Vision extends SubsystemBase {
    */
   public Vision() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
-    setPipeline(Vision.Pipeline.LIGHT_ON);
+    setPipeline(Vision.Pipeline.LIGHT_OFF);
 
     visionTab.addBoolean("Has Target?", () -> hasTarget());
     visionTab.addNumber("X offset", () -> getXOffSet());
@@ -69,8 +69,8 @@ public class Vision extends SubsystemBase {
   }
 
   public Pipeline getPipeline() {
-    double pipeline = table.getEntry("pipeline").getDouble(0);
-    if (pipeline == 1) {
+    double pipeline = table.getEntry("pipeline").getDouble(1);
+    if (pipeline == 0) {
       return Pipeline.LIGHT_ON;
     } else {
       return Pipeline.LIGHT_OFF;
@@ -79,9 +79,9 @@ public class Vision extends SubsystemBase {
 
   public void setPipeline(Pipeline pipeline) {
     if (pipeline == Pipeline.LIGHT_OFF) {
-      table.getEntry("pipeline").setDouble(0);
-    } else if (pipeline == Pipeline.LIGHT_ON) {
       table.getEntry("pipeline").setDouble(1);
+    } else if (pipeline == Pipeline.LIGHT_ON) {
+      table.getEntry("pipeline").setDouble(0);
     }
 
   }
