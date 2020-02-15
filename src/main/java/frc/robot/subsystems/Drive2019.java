@@ -39,8 +39,8 @@ public class Drive2019 extends SubsystemBase {
     leftFront = new VictorSPX(Constants.LEFT_FRONT);
     navx = new AHRS(SerialPort.Port.kMXP);
 
-    leftMiddle.setSensorPhase(true);
-    rightMiddle.setSensorPhase(true);
+    leftMiddle.setSensorPhase(false);
+    rightMiddle.setSensorPhase(false);
 
     drive2019Tab.addNumber("Current Position", () -> getPosition());
     drive2019Tab.addNumber("Angle", () -> getAngle());
@@ -84,6 +84,10 @@ public class Drive2019 extends SubsystemBase {
     rightMiddle.setSelectedSensorPosition(0);
     leftMiddle.setSelectedSensorPosition(0);
     currentPosition = 0;
+  }
+
+  public void resetAngle() {
+    navx.reset();
   }
 
   @Override

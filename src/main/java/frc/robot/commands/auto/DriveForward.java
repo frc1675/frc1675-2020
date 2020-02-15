@@ -23,6 +23,6 @@ public class DriveForward extends SequentialCommandGroup {
   public DriveForward(Drive2019 drive) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new DriveToDistance(drive, 12));
+    super(new DriveToDistance(drive, 120));
   }
 }

@@ -52,13 +52,13 @@ public class DriveBase extends SubsystemBase {
   }
 
   public void setRightMotors(double power) {
-    rightFront.set(power);
-    rightBack.set(power);
+    rightFront.set(-power);
+    rightBack.set(-power);
   }
 
   public void setLeftMotors(double power) {
-    leftFront.set(-power);
-    leftBack.set(-power);
+    leftFront.set(power);
+    leftBack.set(power);
   }
 
    public double getPosition(){
