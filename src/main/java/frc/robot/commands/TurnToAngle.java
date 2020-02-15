@@ -15,7 +15,7 @@ import frc.robot.subsystems.Drive2019;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToAngle extends PIDCommand {
-  Drive2019 drive;
+  private Drive2019 drive;
 
   /**
    * Creates a new TurnToAngle.
@@ -23,7 +23,7 @@ public class TurnToAngle extends PIDCommand {
   public TurnToAngle(Drive2019 drive, double angle) {
     super(
         // The controller that the command will use
-        new PIDController(0.00278, 0, 0),
+        new PIDController(0.01111, 0, 0),
         // This should return the measurement
         drive::getHeading,
         // This should return the setpoint (can also be a constant)
