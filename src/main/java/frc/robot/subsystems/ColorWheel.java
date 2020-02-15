@@ -16,12 +16,13 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class ColorWheel extends SubsystemBase {
+  private ShuffleboardTab colorWheelTab = Shuffleboard.getTab("Color Wheel");
   private VictorSPX spinMotor;
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
@@ -33,7 +34,11 @@ public class ColorWheel extends SubsystemBase {
   private String transitionColor = "Unknown";
   private int colorTransitions = 0;
   private String currentColor = "Unknown";
-  private ShuffleboardTab colorWheelTab = Shuffleboard.getTab("Color Wheel");
+  private String gameData;
+  private String targetColor = "Unknown";
+  private String wheelColor = "Unknown";
+  private String anticipatedColor = "Unknown";
+  private String readColor = "Unknown";
 
   public ColorWheel() {
     spinMotor = new VictorSPX(Constants.WHEEL_MOTOR);
@@ -42,9 +47,11 @@ public class ColorWheel extends SubsystemBase {
     colorMatcher.addColorMatch(kRedTarget);
     colorMatcher.addColorMatch(kYellowTarget);
 
-    colorWheelTab.addString("Detected Color", () -> currentColor);
-    colorWheelTab.addString("Transition Color", () -> transitionColor);
+    colorWheelTab.addString("Current Color", () -> currentColor);
     colorWheelTab.addNumber("Color Count", () -> colorTransitions);
+    colorWheelTab.addString("Target Color", () -> targetColor);
+    colorWheelTab.addString("Wheel Detector", () -> wheelColor);
+    colorWheelTab.addString("Read Color", () -> readColor);
   }
 
   public void turnWheel() {
@@ -63,13 +70,45 @@ public class ColorWheel extends SubsystemBase {
     return colorTransitions;
   }
 
-  public void resetColorCount() {
+  public void resetColorState() {
     colorTransitions = 0;
     transitionColor = currentColor;
+    anticipatedColor = readColor;
   }
 
   public String getColor() {
     return currentColor;
+  }
+
+  public String getWheelColor() {
+    return wheelColor;
+  }
+
+  public String getTargetColor() {
+    gameData = DriverStation.getInstance().getGameSpecificMessage();
+    if (gameData.length() > 0) {
+      switch (gameData.charAt(0)) {
+      case 'B':
+        targetColor = "Blue";
+        break;
+      case 'G':
+        targetColor = "Green";
+        break;
+      case 'R':
+        targetColor = "Red";
+        break;
+      case 'Y':
+        targetColor = "Yellow";
+        break;
+      default:
+        // This is corrupt data
+        break;
+      }
+    } else {
+      targetColor = "Unknown";
+    }
+
+    return targetColor;
   }
 
   @Override
@@ -77,15 +116,45 @@ public class ColorWheel extends SubsystemBase {
     Color detectedColor = colorSensor.getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
     if (match.color == kBlueTarget) {
-      currentColor = "Blue";
+      readColor = "Blue";
+      if (anticipatedColor == "Unknown") {
+        anticipatedColor = "Yellow";
+      }
     } else if (match.color == kRedTarget) {
-      currentColor = "Red";
+      readColor = "Red";
+      if (anticipatedColor == "Unknown") {
+        anticipatedColor = "Green";
+      }
     } else if (match.color == kGreenTarget) {
-      currentColor = "Green";
+      readColor = "Green";
+      if (anticipatedColor == "Unknown") {
+        anticipatedColor = "Blue";
+      }
     } else if (match.color == kYellowTarget) {
-      currentColor = "Yellow";
+      readColor = "Yellow";
+      if (anticipatedColor == "Unknown") {
+        anticipatedColor = "Red";
+      }
     } else {
-      currentColor = "Unknown";
+      readColor = "Unknown";
+    }
+
+    if (readColor == "Blue" && readColor == anticipatedColor) {
+      currentColor = "Blue";
+      anticipatedColor = "Yellow";
+      wheelColor = "Red";
+    } else if (readColor == "Red" && readColor == anticipatedColor) {
+      currentColor = "Red";
+      anticipatedColor = "Green";
+      wheelColor = "Blue";
+    } else if (readColor == "Green" && readColor == anticipatedColor) {
+      currentColor = "Green";
+      anticipatedColor = "Blue";
+      wheelColor = "Yellow";
+    } else if (readColor == "Yellow" && readColor == anticipatedColor) {
+      currentColor = "Yellow";
+      anticipatedColor = "Red";
+      wheelColor = "Green";
     }
 
     if (currentColor != transitionColor) {

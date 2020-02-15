@@ -27,7 +27,7 @@ In general you should only use the below commands in git. If you have a problem 
 1. `git checkout origin/master`
 1. `git checkout -b my-branch`
 1. Make code changes, test
-1. `git add -u`
+1. `git add .`
 1. `git commit -m "My message"`
 1. `git fetch`
 1. `git merge origin/master`
