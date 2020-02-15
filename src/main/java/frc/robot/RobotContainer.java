@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
-import frc.robot.subsystems.DriveBase;
+import frc.robot.commands.LockOnToTarget;
+import frc.robot.subsystems.Drive2019;
 import frc.robot.subsystems.Vision;
-import frc.robot.utils.AutoChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -38,8 +38,8 @@ public class RobotContainer {
   // private ColorWheel colorWheel = new ColorWheel();
 
   // private Arm arm = new Arm();
-  private DriveBase drive = new DriveBase();
-  // private Drive2019 drive = new Drive2019();
+  // private DriveBase drive = new DriveBase();
+  private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
 
   // private AutoChooser autoChooser = new AutoChooser(drive);
@@ -105,8 +105,8 @@ public class RobotContainer {
    */
 
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+    // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
+    // driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
     // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
     // Constants.ROTATION_COUNTS_NEEDED, operatorController));
@@ -121,7 +121,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
-    
+    return new LockOnToTarget(drive, () -> getDriverLeftYAxis(), vision);
   }
 }
