@@ -7,7 +7,7 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.Drive2019;
@@ -15,7 +15,7 @@ import frc.robot.subsystems.Drive2019;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class StartLeftToTrench extends ParallelCommandGroup {
+public class StartLeftToTrench extends SequentialCommandGroup {
 
   private static final double TURN_1_ANGLE = -73;
 
