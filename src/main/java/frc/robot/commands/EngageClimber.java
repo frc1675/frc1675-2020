@@ -25,7 +25,6 @@ public class EngageClimber extends CommandBase {
   @Override
   public void initialize() {
     climber.engage();
-    climber.climberExtended = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -39,6 +39,8 @@ public class RobotContainer {
       Constants.RIGHT_BUMPER);
   private final JoystickButton operatorControllerYButton = new JoystickButton(operatorController,
       Constants.Y_BUTTON);
+  private final JoystickButton operatorControllerBButton = new JoystickButton(operatorController,
+      Constants.B_BUTTON);
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // private ColorWheel colorWheel = new ColorWheel();
   private Climber climber = new Climber();
@@ -121,7 +123,7 @@ public class RobotContainer {
 
     operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
         .whenActive(new ExtendClimberSequence(climber));
-    operatorControllerRightBumper.whenHeld(new PullUpRobot(climber));
+    operatorControllerBButton.whenHeld(new PullUpRobot(climber));
   }
 
   /**
