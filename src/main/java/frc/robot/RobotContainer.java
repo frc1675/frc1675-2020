@@ -116,7 +116,7 @@ public class RobotContainer {
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
     // -> getDriverRightXAxis()));
     //operatorControllerLeftBumper.toggleWhenPressed(new StopCompressor(pneumatics));
-    operatorControllerRightBumper.whenHeld(new PullUpRobot(climber));
+    //operatorControllerRightBumper.whenHeld(new PullUpRobot(climber));
   }
 
   /**
