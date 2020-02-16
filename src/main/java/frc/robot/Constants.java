@@ -59,6 +59,8 @@ public final class Constants {
     public static final int CLIMBER_MOTOR_LEFT = 5;
     public static final int CLIMBER_SOLENOID = 0;
 
+    public static final double CLIMBER_EXTEND_TIME = 2;
+
     // Drive Motor Constants
     public static final int RIGHT_MIDDLE = 3;
     public static final int LEFT_MIDDLE = 5;
