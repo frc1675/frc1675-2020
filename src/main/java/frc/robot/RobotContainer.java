@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
+import frc.robot.commands.PullUpRobot;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
 import frc.robot.utils.AutoChooser;
@@ -36,6 +38,7 @@ public class RobotContainer {
       Constants.RIGHT_BUMPER);
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // private ColorWheel colorWheel = new ColorWheel();
+  private Climber climber = new Climber();
 
   // private Arm arm = new Arm();
   private DriveBase drive = new DriveBase();
@@ -113,6 +116,7 @@ public class RobotContainer {
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
     // -> getDriverRightXAxis()));
     //operatorControllerLeftBumper.toggleWhenPressed(new StopCompressor(pneumatics));
+    //operatorControllerRightBumper.whenHeld(new PullUpRobot(climber));
   }
 
   /**
