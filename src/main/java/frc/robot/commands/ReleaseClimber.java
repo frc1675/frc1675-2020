@@ -10,12 +10,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
-public class LockClimber extends CommandBase {
+public class ReleaseClimber extends CommandBase {
   private Climber climber;
   /**
-   * Creates a new LockClimber.
+   * Creates a new ExtendedClimber.
    */
-  public LockClimber(Climber climber) {
+  public ReleaseClimber(Climber climber) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.climber = climber;
     addRequirements(this.climber);
@@ -24,7 +24,7 @@ public class LockClimber extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber.lock();
+    climber.release();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,6 +40,6 @@ public class LockClimber extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

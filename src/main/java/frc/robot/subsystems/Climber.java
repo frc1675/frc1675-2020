@@ -18,6 +18,8 @@ public class Climber extends SubsystemBase {
   private CANSparkMax climberMotorRight;
   private CANSparkMax climberMotorLeft;
   private Solenoid solenoid;
+
+  private boolean climberExtended = false;
   /**
    * Creates a new Climber.
    */
@@ -29,17 +31,24 @@ public class Climber extends SubsystemBase {
     climberMotorRight.setInverted(true);
   }
 
-  public void extend(){
+  public void release(){
     solenoid.set(true);
   }
 
-  public void lock(){
+  public void engage(){
     solenoid.set(false);
+    climberExtended = true;
   }
 
   public void pullUp(){
-    climberMotorRight.set(Constants.CLIMBER_POWER);
-    climberMotorLeft.set(Constants.CLIMBER_POWER);
+    if (climberExtended) {
+      climberMotorRight.set(Constants.CLIMBER_POWER);
+      climberMotorLeft.set(Constants.CLIMBER_POWER);
+    }
+    else {
+      climberMotorRight.set(0);
+      climberMotorLeft.set(0);
+    }
   }
 
   public void stop(){

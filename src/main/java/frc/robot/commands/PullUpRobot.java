@@ -24,7 +24,7 @@ public class PullUpRobot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber.pullUp();
+      climber.pullUp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
