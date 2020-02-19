@@ -80,10 +80,9 @@ public final class Constants {
     public static final double HIGH_POWER_DRIVE = 1.0;
 
     //Claw Motor Constants
-    public static final int INTAKE_POWER = 1;
-    public static final int OUTPUT_POWER = -1;
-    public static final int CLAW_TOP_MOTOR = 2;
-    public static final int CLAW_BOTTOM_MOTOR = 2;
+    public static final double INTAKE_POWER = -1;
+    public static final double OUTPUT_POWER = 1;
+    public static final int CLAW_MOTOR = 4;
 
     // Color Wheel Constants
     public static final double COLOR_WHEEL_SPIN_SPEED = 0.5;
