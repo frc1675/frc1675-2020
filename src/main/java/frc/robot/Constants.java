@@ -21,13 +21,15 @@ public final class Constants {
     
     // Autonomous Constants
     public static final double TICKS_PER_INCH = 54.3; //not accurate
-    public static final double DISTANCE_TOLERANCE = 3; //Tolerance in inches
+    public static final double DISTANCE_TOLERANCE = 4; //Tolerance in inches
 
     public static final double ANGLE_TOLERANCE = 2; //Tolerance in degrees
 
     //Drive To Distance Constants
     public static final double DRIVE_P = 0.0003;
-    public static final double DRIVE_D = 0.000025;
+    public static final double DRIVE_D = 0.00003;
+    public static final double LOW_POWER_DRIVE = 0.5;
+    public static final double HIGH_POWER_DRIVE = 1.0;
 
     //Turn to Angle constants
     public static final double ANGLE_P = 0.02; 
@@ -46,24 +48,30 @@ public final class Constants {
     public static final int RIGHT_X_AXIS = 4;
     public static final int RIGHT_Y_AXIS = 5;
 
-    public static final int A_BUTTON = 0;
-    public static final int B_BUTTON = 1;
-    public static final int X_BUTTON = 2;
-    public static final int Y_BUTTON = 3;
+    public static final int A_BUTTON = 1;
+    public static final int B_BUTTON = 2;
+    public static final int X_BUTTON = 3;
+    public static final int Y_BUTTON = 4;
 
-    public static final int LEFT_BUMPER = 4;
-    public static final int RIGHT_BUMPER = 5;
+    public static final int LEFT_BUMPER = 5;
+    public static final int RIGHT_BUMPER = 6;
 
-    public static final int BACK_BUTTON = 6;
-    public static final int START_BUTTON = 7;
+    public static final int BACK_BUTTON = 7;
+    public static final int START_BUTTON = 8;
+
+    // Joystick buttons (clicking them in)
+    public static final int LEFT_JOYSTICK_BUTTON = 9;
+    public static final int RIGHT_JOYSTICK_BUTTON = 10;
 
     public static final double MOTOR_DEADZONE = 0.1675;
 
     // Climber Motor Constants
-    public static final double CLIMBER_POWER = 0.5;
-    public static final int CLIMBER_MOTOR1 = 1;
-    public static final int CLIMBER_MOTOR2 = 2;
+    public static final double CLIMBER_POWER = 0.4;
+    public static final int CLIMBER_MOTOR_RIGHT = 3;
+    public static final int CLIMBER_MOTOR_LEFT = 5;
     public static final int CLIMBER_SOLENOID = 0;
+
+    public static final double CLIMBER_EXTEND_TIME = 2;
 
     // Drive Motor Constants
     public static final int RIGHT_MIDDLE = 3;
@@ -79,10 +87,9 @@ public final class Constants {
     public static final int ARM_SOLENOID = 2;
 
     //Claw Motor Constants
-    public static final int INTAKE_POWER = 1;
-    public static final int OUTPUT_POWER = -1;
-    public static final int CLAW_TOP_MOTOR = 2;
-    public static final int CLAW_BOTTOM_MOTOR = 2;
+    public static final double INTAKE_POWER = -1;
+    public static final double OUTPUT_POWER = 1;
+    public static final int CLAW_MOTOR = 4;
 
     // Color Wheel Constants
     public static final double COLOR_WHEEL_SPIN_SPEED = 0.5;

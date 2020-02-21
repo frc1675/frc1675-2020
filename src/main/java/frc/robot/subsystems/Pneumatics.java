@@ -7,30 +7,24 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
-public class Claw extends SubsystemBase {
-  public VictorSPX clawMotor;
-  /**
-   * Creates a new Claw.
-   */
-  public Claw() {
-    clawMotor = new VictorSPX(Constants.CLAW_MOTOR);
+public class Pneumatics extends SubsystemBase {
+  public Compressor compressor;
+
+  public Pneumatics() {
+    compressor = new Compressor();
   }
-  public void intake(){
-    clawMotor.set(ControlMode.PercentOutput,Constants.INTAKE_POWER);
+
+  public void stop() {
+    compressor.stop();
   }
-  public void output(){
-    clawMotor.set(ControlMode.PercentOutput,Constants.OUTPUT_POWER);
+
+  public void start() {
+    compressor.start();
   }
-  public void stop(){
-    clawMotor.set(ControlMode.PercentOutput, 0);
-    
-  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

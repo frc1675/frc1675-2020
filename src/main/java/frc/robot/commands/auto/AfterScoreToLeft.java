@@ -21,11 +21,11 @@ public class AfterScoreToLeft extends SequentialCommandGroup {
 
   private static final double SEGMENT_1 = -12.8;
 
-  private static final double TURN_1_ANGLE = 45;
+  private static final double TURN_1_ANGLE = 47.4;
 
   private static final double SEGMENT_2 = -133;
 
-  private static final double TURN_2_ANGLE = 135;
+  private static final double TURN_2_ANGLE = 132.6;
 
   /**
    * Creates a new MoveToLeft.
@@ -35,9 +35,9 @@ public class AfterScoreToLeft extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super(
       new DriveToDistance(drive, SEGMENT_1).withTimeout(1),
-      new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(2),
+      new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(1.5),
       new DriveToDistance(drive, SEGMENT_2).withTimeout(3),
-      new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(3)
+      new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(2)
     );
   }
 }

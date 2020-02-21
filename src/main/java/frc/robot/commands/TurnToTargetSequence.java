@@ -5,22 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DriveToDistance;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Drive2019;
 
-public class DriveForward extends SequentialCommandGroup {
-  Drive2019 drive;
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+public class TurnToTargetSequence extends SequentialCommandGroup {
   /**
-   * Creates a new DriveForward.
+   * Creates a new TurnToTargetSequence.
    */
-  public DriveForward(Drive2019 drive) {
+  public TurnToTargetSequence(Drive2019 drive, Vision vision) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new DriveToDistance(drive, 10).withTimeout(3)
+      new VisionLightOn(vision),
+      new WaitCommand(0.25),
+      new TurnToTarget(drive, vision),
+      new VisionLightOff(vision)
     );
   }
 }

@@ -11,26 +11,27 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive2019;
-import frc.robot.subsystems.DriveBase;
 
 public class CheesyDrive extends CommandBase {
-  private DriveBase driveBase;
   private Drive2019 drive;
   private DoubleSupplier forwardValue;
   private DoubleSupplier turnValue;
+  private double scalingPower;
   
- // public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue, DoubleSupplier turnValue) {
-  //   this.drive = drive;
-  //   this.forwardValue = forwardValue;
-  //   this.turnValue = turnValue;
-  //   addRequirements(this.drive);
-  // }
+//  public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue, DoubleSupplier turnValue, double ScalingPower) {
+//     this.driveBase = drive;
+//     this.forwardValue = forwardValue;
+//     this.turnValue = turnValue;
+//     this.scalingPower = ScalingPower;
+//     addRequirements(this.driveBase);
+//   }
 
-  public CheesyDrive(DriveBase driveBase, DoubleSupplier forwardValue, DoubleSupplier turnValue) {
-    this.driveBase = driveBase;
+  public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue, DoubleSupplier turnValue, double scalingPower) {
+    this.drive = drive;
     this.forwardValue = forwardValue;
     this.turnValue = turnValue;
-    addRequirements(this.driveBase);
+    this.scalingPower = scalingPower;
+    addRequirements(this.drive);
   }
 
   // Called when the command is initially scheduled.
@@ -46,15 +47,15 @@ public class CheesyDrive extends CommandBase {
     double forwardPower = forwardValue.getAsDouble();
     double rightPower = (1 * forwardPower + -1 * turnPower);
     double leftPower = (1 * forwardPower + 1 * turnPower);
-    driveBase.setLeftMotors(leftPower);
-    driveBase.setRightMotors(rightPower);
+    drive.setLeftMotors(leftPower * scalingPower);
+    drive.setRightMotors(rightPower * scalingPower);
   }
-
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveBase.setLeftMotors(0);
-    driveBase.setRightMotors(0);
+    drive.setLeftMotors(0);
+    drive.setRightMotors(0);
   }
 
   // Returns true when the command should end.

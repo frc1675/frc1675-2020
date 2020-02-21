@@ -19,11 +19,11 @@ public class AfterScoreToRight extends SequentialCommandGroup {
 
   private static final double SEGMENT_1 = -12.8;
 
-  private static final double TURN_1_ANGLE = -30;
+  private static final double TURN_1_ANGLE = -36.6;
   
   private static final double SEGMENT_2 = -112.2;
 
-  private static final double TURN_2_ANGLE = -150;
+  private static final double TURN_2_ANGLE = -143.4;
 
   
   /**
@@ -34,9 +34,9 @@ public class AfterScoreToRight extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super(
       new DriveToDistance(drive, SEGMENT_1).withTimeout(2),
-      new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(2),  
+      new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(1.5),  
       new DriveToDistance(drive, SEGMENT_2).withTimeout(3),
-      new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(3)
+      new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(2)
     );
   }
 }

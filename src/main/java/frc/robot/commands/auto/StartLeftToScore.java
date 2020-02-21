@@ -17,11 +17,11 @@ import frc.robot.subsystems.Drive2019;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class StartLeftToScore extends SequentialCommandGroup {
 
-  private static final double TURN_1_ANGLE = 45;
+  private static final double TURN_1_ANGLE = 47.4;
 
   private static final double SEGMENT_1 = 133;
 
-  private static final double TURN_2_ANGLE = -45;
+  private static final double TURN_2_ANGLE = -47.4;
 
   private static final double SEGMENT_2 = 12.8;
   /**
@@ -31,9 +31,9 @@ public class StartLeftToScore extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(2),  
+      new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(1.5),  
       new DriveToDistance(drive, SEGMENT_1).withTimeout(3),
-      new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(2),
+      new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(1.5),
       new DriveToDistance(drive, SEGMENT_2).withTimeout(1)
     );
   }
