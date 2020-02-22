@@ -18,7 +18,7 @@ import frc.robot.subsystems.Vision;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class LockOnToTarget extends PIDCommand {
-  // private DoubleSupplier forwardValue;
+  private Vision vision;
   /**
    * Creates a new LockOnToTarget.
    */
@@ -33,14 +33,13 @@ public class LockOnToTarget extends PIDCommand {
         // This uses the output
         turnPower -> {
           double forwardPower = forwardValue.getAsDouble() * 0.5;
-          System.out.println(forwardPower + " Forward value");
           double rightPower = (1 * forwardPower + 1 * turnPower);
           double leftPower = (1 * forwardPower + -1 * turnPower);
           drive.setLeftMotors(leftPower);
           drive.setRightMotors(rightPower);
           // Use the output here
         });
-    // this.forwardValue = forwardValue;
+    this.vision = vision;
     addRequirements(drive);
     getController().enableContinuousInput(-180, 180);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -48,9 +47,21 @@ public class LockOnToTarget extends PIDCommand {
     getController().setTolerance(10);
   }
 
+  @Override
+  public void initialize() {
+    m_controller.reset();
+    vision.setPipeline(Vision.Pipeline.LIGHT_ON);
+  }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    m_useOutput.accept(0);
+    vision.setPipeline(Vision.Pipeline.LIGHT_OFF);
   }
 }

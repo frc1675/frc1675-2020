@@ -5,27 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DriveToDistance;
-import frc.robot.subsystems.Drive2019;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.Climber;
+import frc.robot.Constants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class MoveBackward extends SequentialCommandGroup {
-
-  private static final double SEGMENT_1 = -10;
-
+public class ExtendClimberSequence extends SequentialCommandGroup {
   /**
-   * Creates a new MoveBackward.
+   * Creates a new ExtendClimberSequence.
    */
-  public MoveBackward(Drive2019 drive) {
+  public ExtendClimberSequence(Climber climber) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new DriveToDistance(drive, SEGMENT_1)
+      new ReleaseClimber(climber),
+      new WaitCommand(Constants.CLIMBER_EXTEND_TIME),
+      new EngageClimber(climber)
     );
   }
 }
