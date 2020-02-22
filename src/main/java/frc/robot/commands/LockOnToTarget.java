@@ -11,7 +11,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -19,10 +19,12 @@ import frc.robot.subsystems.Vision;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class LockOnToTarget extends PIDCommand {
   private Vision vision;
+  private DriveBase driveBase;
+
   /**
    * Creates a new LockOnToTarget.
    */
-  public LockOnToTarget(Drive2019 drive, DoubleSupplier forwardValue, Vision vision) {
+  public LockOnToTarget(DriveBase drive, DoubleSupplier forwardValue, Vision vision) {
     super(
         // The controller that the command will use
         new PIDController(0.01111, 0, 0),
@@ -63,5 +65,7 @@ public class LockOnToTarget extends PIDCommand {
   public void end(boolean interrupted) {
     m_useOutput.accept(0);
     vision.setPipeline(Vision.Pipeline.LIGHT_OFF);
+    driveBase.setRightMotors(0);
+    driveBase.setLeftMotors(0);
   }
 }

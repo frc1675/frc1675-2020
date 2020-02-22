@@ -7,15 +7,11 @@
 
 package frc.robot;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.LockOnToTarget;
-import frc.robot.subsystems.Drive2019;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
@@ -52,8 +48,8 @@ public class RobotContainer {
   // private ColorWheel colorWheel = new ColorWheel();
   private Climber climber = new Climber();
   // private Arm arm = new Arm();
-  // private DriveBase drive = new DriveBase();
-  private Drive2019 drive = new Drive2019();
+  private DriveBase drive = new DriveBase();
+  // private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
   private Claw claw = new Claw();
 
@@ -120,19 +116,15 @@ public class RobotContainer {
    */
 
   private void configureButtonBindings() {
-    // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
-    // -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    // driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () ->
-    // getDriverLeftYAxis(), () -> getDriverRightXAxis(),
-    // Constants.LOW_POWER_DRIVE));
+    drive.setDefaultCommand(
+        new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
+    driverControllerRightBumper.toggleWhenPressed(
+        new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
     // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
     // Constants.ROTATION_COUNTS_NEEDED, operatorController));
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
     // -> getDriverRightXAxis()));
-    // operatorControllerLeftBumper.toggleWhenPressed(new
-    // StopCompressor(pneumatics));
-    drive.setDefaultCommand(new LockOnToTarget(drive, this::getDriverLeftYAxis, vision));
     // operatorControllerLeftBumper.toggleWhenPressed(new
     // StopCompressor(pneumatics));
 
