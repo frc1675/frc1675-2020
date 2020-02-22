@@ -14,10 +14,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-<<<<<<< HEAD
 import frc.robot.commands.LockOnToTarget;
 import frc.robot.subsystems.Drive2019;
-=======
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
@@ -27,7 +25,6 @@ import frc.robot.commands.auto.DriveForward;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveBase;
->>>>>>> origin/master
 import frc.robot.subsystems.Vision;
 
 /**
@@ -47,14 +44,10 @@ public class RobotContainer {
       Constants.RIGHT_BUMPER);
   private final JoystickButton driverControllerRightBumper = new JoystickButton(driverController,
       Constants.RIGHT_BUMPER);
-  private final JoystickButton operatorControllerYButton = new JoystickButton(operatorController,
-      Constants.Y_BUTTON);
-  private final JoystickButton operatorControllerBButton = new JoystickButton(operatorController,
-      Constants.B_BUTTON);
-  private final JoystickButton operatorControllerXButton = new JoystickButton(operatorController,
-      Constants.X_BUTTON);
-  private final JoystickButton operatorControllerAButton = new JoystickButton(operatorController,
-      Constants.A_BUTTON);
+  private final JoystickButton operatorControllerYButton = new JoystickButton(operatorController, Constants.Y_BUTTON);
+  private final JoystickButton operatorControllerBButton = new JoystickButton(operatorController, Constants.B_BUTTON);
+  private final JoystickButton operatorControllerXButton = new JoystickButton(operatorController, Constants.X_BUTTON);
+  private final JoystickButton operatorControllerAButton = new JoystickButton(operatorController, Constants.A_BUTTON);
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // private ColorWheel colorWheel = new ColorWheel();
   private Climber climber = new Climber();
@@ -137,12 +130,11 @@ public class RobotContainer {
     // Constants.ROTATION_COUNTS_NEEDED, operatorController));
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
     // -> getDriverRightXAxis()));
-<<<<<<< HEAD
     // operatorControllerLeftBumper.toggleWhenPressed(new
     // StopCompressor(pneumatics));
     drive.setDefaultCommand(new LockOnToTarget(drive, this::getDriverLeftYAxis, vision));
-=======
-    //operatorControllerLeftBumper.toggleWhenPressed(new StopCompressor(pneumatics));
+    // operatorControllerLeftBumper.toggleWhenPressed(new
+    // StopCompressor(pneumatics));
 
     operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
         .whenActive(new ExtendClimberSequence(climber));
@@ -150,7 +142,6 @@ public class RobotContainer {
 
     operatorControllerXButton.whenHeld(new Intake(claw));
     operatorControllerAButton.whenHeld(new Output(claw));
->>>>>>> origin/master
   }
 
   /**
@@ -159,7 +150,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return new DriveForward(drive).withTimeout(1);
+    // return new DriveForward(drive).withTimeout(1);
     return null;
   }
 }
