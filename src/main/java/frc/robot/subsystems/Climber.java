@@ -17,27 +17,33 @@ import frc.robot.Constants;
 public class Climber extends SubsystemBase {
   private CANSparkMax climberMotorRight;
   private CANSparkMax climberMotorLeft;
-  private Solenoid solenoid;
+  private Solenoid retractSolenoid;
+  private Solenoid releaseSolenoid;
 
   private boolean climberExtended = false;
-  /**
-   * Creates a new Climber.
-   */
+  // **
+  // * Creates a new Climber.
+  // *
   public Climber() {
     climberMotorRight = new CANSparkMax(Constants.CLIMBER_MOTOR_RIGHT, MotorType.kBrushless);
     climberMotorLeft = new CANSparkMax(Constants.CLIMBER_MOTOR_LEFT, MotorType.kBrushless);
-    solenoid = new Solenoid(Constants.CLIMBER_SOLENOID);
+    retractSolenoid = new Solenoid(Constants.CLIMBER_RETRACT_SOLENOID);
+    releaseSolenoid = new Solenoid(Constants.CLIMBER_RELEASE_SOLENOID);
     climberMotorLeft.setInverted(true);
     climberMotorRight.setInverted(true);
   }
 
   public void release(){
-    solenoid.set(true);
+    releaseSolenoid.set(true);
   }
 
   public void engage(){
-    solenoid.set(false);
+    retractSolenoid.set(false);
     climberExtended = true;
+  }
+
+  public void disengage(){
+    retractSolenoid.set(true);
   }
 
   public void pullUp(){
