@@ -7,12 +7,13 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.LockOnToTarget;
 import frc.robot.subsystems.Drive2019;
 import frc.robot.subsystems.Vision;
@@ -105,14 +106,19 @@ public class RobotContainer {
    */
 
   private void configureButtonBindings() {
-    // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    // driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+    // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
+    // -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
+    // driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () ->
+    // getDriverLeftYAxis(), () -> getDriverRightXAxis(),
+    // Constants.LOW_POWER_DRIVE));
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
     // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
     // Constants.ROTATION_COUNTS_NEEDED, operatorController));
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
     // -> getDriverRightXAxis()));
-    //operatorControllerLeftBumper.toggleWhenPressed(new StopCompressor(pneumatics));
+    // operatorControllerLeftBumper.toggleWhenPressed(new
+    // StopCompressor(pneumatics));
+    drive.setDefaultCommand(new LockOnToTarget(drive, this::getDriverLeftYAxis, vision));
   }
 
   /**
@@ -121,6 +127,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new LockOnToTarget(drive, () -> getDriverLeftYAxis(), vision);
+    return null;
   }
 }

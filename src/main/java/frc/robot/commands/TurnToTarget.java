@@ -34,7 +34,7 @@ public class TurnToTarget extends PIDCommand {
           drive.setLeftMotors(-output);
           // Use the output here
         });
-        
+
     addRequirements(drive);
     getController().enableContinuousInput(-180, 180);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -46,6 +46,6 @@ public class TurnToTarget extends PIDCommand {
   @Override
   public boolean isFinished() {
     boolean atSetpoint = getController().atSetpoint();
-    return atSetpoint;    
+    return atSetpoint;
   }
 }
