@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -20,7 +20,7 @@ public class TurnToTarget extends PIDCommand {
   /**
    * Creates a new TurnToAngle
    */
-  public TurnToTarget(Drive2019 drive, Vision vision) {
+  public TurnToTarget(DriveBase drive, Vision vision) {
     super(
         // The controller that the command will use
         new PIDController(0.01111, 0, 0),
