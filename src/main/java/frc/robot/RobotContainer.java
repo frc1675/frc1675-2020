@@ -40,14 +40,10 @@ public class RobotContainer {
       Constants.RIGHT_BUMPER);
   private final JoystickButton driverControllerRightBumper = new JoystickButton(driverController,
       Constants.RIGHT_BUMPER);
-  private final JoystickButton operatorControllerYButton = new JoystickButton(operatorController,
-      Constants.Y_BUTTON);
-  private final JoystickButton operatorControllerBButton = new JoystickButton(operatorController,
-      Constants.B_BUTTON);
-  private final JoystickButton operatorControllerXButton = new JoystickButton(operatorController,
-      Constants.X_BUTTON);
-  private final JoystickButton operatorControllerAButton = new JoystickButton(operatorController,
-      Constants.A_BUTTON);
+  private final JoystickButton operatorControllerYButton = new JoystickButton(operatorController, Constants.Y_BUTTON);
+  private final JoystickButton operatorControllerBButton = new JoystickButton(operatorController, Constants.B_BUTTON);
+  private final JoystickButton operatorControllerXButton = new JoystickButton(operatorController, Constants.X_BUTTON);
+  private final JoystickButton operatorControllerAButton = new JoystickButton(operatorController, Constants.A_BUTTON);
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // private ColorWheel colorWheel = new ColorWheel();
   private Climber climber = new Climber();
@@ -120,14 +116,17 @@ public class RobotContainer {
    */
 
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+    drive.setDefaultCommand(
+        new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
+    driverControllerRightBumper.toggleWhenPressed(
+        new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
     // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
     // Constants.ROTATION_COUNTS_NEEDED, operatorController));
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
     // -> getDriverRightXAxis()));
-    //operatorControllerLeftBumper.toggleWhenPressed(new StopCompressor(pneumatics));
+    // operatorControllerLeftBumper.toggleWhenPressed(new
+    // StopCompressor(pneumatics));
 
     operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
         .whenActive(new ExtendClimberSequence(climber));
@@ -143,7 +142,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return new DriveForward(drive).withTimeout(1);
+    // return new DriveForward(drive).withTimeout(1);
     return null;
   }
 }

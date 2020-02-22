@@ -10,7 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -19,7 +19,7 @@ public class TurnToTargetSequence extends SequentialCommandGroup {
   /**
    * Creates a new TurnToTargetSequence.
    */
-  public TurnToTargetSequence(Drive2019 drive, Vision vision) {
+  public TurnToTargetSequence(DriveBase drive, Vision vision) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(

@@ -9,19 +9,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToTarget extends PIDCommand {
-  private Vision vision;
 
   /**
    * Creates a new TurnToAngle
    */
-  public TurnToTarget(Drive2019 drive, Vision vision) {
+  public TurnToTarget(DriveBase drive, Vision vision) {
     super(
         // The controller that the command will use
         new PIDController(0.01111, 0, 0),
@@ -33,10 +32,9 @@ public class TurnToTarget extends PIDCommand {
         output -> {
           drive.setRightMotors(output);
           drive.setLeftMotors(-output);
-          System.out.println("Value = " + output);
           // Use the output here
         });
-    this.vision = vision;
+
     addRequirements(drive);
     getController().enableContinuousInput(-180, 180);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -48,6 +46,6 @@ public class TurnToTarget extends PIDCommand {
   @Override
   public boolean isFinished() {
     boolean atSetpoint = getController().atSetpoint();
-    return atSetpoint;    
+    return atSetpoint;
   }
 }

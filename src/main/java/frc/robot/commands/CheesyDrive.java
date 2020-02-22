@@ -17,14 +17,15 @@ public class CheesyDrive extends CommandBase {
   private DoubleSupplier forwardValue;
   private DoubleSupplier turnValue;
   private double scalingPower;
-  
-//  public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue, DoubleSupplier turnValue, double ScalingPower) {
-//     this.driveBase = drive;
-//     this.forwardValue = forwardValue;
-//     this.turnValue = turnValue;
-//     this.scalingPower = ScalingPower;
-//     addRequirements(this.driveBase);
-//   }
+
+  // public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue,
+  // DoubleSupplier turnValue, double ScalingPower) {
+  // this.driveBase = drive;
+  // this.forwardValue = forwardValue;
+  // this.turnValue = turnValue;
+  // this.scalingPower = ScalingPower;
+  // addRequirements(this.driveBase);
+  // }
 
   public CheesyDrive(DriveBase driveBase, DoubleSupplier forwardValue, DoubleSupplier turnValue, double scalingPower) {
     this.driveBase = driveBase;
@@ -37,7 +38,7 @@ public class CheesyDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
