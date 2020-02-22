@@ -49,30 +49,37 @@ public class DriveBase extends SubsystemBase {
     driveBaseTab.addNumber("Angle", () -> getAngle());
     driveBaseTab.addNumber("Heading", () -> getHeading());
     driveBaseTab.addNumber("Position", () -> getPosition());
+    driveBaseTab.addNumber("Right Front Output Current", () -> rightFront.getOutputCurrent());
+    driveBaseTab.addNumber("Left Front Output Current", () -> leftFront.getOutputCurrent());
+    driveBaseTab.addNumber("Right Back Output Current", () -> rightBack.getOutputCurrent());
+    driveBaseTab.addNumber("Left Back Output Current", () -> leftBack.getOutputCurrent());
+
   }
 
   public void setRightMotors(double power) {
-    rightFront.set(power);
-    rightBack.set(power);
+    rightFront.set(-power);
+    rightBack.set(-power);
   }
 
   public void setLeftMotors(double power) {
-    leftFront.set(-power);
-    leftBack.set(-power);
+    leftFront.set(power);
+    leftBack.set(power);
   }
 
-   public double getPosition(){
-   double leftEncoderValue = leftAlternateEncoder.getPosition();
-   double rightEncoderValue = rightAlternateEncoder.getPosition();
-   double averagePosition = (rightEncoderValue + leftEncoderValue)/2;
+  public double getPosition() {
+    double leftEncoderValue = leftAlternateEncoder.getPosition();
+    double rightEncoderValue = rightAlternateEncoder.getPosition();
+    double averagePosition = (rightEncoderValue + leftEncoderValue) / 2;
+    // SmartDashboard.putNumber("LeftEncoder", leftEncoderValue);
+    // SmartDashboard.putNumber("RightEncoder", rightEncoderValue);
 
-   return averagePosition;
-   }
+    return averagePosition;
+  }
 
-   public void resetPosition(){
+  public void resetPosition() {
     leftAlternateEncoder.setPosition(0);
     rightAlternateEncoder.setPosition(0);
-   }
+  }
 
   @Override
   public void periodic() {

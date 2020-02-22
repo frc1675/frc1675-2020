@@ -54,10 +54,12 @@ public final class Constants {
     public static final double MOTOR_DEADZONE = 0.1675;
 
     // Climber Motor Constants
-    public static final double CLIMBER_POWER = 0.5;
-    public static final int CLIMBER_MOTOR1 = 1;
-    public static final int CLIMBER_MOTOR2 = 2;
+    public static final double CLIMBER_POWER = 0.4;
+    public static final int CLIMBER_MOTOR_RIGHT = 3;
+    public static final int CLIMBER_MOTOR_LEFT = 5;
     public static final int CLIMBER_SOLENOID = 0;
+
+    public static final double CLIMBER_EXTEND_TIME = 2;
 
     // Drive Motor Constants
     public static final int RIGHT_MIDDLE = 3;
@@ -74,12 +76,13 @@ public final class Constants {
 
     //Drive To Distance Constants
     public static final double DRIVE_P = 0.001;
+    public static final double LOW_POWER_DRIVE = 0.5;
+    public static final double HIGH_POWER_DRIVE = 1.0;
 
     //Claw Motor Constants
-    public static final int INTAKE_POWER = 1;
-    public static final int OUTPUT_POWER = -1;
-    public static final int CLAW_TOP_MOTOR = 2;
-    public static final int CLAW_BOTTOM_MOTOR = 2;
+    public static final double INTAKE_POWER = -1;
+    public static final double OUTPUT_POWER = 1;
+    public static final int CLAW_MOTOR = 4;
 
     // Color Wheel Constants
     public static final double COLOR_WHEEL_SPIN_SPEED = 0.5;

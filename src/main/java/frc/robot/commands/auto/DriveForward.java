@@ -7,22 +7,41 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DriveToDistance;
-import frc.robot.subsystems.Drive2019;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveBase;
 
-
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class DriveForward extends SequentialCommandGroup {
-
+public class DriveForward extends CommandBase {
+  DriveBase drive;
   /**
    * Creates a new DriveForward.
    */
-  public DriveForward(Drive2019 drive) {
-    // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());
-    super(new DriveToDistance(drive, 12));
+  public DriveForward(DriveBase drive) {
+    this.drive = drive;
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    drive.setLeftMotors(.25);
+    drive.setRightMotors(.25);
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    drive.setLeftMotors(0);
+    drive.setRightMotors(0);
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
   }
 }

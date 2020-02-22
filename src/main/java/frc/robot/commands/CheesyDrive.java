@@ -10,25 +10,27 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drive2019;
 import frc.robot.subsystems.DriveBase;
 
 public class CheesyDrive extends CommandBase {
   private DriveBase driveBase;
   private DoubleSupplier forwardValue;
   private DoubleSupplier turnValue;
+  private double scalingPower;
   
- // public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue, DoubleSupplier turnValue) {
-  //   this.drive = drive;
-  //   this.forwardValue = forwardValue;
-  //   this.turnValue = turnValue;
-  //   addRequirements(this.drive);
-  // }
+//  public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue, DoubleSupplier turnValue, double ScalingPower) {
+//     this.driveBase = drive;
+//     this.forwardValue = forwardValue;
+//     this.turnValue = turnValue;
+//     this.scalingPower = ScalingPower;
+//     addRequirements(this.driveBase);
+//   }
 
-  public CheesyDrive(DriveBase driveBase, DoubleSupplier forwardValue, DoubleSupplier turnValue) {
+  public CheesyDrive(DriveBase driveBase, DoubleSupplier forwardValue, DoubleSupplier turnValue, double scalingPower) {
     this.driveBase = driveBase;
     this.forwardValue = forwardValue;
     this.turnValue = turnValue;
+    this.scalingPower = scalingPower;
     addRequirements(this.driveBase);
   }
 
@@ -45,8 +47,8 @@ public class CheesyDrive extends CommandBase {
     double forwardPower = forwardValue.getAsDouble();
     double rightPower = (1 * forwardPower + -1 * turnPower);
     double leftPower = (1 * forwardPower + 1 * turnPower);
-    driveBase.setLeftMotors(leftPower);
-    driveBase.setRightMotors(rightPower);
+    driveBase.setLeftMotors(leftPower * scalingPower);
+    driveBase.setRightMotors(rightPower * scalingPower);
   }
 
   // Called once the command ends or is interrupted.
