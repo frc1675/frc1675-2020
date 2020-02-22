@@ -26,7 +26,6 @@ public class Arm extends SubsystemBase {
   private CANEncoder armEncoder;
   private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
   private static final int kCPR = 8192;
-
   /**
    * Creates a new Arm.
    */
@@ -55,6 +54,7 @@ public class Arm extends SubsystemBase {
 
   public double getPosition() {
     double armEncoderValue = armEncoder.getPosition();
+    System.out.println("Arm Position; " + armEncoderValue);
     return armEncoderValue;
   }
 

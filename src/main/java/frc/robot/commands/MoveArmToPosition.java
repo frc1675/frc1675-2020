@@ -26,20 +26,21 @@ public class MoveArmToPosition extends PIDCommand {
   /**
    * Creates a new MoveArmToPosition.
    */
-  public MoveArmToPosition(Arm arm, double armPosition) {
+  public MoveArmToPosition(Arm arm, DoubleSupplier armValue) {
     super(
         // The controller that the command will use
         new PIDController(0.00278, 0, 0),
         // This should return the measurement
         () -> arm.getPosition(),
         // This should return the setpoint (can also be a constant)
-        () -> armPosition,
+        armValue,
         // This uses the output
         output -> {
           // Use the output here
           arm.moveArm(output);
         });
     this.arm = arm;
+    this.armValue = armValue;
     addRequirements(arm);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.

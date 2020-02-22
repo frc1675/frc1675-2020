@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
+import frc.robot.commands.MoveArm;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
 
@@ -36,7 +38,7 @@ public class RobotContainer {
   // Justin because we changed the wheel motor from 4 to 1
   // private ColorWheel colorWheel = new ColorWheel();
 
-  // private Arm arm = new Arm();
+  private Arm arm = new Arm();
   private DriveBase drive = new DriveBase();
   private Vision vision = new Vision();
 
@@ -111,6 +113,7 @@ public class RobotContainer {
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
     // -> getDriverRightXAxis()));
     //operatorControllerLeftBumper.toggleWhenPressed(new StopCompressor(pneumatics));
+    operatorControllerLeftBumper.whenHeld(new MoveArm(arm, () -> getOperatorLeftYAxis()));
   }
 
   /**

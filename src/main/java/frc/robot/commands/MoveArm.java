@@ -35,7 +35,7 @@ public class MoveArm extends CommandBase {
   @Override
   public void execute() {
     double armPower = armValue.getAsDouble();
-    arm.moveArm(armPower);
+    arm.moveArm(armPower / 2);
   }
 
   // Called once the command ends or is interrupted.

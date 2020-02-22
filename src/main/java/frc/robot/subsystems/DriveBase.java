@@ -65,8 +65,6 @@ public class DriveBase extends SubsystemBase {
    double leftEncoderValue = leftAlternateEncoder.getPosition();
    double rightEncoderValue = rightAlternateEncoder.getPosition();
    double averagePosition = (rightEncoderValue + leftEncoderValue)/2;
-   //SmartDashboard.putNumber("LeftEncoder", leftEncoderValue);
-   //SmartDashboard.putNumber("RightEncoder", rightEncoderValue);
 
    return averagePosition;
    }
