@@ -31,6 +31,8 @@ public class Climber extends SubsystemBase {
     releaseSolenoid = new Solenoid(Constants.CLIMBER_RELEASE_SOLENOID);
     climberMotorLeft.setInverted(true);
     climberMotorRight.setInverted(true);
+    retractSolenoid.set(false);
+    releaseSolenoid.set(false);
   }
 
   public void release(){

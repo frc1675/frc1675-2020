@@ -57,9 +57,9 @@ public final class Constants {
     public static final double CLIMBER_POWER = 0.4;
     public static final int CLIMBER_MOTOR_RIGHT = 3;
     public static final int CLIMBER_MOTOR_LEFT = 5;
-    public static final int CLIMBER_RETRACT_SOLENOID = 0;
-    public static final int CLIMBER_RELEASE_SOLENOID = 1;
-    public static final double CLIMBER_RELEASE_DELAY = 0.5;
+    public static final int CLIMBER_RETRACT_SOLENOID = 1; //just got switched
+    public static final int CLIMBER_RELEASE_SOLENOID = 0;
+    public static final double CLIMBER_RELEASE_DELAY = 0.25;
 
     public static final double CLIMBER_EXTEND_TIME = 2;
 
