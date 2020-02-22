@@ -134,7 +134,7 @@ public class RobotContainer {
   //  operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
    //     .whenActive(new ExtendClimberSequence(climber));
     operatorControllerBButton.whenHeld(new PullUpRobot(climber));
-    operatorControllerLeftBumper.whenPressed(new ReleaseClimber(climber));
+    operatorControllerLeftBumper.whenPressed(new ReleaseClimber(climber).withTimeout(Constants.CLIMBER_RELEASE_DELAY));
     operatorControllerRightBumper.whenPressed(new EngageClimber(climber));
 
     operatorControllerXButton.whenHeld(new Intake(claw));
