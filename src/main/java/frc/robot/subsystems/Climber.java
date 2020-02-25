@@ -41,6 +41,7 @@ public class Climber extends SubsystemBase {
 
   public void engage(){
     retractSolenoid.set(false);
+    releaseSolenoid.set(false);
     climberExtended = true;
   }
 

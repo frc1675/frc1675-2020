@@ -35,13 +35,16 @@ public class Arm extends SubsystemBase {
     armMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT, MotorType.kBrushless);
     solenoid = new Solenoid(Constants.ARM_SOLENOID);
 
+    armMotorRight.setInverted(true);
+
     armEncoder = armMotorLeft.getAlternateEncoder(kAltEncType, kCPR);
     armEncoder.setPosition(0);
     armTab.addNumber("Position", () -> getPosition());
   }
 
   public void moveArm(double power) {
-    armMotorLeft.set(power);
+    System.out.println("arm power: "+power);
+    //armMotorLeft.set(power);
     armMotorRight.set(power);
   }
 

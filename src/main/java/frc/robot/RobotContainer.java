@@ -16,8 +16,10 @@ import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.EngageClimber;
 import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
+import frc.robot.commands.MoveArm;
 import frc.robot.commands.Output;
 import frc.robot.commands.PullUpRobot;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveBase;
@@ -51,7 +53,7 @@ public class RobotContainer {
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // private ColorWheel colorWheel = new ColorWheel();
   private Climber climber = new Climber();
-  // private Arm arm = new Arm();
+  private Arm arm = new Arm();
   private DriveBase drive = new DriveBase();
   // private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
@@ -122,6 +124,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
     driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+
+    arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
     // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
     // Constants.ROTATION_COUNTS_NEEDED, operatorController));
