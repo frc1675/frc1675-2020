@@ -132,7 +132,8 @@ public class RobotContainer {
     // Constants.ROTATION_COUNTS_NEEDED, operatorController));
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
     // -> getDriverRightXAxis()));
-    //operatorControllerLeftBumper.toggleWhenPressed(new StopCompressor(pneumatics));
+    // operatorControllerLeftBumper.toggleWhenPressed(new
+    // StopCompressor(pneumatics));
 
   operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
      .whenActive(new ExtendClimberSequence(climber));
@@ -150,7 +151,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return new DriveForward(drive).withTimeout(1);
+    // return new DriveForward(drive).withTimeout(1);
     return null;
   }
 }
