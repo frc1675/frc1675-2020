@@ -81,6 +81,10 @@ public class DriveBase extends SubsystemBase {
     rightAlternateEncoder.setPosition(0);
   }
 
+  public void resetAngle() {
+    navx.reset();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

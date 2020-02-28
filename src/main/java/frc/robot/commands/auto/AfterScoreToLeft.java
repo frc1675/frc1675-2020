@@ -10,7 +10,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.TurnToAngle;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -19,18 +19,18 @@ public class AfterScoreToLeft extends SequentialCommandGroup {
 
 
 
-  private static final double SEGMENT_1 = -12.8;
+  private static final double SEGMENT_1 = -25.8;
 
-  private static final double TURN_1_ANGLE = 47.4;
+  private static final double TURN_1_ANGLE = 46;
 
-  private static final double SEGMENT_2 = -133;
+  private static final double SEGMENT_2 = -110.7;
 
-  private static final double TURN_2_ANGLE = 132.6;
+  private static final double TURN_2_ANGLE = 134;
 
   /**
    * Creates a new MoveToLeft.
    */
-  public AfterScoreToLeft(Drive2019 drive) {
+  public AfterScoreToLeft(DriveBase drive) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(

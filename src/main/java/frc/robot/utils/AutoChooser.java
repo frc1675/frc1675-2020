@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.MoveArmToPosition;
 import frc.robot.commands.auto.AfterScoreToLeft;
 import frc.robot.commands.auto.AfterScoreToMiddle;
 import frc.robot.commands.auto.AfterScoreToRight;
@@ -31,7 +32,9 @@ import frc.robot.commands.auto.StartMiddleToTrench;
 import frc.robot.commands.auto.StartRightToScore;
 import frc.robot.commands.auto.StartRightToShieldGenerator;
 import frc.robot.commands.auto.StartRightToTrench;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.DriveBase;
 
 /**
  * Add your docs here.
@@ -50,7 +53,9 @@ public class AutoChooser {
     private ComplexWidget afterScoringWidget;
     private ComplexWidget gatherBallsWidget;
 
-    private Drive2019 drive;
+    private DriveBase drive;
+    private Arm arm;
+    private Claw claw;
 
     private double waitTime;
 
@@ -75,8 +80,10 @@ public class AutoChooser {
         NOTHING
     }
 
-    public AutoChooser(Drive2019 drive) {
+    public AutoChooser(DriveBase drive, Arm arm, Claw claw) {
         this.drive = drive;
+        this.arm = arm;
+        this.claw = claw;
 
         // make choosers on smartdashboard
         startPositionChooser = new SendableChooser<StartPosition>();
@@ -136,15 +143,15 @@ public class AutoChooser {
 
         switch (selectedStart) {
         case RIGHT_TO_SCORE:
-            auto.addCommands(new StartRightToScore(drive));
+            auto.addCommands(new StartRightToScore(drive, arm, claw));
             break;
 
         case MIDDLE_TO_SCORE:
-            auto.addCommands(new StartMiddleToScore(drive));
+            auto.addCommands(new StartMiddleToScore(drive, arm, claw));
             break;
 
         case LEFT_TO_SCORE:
-            auto.addCommands(new StartLeftToScore(drive));
+            auto.addCommands(new StartLeftToScore(drive, arm, claw));
             break;
 
         case DRIVE_BACKWARD:
@@ -164,7 +171,7 @@ public class AutoChooser {
             auto.addCommands(new AfterScoreToRight(drive));
             switch (gatherBalls) {
             case TRENCH:
-                auto.addCommands(new StartRightToTrench(drive));
+                auto.addCommands(new StartRightToTrench(drive, arm, claw));
                 break;
 
             case SHIELD_GENERATOR:
@@ -185,7 +192,7 @@ public class AutoChooser {
             auto.addCommands(new AfterScoreToMiddle(drive));
             switch (gatherBalls) {
             case TRENCH:
-                auto.addCommands(new StartMiddleToTrench(drive));
+                auto.addCommands(new StartMiddleToTrench(drive, arm, claw));
                 break;
 
             case SHIELD_GENERATOR:
@@ -206,7 +213,7 @@ public class AutoChooser {
             auto.addCommands(new AfterScoreToLeft(drive));
             switch (gatherBalls) {
             case TRENCH:
-                auto.addCommands(new StartLeftToTrench(drive));
+                auto.addCommands(new StartLeftToTrench(drive, arm, claw));
                 break;
 
             case SHIELD_GENERATOR:

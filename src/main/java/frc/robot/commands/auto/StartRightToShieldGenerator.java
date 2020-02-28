@@ -8,7 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -17,7 +17,7 @@ public class StartRightToShieldGenerator extends SequentialCommandGroup {
   /**
    * Creates a new ShieldFromRight.
    */
-  public StartRightToShieldGenerator(Drive2019 drive) {
+  public StartRightToShieldGenerator(DriveBase drive) {
     System.out.println("go to shield generator from right");
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();

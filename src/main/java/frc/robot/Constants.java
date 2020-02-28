@@ -21,6 +21,7 @@ public final class Constants {
     
     // Autonomous Constants
     public static final double TICKS_PER_INCH = 54.3; //not accurate
+    public static final double ROTATIONS_PER_INCH = 0.0531; 
     public static final double DISTANCE_TOLERANCE = 4; //Tolerance in inches
 
     public static final double ANGLE_TOLERANCE = 2; //Tolerance in degrees
@@ -85,6 +86,10 @@ public final class Constants {
     public static final int ARM_MOTOR_LEFT = 6;
     public static final int ARM_MOTOR_RIGHT = 1; // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID.
     public static final int ARM_SOLENOID = 2;
+
+    public static final double INTAKE_POSITION = 0;
+    public static final double SCORE_POSITION = 0.5;
+    public static final double LOADING_POSITION = 1;
 
     //Claw Motor Constants
     public static final double INTAKE_POWER = -1;

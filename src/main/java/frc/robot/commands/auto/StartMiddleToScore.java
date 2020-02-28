@@ -8,23 +8,26 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DriveToDistance;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.Constants;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.DriveBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class StartMiddleToScore extends SequentialCommandGroup {
 
-  private static final double SEGMENT_1 = 101.8;
+  private static final double SEGMENT_1 = 97.8;
   /**
    * Creates a new ScoreFromMiddle.
    */
-  public StartMiddleToScore(Drive2019 drive) {
+  public StartMiddleToScore(DriveBase drive, Arm arm, Claw claw) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new DriveToDistance(drive, SEGMENT_1).withTimeout(3)
+      new PrepareToScore(drive, SEGMENT_1, arm, Constants.SCORE_POSITION).withTimeout(3),
+      new ScoreInAuto(drive, claw).withTimeout(1).withTimeout(1)
     );
   }
 }

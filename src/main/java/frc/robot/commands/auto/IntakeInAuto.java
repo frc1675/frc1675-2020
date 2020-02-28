@@ -7,7 +7,11 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import frc.robot.Constants;
+import frc.robot.commands.DriveToDistance;
+import frc.robot.commands.Intake;
+import frc.robot.commands.MoveArmToPosition;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveBase;
@@ -15,16 +19,16 @@ import frc.robot.subsystems.DriveBase;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class StartRightToTrench extends SequentialCommandGroup {
-  private static final double SEGMENT_1 = 171.5;
+public class IntakeInAuto extends ParallelDeadlineGroup {
   /**
-   * Creates a new TrenchFromRight.
+   * Creates a new IntakeInAuto.
    */
-  public StartRightToTrench(DriveBase drive, Arm arm, Claw claw) {
-    // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();
+  public IntakeInAuto(DriveBase drive, double distance, Arm arm, Claw claw) {
+    // Add your commands in the super() call.  Add the deadline first.
     super(
-      new IntakeInAuto(drive, SEGMENT_1, arm, claw).withTimeout(3)
+        new DriveToDistance(drive, distance),
+        new MoveArmToPosition(arm, Constants.INTAKE_POSITION),
+        new Intake(claw)
     );
   }
 }
