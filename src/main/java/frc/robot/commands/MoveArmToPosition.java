@@ -29,7 +29,7 @@ public class MoveArmToPosition extends PIDCommand {
   public MoveArmToPosition(Arm arm, double armPosition) {
     super(
         // The controller that the command will use
-        new PIDController(0.00278, 0, 0),
+        new PIDController(0.006, 0, 0),
         // This should return the measurement
         () -> arm.getPosition(),
         // This should return the setpoint (can also be a constant)
@@ -38,19 +38,26 @@ public class MoveArmToPosition extends PIDCommand {
         output -> {
           // Use the output here
           arm.moveArm(output);
+          System.out.println("Output " + output);
         });
     this.arm = arm;
     addRequirements(arm);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(1000);
+    getController().setTolerance(5);
   }
 
+  @Override
+  public void initialize(){
+    arm.unlock();
+    m_controller.reset();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     boolean atSetpoint = getController().atSetpoint();
+    System.out.println("At Setpoint? " + atSetpoint);
     if (atSetpoint) {
       arm.lock();
     }

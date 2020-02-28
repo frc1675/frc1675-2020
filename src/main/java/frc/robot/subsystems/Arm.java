@@ -8,10 +8,12 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.AlternateEncoderType;
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -23,7 +25,8 @@ public class Arm extends SubsystemBase {
   private CANSparkMax armMotorLeft;
   private CANSparkMax armMotorRight;
   private Solenoid solenoid;
-  private CANEncoder armEncoder;
+  private DutyCycleEncoder encoder;
+  private Encoder encoder2;
   private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
   private static final int kCPR = 8192;
 
@@ -35,16 +38,23 @@ public class Arm extends SubsystemBase {
     armMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT, MotorType.kBrushless);
     solenoid = new Solenoid(Constants.ARM_SOLENOID);
 
+    encoder = new DutyCycleEncoder(0);
+    encoder2 = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
+
     armMotorRight.setInverted(true);
 
-    armEncoder = armMotorLeft.getAlternateEncoder(kAltEncType, kCPR);
-    armEncoder.setPosition(0);
     armTab.addNumber("Position", () -> getPosition());
+    armTab.addBoolean("Connected?", () -> encoder.isConnected());
+    armTab.addNumber("Frequency", () -> encoder.getFrequency());
+    armTab.addNumber("Encoder2 Distance", () -> encoder2.getDistance());
+    armTab.addNumber("Encoder Rate", () -> encoder2.getRate());
+    encoder.setDistancePerRotation(360);
+
   }
 
   public void moveArm(double power) {
     System.out.println("arm power: "+power);
-    //armMotorLeft.set(power);
+    armMotorLeft.set(power);
     armMotorRight.set(power);
   }
 
@@ -57,12 +67,8 @@ public class Arm extends SubsystemBase {
   }
 
   public double getPosition() {
-    double armEncoderValue = armEncoder.getPosition();
+    double armEncoderValue = encoder.getDistance();
     return armEncoderValue;
-  }
-
-  public void resetPosition() {
-    armEncoder.setPosition(0);
   }
 
   @Override

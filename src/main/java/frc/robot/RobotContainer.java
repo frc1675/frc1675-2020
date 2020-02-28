@@ -17,6 +17,7 @@ import frc.robot.commands.EngageClimber;
 import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
 import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArmToPosition;
 import frc.robot.commands.Output;
 import frc.robot.commands.PullUpRobot;
 import frc.robot.subsystems.Arm;
@@ -40,8 +41,8 @@ public class RobotContainer {
       Constants.LEFT_BUMPER);
   private final JoystickButton operatorControllerRightBumper = new JoystickButton(operatorController,
       Constants.RIGHT_BUMPER);
-  private final JoystickButton driverControllerRightBumper = new JoystickButton(driverController,
-      Constants.RIGHT_BUMPER);
+  //private final JoystickButton driverControllerRightBumper = new JoystickButton(driverController,
+      //Constants.RIGHT_BUMPER);
   private final JoystickButton operatorControllerYButton = new JoystickButton(operatorController,
       Constants.Y_BUTTON);
   private final JoystickButton operatorControllerBButton = new JoystickButton(operatorController,
@@ -123,7 +124,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+    //driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
 
     arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
@@ -133,12 +134,12 @@ public class RobotContainer {
     // -> getDriverRightXAxis()));
     //operatorControllerLeftBumper.toggleWhenPressed(new StopCompressor(pneumatics));
 
-  //  operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
-   //     .whenActive(new ExtendClimberSequence(climber));
+  operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
+     .whenActive(new ExtendClimberSequence(climber));
     operatorControllerBButton.whenHeld(new PullUpRobot(climber));
-    operatorControllerLeftBumper.whenPressed(new ExtendClimberSequence(climber).withTimeout(Constants.CLIMBER_RELEASE_DELAY));
-    operatorControllerRightBumper.whenPressed(new EngageClimber(climber));
-
+    //operatorControllerLeftBumper.whenPressed(new ExtendClimberSequence(climber).withTimeout(Constants.CLIMBER_RELEASE_DELAY));
+    //operatorControllerRightBumper.whenPressed(new EngageClimber(climber));
+    operatorControllerYButton.whenPressed(new MoveArmToPosition(arm, 70));
     operatorControllerXButton.whenHeld(new Intake(claw));
     operatorControllerAButton.whenHeld(new Output(claw));
   }
