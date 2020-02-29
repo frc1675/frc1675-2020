@@ -5,37 +5,38 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.DriveBase;
 
-public class PullUpRobot extends CommandBase {
-  private Climber climber;
+public class DriveForward extends CommandBase {
+  DriveBase drive;
   /**
-   * Creates a new PullUpRobot.
+   * Creates a new DriveForward.
    */
-  public PullUpRobot(Climber climber) {
+  public DriveForward(DriveBase drive) {
+    this.drive = drive;
     // Use addRequirements() here to declare subsystem dependencies.
-    this.climber = climber;
-    addRequirements(this.climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      climber.pullUp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    drive.setLeftMotors(.25);
+    drive.setRightMotors(.25);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber.stop();
+    drive.setLeftMotors(0);
+    drive.setRightMotors(0);
   }
 
   // Returns true when the command should end.

@@ -18,8 +18,12 @@ package frc.robot;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    // OI Constants
+    
+    // Autonomous Constants
+    public static final double TICKS_PER_INCH = 13.6; //not accurate
+    public static final double TOLERANCE = 1;
 
+    // OI Constants
     public static final int DRIVER_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
    
@@ -32,24 +36,30 @@ public final class Constants {
     public static final int RIGHT_X_AXIS = 4;
     public static final int RIGHT_Y_AXIS = 5;
 
-    public static final int A_BUTTON = 0;
-    public static final int B_BUTTON = 1;
-    public static final int X_BUTTON = 2;
-    public static final int Y_BUTTON = 3;
+    public static final int A_BUTTON = 1;
+    public static final int B_BUTTON = 2;
+    public static final int X_BUTTON = 3;
+    public static final int Y_BUTTON = 4;
 
-    public static final int LEFT_BUMPER = 4;
-    public static final int RIGHT_BUMPER = 5;
+    public static final int LEFT_BUMPER = 5;
+    public static final int RIGHT_BUMPER = 6;
 
-    public static final int BACK_BUTTON = 6;
-    public static final int START_BUTTON = 7;
+    public static final int BACK_BUTTON = 7;
+    public static final int START_BUTTON = 8;
+
+    // Joystick buttons (clicking them in)
+    public static final int LEFT_JOYSTICK_BUTTON = 9;
+    public static final int RIGHT_JOYSTICK_BUTTON = 10;
 
     public static final double MOTOR_DEADZONE = 0.1675;
 
     // Climber Motor Constants
-    public static final double CLIMBER_POWER = 0.5;
-    public static final int CLIMBER_MOTOR1 = 1;
-    public static final int CLIMBER_MOTOR2 = 2;
+    public static final double CLIMBER_POWER = 0.4;
+    public static final int CLIMBER_MOTOR_RIGHT = 3;
+    public static final int CLIMBER_MOTOR_LEFT = 5;
     public static final int CLIMBER_SOLENOID = 0;
+
+    public static final double CLIMBER_EXTEND_TIME = 2;
 
     // Drive Motor Constants
     public static final int RIGHT_MIDDLE = 3;
@@ -61,18 +71,18 @@ public final class Constants {
 
     // Arm Motor Constants
     public static final int ARM_MOTOR_LEFT = 6;
-    public static final int ARM_MOTOR_RIGHT = 1;
+    public static final int ARM_MOTOR_RIGHT = 1; // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID.
     public static final int ARM_SOLENOID = 2;
-     // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID. 
 
     //Drive To Distance Constants
     public static final double DRIVE_P = 0.001;
+    public static final double LOW_POWER_DRIVE = 0.5;
+    public static final double HIGH_POWER_DRIVE = 1.0;
 
     //Claw Motor Constants
-    public static final int INTAKE_POWER = 1;
-    public static final int OUTPUT_POWER = -1;
-    public static final int CLAW_TOP_MOTOR = 2;
-    public static final int CLAW_BOTTOM_MOTOR = 2;
+    public static final double INTAKE_POWER = -1;
+    public static final double OUTPUT_POWER = 1;
+    public static final int CLAW_MOTOR = 4;
 
     // Color Wheel Constants
     public static final double COLOR_WHEEL_SPIN_SPEED = 0.5;

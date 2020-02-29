@@ -7,49 +7,65 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.Constants;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class DriveToDistance extends PIDCommand {
-    private Drive2019 drive;
+public class LockOnToTarget extends PIDCommand {
+  private Vision vision;
+  private DriveBase driveBase;
+
   /**
-   * Creates a new DriveToDistance.
+   * Creates a new LockOnToTarget.
    */
-  public DriveToDistance(Drive2019 drive, double inches) {
+  public LockOnToTarget(DriveBase drive, DoubleSupplier forwardValue, Vision vision) {
     super(
         // The controller that the command will use
-        new PIDController(Constants.DRIVE_P, 0, 0),
+        new PIDController(0.01111, 0, 0),
         // This should return the measurement
-        () -> drive.getPosition(),
+        vision::getXOffSet,
         // This should return the setpoint (can also be a constant)
-        () -> inches * Constants.TICKS_PER_INCH,
+        0,
         // This uses the output
-        output -> {
+        turnPower -> {
+          double forwardPower = forwardValue.getAsDouble() * 0.5;
+          double rightPower = (1 * forwardPower + 1 * turnPower);
+          double leftPower = (1 * forwardPower + -1 * turnPower);
+          drive.setLeftMotors(leftPower);
+          drive.setRightMotors(rightPower);
           // Use the output here
-          drive.setRightMotors(output);
-          drive.setLeftMotors(output);
         });
+    this.vision = vision;
+    addRequirements(drive);
+    getController().enableContinuousInput(-180, 180);
     // Use addRequirements() here to declare subsystem dependencies.
-    this.drive = drive;
-    addRequirements(this.drive);
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(10);
   }
 
   @Override
   public void initialize() {
-    drive.resetPosition();
     m_controller.reset();
+    vision.setPipeline(Vision.Pipeline.LIGHT_ON);
   }
-  
-    // Returns true when the command should end.
+
+  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    return false;
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    m_useOutput.accept(0);
+    vision.setPipeline(Vision.Pipeline.LIGHT_OFF);
+    driveBase.setRightMotors(0);
+    driveBase.setLeftMotors(0);
   }
 }
