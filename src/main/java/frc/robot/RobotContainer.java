@@ -13,11 +13,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
-import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
 import frc.robot.commands.Output;
 import frc.robot.commands.PullUpRobot;
-import frc.robot.commands.auto.DriveForward;
+import frc.robot.commands.ThrottleClawArm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveBase;
@@ -131,7 +130,7 @@ public class RobotContainer {
     //operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
     //    .whenActive(new ExtendClimberSequence(climber));
     operatorControllerBButton.whenHeld(new PullUpRobot(climber));
-    op
+    operatorControllerYButton.whenHeld(new ThrottleClawArm(claw));
     operatorControllerXButton.whenHeld(new Intake(claw));
     operatorControllerAButton.whenHeld(new Output(claw));
   }
