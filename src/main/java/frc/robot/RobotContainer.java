@@ -128,10 +128,10 @@ public class RobotContainer {
     // operatorControllerLeftBumper.toggleWhenPressed(new
     // StopCompressor(pneumatics));
 
-    operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
-        .whenActive(new ExtendClimberSequence(climber));
+    //operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
+    //    .whenActive(new ExtendClimberSequence(climber));
     operatorControllerBButton.whenHeld(new PullUpRobot(climber));
-
+    op
     operatorControllerXButton.whenHeld(new Intake(claw));
     operatorControllerAButton.whenHeld(new Output(claw));
   }
