@@ -13,11 +13,14 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
+import frc.robot.commands.EngageClimber;
 import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
+import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArmToPosition;
 import frc.robot.commands.Output;
 import frc.robot.commands.PullUpRobot;
-import frc.robot.commands.auto.DriveForward;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveBase;
@@ -40,14 +43,18 @@ public class RobotContainer {
       Constants.RIGHT_BUMPER);
   private final JoystickButton driverControllerRightBumper = new JoystickButton(driverController,
       Constants.RIGHT_BUMPER);
-  private final JoystickButton operatorControllerYButton = new JoystickButton(operatorController, Constants.Y_BUTTON);
-  private final JoystickButton operatorControllerBButton = new JoystickButton(operatorController, Constants.B_BUTTON);
-  private final JoystickButton operatorControllerXButton = new JoystickButton(operatorController, Constants.X_BUTTON);
-  private final JoystickButton operatorControllerAButton = new JoystickButton(operatorController, Constants.A_BUTTON);
+  private final JoystickButton operatorControllerYButton = new JoystickButton(operatorController,
+      Constants.Y_BUTTON);
+  private final JoystickButton operatorControllerBButton = new JoystickButton(operatorController,
+      Constants.B_BUTTON);
+  private final JoystickButton operatorControllerXButton = new JoystickButton(operatorController,
+      Constants.X_BUTTON);
+  private final JoystickButton operatorControllerAButton = new JoystickButton(operatorController,
+      Constants.A_BUTTON);
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // private ColorWheel colorWheel = new ColorWheel();
   private Climber climber = new Climber();
-  // private Arm arm = new Arm();
+  private Arm arm = new Arm();
   private DriveBase drive = new DriveBase();
   // private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
@@ -116,10 +123,10 @@ public class RobotContainer {
    */
 
   private void configureButtonBindings() {
-    drive.setDefaultCommand(
-        new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    driverControllerRightBumper.toggleWhenPressed(
-        new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
+    driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+
+    arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
     // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
     // Constants.ROTATION_COUNTS_NEEDED, operatorController));
@@ -128,10 +135,12 @@ public class RobotContainer {
     // operatorControllerLeftBumper.toggleWhenPressed(new
     // StopCompressor(pneumatics));
 
-    operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
-        .whenActive(new ExtendClimberSequence(climber));
+  operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
+     .whenActive(new ExtendClimberSequence(climber));
     operatorControllerBButton.whenHeld(new PullUpRobot(climber));
-
+    //operatorControllerLeftBumper.whenPressed(new ExtendClimberSequence(climber).withTimeout(Constants.CLIMBER_RELEASE_DELAY));
+    //operatorControllerRightBumper.whenPressed(new EngageClimber(climber));
+    operatorControllerYButton.whenPressed(new MoveArmToPosition(arm, 70));
     operatorControllerXButton.whenHeld(new Intake(claw));
     operatorControllerAButton.whenHeld(new Output(claw));
   }
