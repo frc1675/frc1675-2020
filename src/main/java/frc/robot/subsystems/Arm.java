@@ -12,6 +12,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -23,7 +24,7 @@ public class Arm extends SubsystemBase {
   private CANSparkMax armMotorLeft;
   private CANSparkMax armMotorRight;
   private Solenoid solenoid;
-  private CANEncoder armEncoder;
+  private DutyCycleEncoder encoder;
   private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
   private static final int kCPR = 8192;
   /**
@@ -34,9 +35,9 @@ public class Arm extends SubsystemBase {
     armMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT, MotorType.kBrushless);
     solenoid = new Solenoid(Constants.ARM_SOLENOID);
 
-    armEncoder = armMotorLeft.getAlternateEncoder(kAltEncType, kCPR);
-    armEncoder.setPosition(0);
+    encoder = new DutyCycleEncoder(0);
     armTab.addNumber("Position", () -> getPosition());
+    encoder.setDistancePerRotation(1);
   }
 
   public void moveArm(double power) {
@@ -53,13 +54,9 @@ public class Arm extends SubsystemBase {
   }
 
   public double getPosition() {
-    double armEncoderValue = armEncoder.getPosition();
+    double armEncoderValue = encoder.getDistance();
     System.out.println("Arm Position; " + armEncoderValue);
     return armEncoderValue;
-  }
-
-  public void resetPosition() {
-    armEncoder.setPosition(0);
   }
 
   @Override
