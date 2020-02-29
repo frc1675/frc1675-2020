@@ -35,11 +35,10 @@ public class ThrottleClawArm extends CommandBase {
     timer = timer + 1;
     if (timer <= Constants.THROTTLE_TIMER) {
       claw.intake();
-    } else if (timer <= Constants.THROTTLE_TIMER*2) {
+    } else if (timer <= Constants.THROTTLE_TIMER * 2) {
       claw.output();
     } else {
       timer = 0;
-    }
     }
   }
 

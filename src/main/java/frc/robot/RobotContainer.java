@@ -13,21 +13,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CheesyDrive;
-<<<<<<< HEAD
-=======
-import frc.robot.commands.EngageClimber;
-import frc.robot.commands.ExtendClimberSequence;
->>>>>>> origin/master
 import frc.robot.commands.Intake;
 import frc.robot.commands.MoveArm;
-import frc.robot.commands.MoveArmToPosition;
 import frc.robot.commands.Output;
 import frc.robot.commands.PullUpRobot;
-<<<<<<< HEAD
 import frc.robot.commands.ThrottleClawArm;
-=======
 import frc.robot.subsystems.Arm;
->>>>>>> origin/master
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveBase;

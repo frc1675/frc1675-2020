@@ -93,6 +93,6 @@ public final class Constants {
     public static final double COLOR_WHEEL_SPIN_SPEED = 0.5;
     public static final double REVERSE_COLOR_WHEEL_SPIN_SPEED = -0.5;
     public static final int ROTATION_COUNTS_NEEDED = 26;
-    public static final int THROTTLE_TIMER = 20;
+    public static final int THROTTLE_TIMER = 5;
     public static final int WHEEL_MOTOR = 1;
 }   // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID. 
