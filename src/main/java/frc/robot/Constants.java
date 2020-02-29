@@ -66,16 +66,18 @@ public final class Constants {
     // Drive Motor Constants
     public static final int RIGHT_MIDDLE = 3;
     public static final int LEFT_MIDDLE = 5;
-    public static final int RIGHT_BACK = 3;//was 8
-    public static final int LEFT_BACK = 2;//was 6
-    public static final int RIGHT_FRONT = 4;//was 4
-    public static final int LEFT_FRONT = 1;//was 7
+    public static final int RIGHT_BACK = 3;
+    public static final int LEFT_BACK = 2;
+    public static final int RIGHT_FRONT = 4;
+    public static final int LEFT_FRONT = 1;
 
     // Arm Motor Constants
     public static final int ARM_MOTOR_LEFT = 7;
-    public static final int ARM_MOTOR_RIGHT = 8; // For ARM_MOTOR_RIGHT the 1 is just a placehold until we can find the motor ID.
+    public static final int ARM_MOTOR_RIGHT = 8;
     public static final int ARM_SOLENOID = 2;
     public static final double ARM_POWER = 0.1;
+    public static final double ARM_TOLERANCE = 5;
+    public static final double ARM_P = .006;
 
     //Drive To Distance Constants
     public static final double DRIVE_P = 0.001;

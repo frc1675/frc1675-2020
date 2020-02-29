@@ -41,8 +41,8 @@ public class RobotContainer {
       Constants.LEFT_BUMPER);
   private final JoystickButton operatorControllerRightBumper = new JoystickButton(operatorController,
       Constants.RIGHT_BUMPER);
-  //private final JoystickButton driverControllerRightBumper = new JoystickButton(driverController,
-      //Constants.RIGHT_BUMPER);
+  private final JoystickButton driverControllerRightBumper = new JoystickButton(driverController,
+      Constants.RIGHT_BUMPER);
   private final JoystickButton operatorControllerYButton = new JoystickButton(operatorController,
       Constants.Y_BUTTON);
   private final JoystickButton operatorControllerBButton = new JoystickButton(operatorController,
@@ -124,7 +124,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    //driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+    driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
 
     arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));

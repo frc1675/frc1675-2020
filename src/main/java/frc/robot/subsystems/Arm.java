@@ -26,7 +26,6 @@ public class Arm extends SubsystemBase {
   private CANSparkMax armMotorRight;
   private Solenoid solenoid;
   private DutyCycleEncoder encoder;
-  private Encoder encoder2;
   private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
   private static final int kCPR = 8192;
 
@@ -39,21 +38,17 @@ public class Arm extends SubsystemBase {
     solenoid = new Solenoid(Constants.ARM_SOLENOID);
 
     encoder = new DutyCycleEncoder(0);
-    encoder2 = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
 
     armMotorRight.setInverted(true);
 
     armTab.addNumber("Position", () -> getPosition());
     armTab.addBoolean("Connected?", () -> encoder.isConnected());
     armTab.addNumber("Frequency", () -> encoder.getFrequency());
-    armTab.addNumber("Encoder2 Distance", () -> encoder2.getDistance());
-    armTab.addNumber("Encoder Rate", () -> encoder2.getRate());
     encoder.setDistancePerRotation(360);
 
   }
 
   public void moveArm(double power) {
-    System.out.println("arm power: "+power);
     armMotorLeft.set(power);
     armMotorRight.set(power);
   }
