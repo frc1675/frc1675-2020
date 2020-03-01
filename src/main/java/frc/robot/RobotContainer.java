@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.EngageClimber;
 import frc.robot.commands.ExtendClimberSequence;
@@ -51,6 +52,12 @@ public class RobotContainer {
       Constants.X_BUTTON);
   private final JoystickButton operatorControllerAButton = new JoystickButton(operatorController,
       Constants.A_BUTTON);
+  private final POVButton operatorControllerDPadUp = new POVButton(operatorController, 0);
+  private final POVButton operatorControllerDPadLeft = new POVButton(operatorController, 270);
+  private final POVButton operatorControllerDPadDown = new POVButton(operatorController, 180);
+  private final POVButton operatorControllerDPadRight = new POVButton(operatorController, 90);
+  
+
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // private ColorWheel colorWheel = new ColorWheel();
   private Climber climber = new Climber();
@@ -124,9 +131,8 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+    driverControllerRightBumper.whileHeld(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
 
-    arm.setDefaultCommand(new MoveArm(arm, () -> getOperatorLeftYAxis()));
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
     // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
     // Constants.ROTATION_COUNTS_NEEDED, operatorController));
@@ -135,14 +141,17 @@ public class RobotContainer {
     // operatorControllerLeftBumper.toggleWhenPressed(new
     // StopCompressor(pneumatics));
 
-  operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
+    operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
      .whenActive(new ExtendClimberSequence(climber));
-    operatorControllerBButton.whenHeld(new PullUpRobot(climber));
+    operatorControllerXButton.whenHeld(new PullUpRobot(climber));
     //operatorControllerLeftBumper.whenPressed(new ExtendClimberSequence(climber).withTimeout(Constants.CLIMBER_RELEASE_DELAY));
     //operatorControllerRightBumper.whenPressed(new EngageClimber(climber));
-    operatorControllerYButton.whenPressed(new MoveArmToPosition(arm, 70));
-    operatorControllerXButton.whenHeld(new Intake(claw));
-    operatorControllerAButton.whenHeld(new Output(claw));
+    operatorControllerDPadRight.whenPressed(new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
+    operatorControllerDPadUp.whenPressed(new MoveArmToPosition(arm, Constants.ARM_LOAD_POSITION, false));
+    operatorControllerDPadDown.whenPressed(new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
+    //operatorControllerDPadLeft.whenPressed(new MoveArm(arm, () -> getOperatorRightYAxis()));
+    operatorControllerAButton.whenHeld(new Intake(claw));
+    operatorControllerBButton.whenHeld(new Output(claw));
   }
 
   /**
