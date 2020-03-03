@@ -78,7 +78,9 @@ public final class Constants {
     public static final double ARM_POWER = 0.1;
     public static final double ARM_TOLERANCE = 5;
     public static final double ARM_P = .006;
-
+    public static final double ARM_SCORE_POSITION = 110;
+    public static final double ARM_LOAD_POSITION = 125;
+    public static final double ARM_HOME_POSITION = 42; 
     //Drive To Distance Constants
     public static final double DRIVE_P = 0.001;
     public static final double LOW_POWER_DRIVE = 0.5;

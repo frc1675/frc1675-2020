@@ -23,11 +23,12 @@ import frc.robot.subsystems.Arm;
 public class MoveArmToPosition extends PIDCommand {
   private DoubleSupplier armValue;
   private Arm arm;
+  private boolean canBeFinished = false;
 
   /**
    * Creates a new MoveArmToPosition.
    */
-  public MoveArmToPosition(Arm arm, double armPosition) {
+  public MoveArmToPosition(Arm arm, double armPosition, boolean canBeFinished) {
     super(
         // The controller that the command will use
         new PIDController(Constants.ARM_P, 0, 0),
@@ -46,6 +47,7 @@ public class MoveArmToPosition extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(Constants.ARM_TOLERANCE);
+    this.canBeFinished = canBeFinished;
   }
 
   @Override
@@ -62,8 +64,11 @@ public class MoveArmToPosition extends PIDCommand {
     if (atSetpoint) {
       arm.lock();
     }
+    if (canBeFinished == true && atSetpoint == true) {
+      return true;
+    }
     
-    return atSetpoint;
+    return false;
 
   }
 
