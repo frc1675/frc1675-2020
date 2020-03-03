@@ -25,8 +25,8 @@ public class ScoreInAuto extends ParallelCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(
-      new DriveSlowly(drive),
-      new Output(claw)
+      new DriveSlowly(drive)
+      //new Output(claw)
     );
   }
 }

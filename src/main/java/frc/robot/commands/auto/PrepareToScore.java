@@ -22,6 +22,9 @@ public class PrepareToScore extends ParallelCommandGroup {
    */
   public PrepareToScore(DriveBase drive, double distance, Arm arm, double armPosition) {
     // Add your commands in the super() call, e.g.
-    super(new DriveToDistance(drive, distance), new MoveArmToPosition(arm, armPosition));
+    super(
+      new DriveToDistance(drive, distance)
+      //new MoveArmToPosition(arm, armPosition)
+    );
   }
 }

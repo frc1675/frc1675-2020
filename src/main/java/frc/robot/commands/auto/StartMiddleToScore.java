@@ -9,6 +9,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.commands.DriveToDistance;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveBase;
@@ -26,8 +27,9 @@ public class StartMiddleToScore extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new PrepareToScore(drive, SEGMENT_1, arm, Constants.SCORE_POSITION).withTimeout(3),
-      new ScoreInAuto(drive, claw).withTimeout(1).withTimeout(1)
+      new DriveToDistance(drive, SEGMENT_1)
+      //new PrepareToScore(drive, SEGMENT_1, arm, Constants.SCORE_POSITION).withTimeout(3)
+      //new ScoreInAuto(drive, claw).withTimeout(1)
     );
   }
 }

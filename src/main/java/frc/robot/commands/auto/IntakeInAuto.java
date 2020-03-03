@@ -26,9 +26,9 @@ public class IntakeInAuto extends ParallelDeadlineGroup {
   public IntakeInAuto(DriveBase drive, double distance, Arm arm, Claw claw) {
     // Add your commands in the super() call.  Add the deadline first.
     super(
-        new DriveToDistance(drive, distance),
-        new MoveArmToPosition(arm, Constants.INTAKE_POSITION),
-        new Intake(claw)
+      new DriveToDistance(drive, distance)
+      //new MoveArmToPosition(arm, Constants.INTAKE_POSITION),
+      //new Intake(claw)
     );
   }
 }
