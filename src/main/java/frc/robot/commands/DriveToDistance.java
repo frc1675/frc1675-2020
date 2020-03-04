@@ -28,18 +28,28 @@ public class DriveToDistance extends PIDCommand {
         // This should return the measurement
         () -> drive.getPosition(),
         // This should return the setpoint (can also be a constant)
-        () -> inches * Constants.TICKS_PER_INCH,
+        () -> inches * Constants.ROTATIONS_PER_INCH,
         // This uses the output
         output -> {
           // Use the output here
-          drive.setRightMotors(output);
-          drive.setLeftMotors(output);
+          if(output > 0.5) {
+            drive.setRightMotors(0.5);
+            drive.setLeftMotors(0.5);
+          }
+          else if(output < -0.5) {
+            drive.setRightMotors(-0.5);
+            drive.setLeftMotors(-0.5);
+          }
+          else {
+            drive.setRightMotors(output);
+            drive.setLeftMotors(output);
+          }
         });
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     addRequirements(this.drive);
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(Constants.DISTANCE_TOLERANCE * Constants.TICKS_PER_INCH);
+    getController().setTolerance(Constants.DISTANCE_TOLERANCE * Constants.ROTATIONS_PER_INCH);
   }
 
   @Override

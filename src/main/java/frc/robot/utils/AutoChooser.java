@@ -31,7 +31,7 @@ import frc.robot.commands.auto.StartMiddleToTrench;
 import frc.robot.commands.auto.StartRightToScore;
 import frc.robot.commands.auto.StartRightToShieldGenerator;
 import frc.robot.commands.auto.StartRightToTrench;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 
 /**
  * Add your docs here.
@@ -50,7 +50,7 @@ public class AutoChooser {
     private ComplexWidget afterScoringWidget;
     private ComplexWidget gatherBallsWidget;
 
-    private Drive2019 drive;
+    private DriveBase drive;
 
     private double waitTime;
 
@@ -75,7 +75,7 @@ public class AutoChooser {
         NOTHING
     }
 
-    public AutoChooser(Drive2019 drive) {
+    public AutoChooser(DriveBase drive) {
         this.drive = drive;
 
         // make choosers on smartdashboard

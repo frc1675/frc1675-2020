@@ -20,20 +20,21 @@ package frc.robot;
 public final class Constants {
     
     // Autonomous Constants
-    public static final double TICKS_PER_INCH = 54.3; //not accurate
+    public static final double TICKS_PER_INCH = 54.3;
+    public static final double ROTATIONS_PER_INCH = 0.05305;
     public static final double DISTANCE_TOLERANCE = 4; //Tolerance in inches
 
     public static final double ANGLE_TOLERANCE = 2; //Tolerance in degrees
 
     //Drive To Distance Constants
-    public static final double DRIVE_P = 0.0003;
-    public static final double DRIVE_D = 0.00003;
+    public static final double DRIVE_P = 0.2;
+    public static final double DRIVE_D = 0.01;
     public static final double LOW_POWER_DRIVE = 0.5;
     public static final double HIGH_POWER_DRIVE = 1.0;
 
     //Turn to Angle constants
     public static final double ANGLE_P = 0.02; 
-    public static final double ANGLE_D = 0.003; 
+    public static final double ANGLE_D = 0.002; 
 
     // OI Constants
     public static final int DRIVER_CONTROLLER = 0;

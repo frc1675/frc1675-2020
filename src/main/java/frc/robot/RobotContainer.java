@@ -14,15 +14,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.CheesyDrive;
+import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
-import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArmToPosition;
 import frc.robot.commands.Output;
 import frc.robot.commands.PullUpRobot;
-import frc.robot.commands.ThrottleClawArm;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
 import frc.robot.utils.AutoChooser;
 
