@@ -8,40 +8,49 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
+import frc.robot.Constants;
+import frc.robot.subsystems.Claw;
 
-public class ReleaseClimber extends CommandBase {
-  private Climber climber;
+public class ThrottleClawArm extends CommandBase {
+  private Claw claw;
+  private int timer = 0;
+
   /**
-   * Creates a new ExtendedClimber.
+   * Creates a new ThrottleClawArm.
    */
-  public ReleaseClimber(Climber climber) {
+  public ThrottleClawArm(Claw claw) {
+    this.claw = claw;
+    addRequirements(this.claw);
     // Use addRequirements() here to declare subsystem dependencies.
-    this.climber = climber;
-    addRequirements(this.climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber.disengage();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    timer = timer + 1;
+    if (timer <= Constants.THROTTLE_TIMER) {
+      claw.intake();
+    } else if (timer <= Constants.THROTTLE_TIMER * 2) {
+      claw.output();
+    } else {
+      timer = 0;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-     climber.release();
-
+    claw.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

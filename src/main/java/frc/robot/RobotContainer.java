@@ -12,11 +12,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.CheesyDrive;
-import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
+import frc.robot.commands.MoveArm;
 import frc.robot.commands.Output;
 import frc.robot.commands.PullUpRobot;
+import frc.robot.commands.ThrottleClawArm;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive2019;
@@ -48,12 +51,18 @@ public class RobotContainer {
       Constants.X_BUTTON);
   private final JoystickButton operatorControllerAButton = new JoystickButton(operatorController,
       Constants.A_BUTTON);
+  private final POVButton operatorControllerDPadUp = new POVButton(operatorController, 0);
+  private final POVButton operatorControllerDPadLeft = new POVButton(operatorController, 270);
+  private final POVButton operatorControllerDPadDown = new POVButton(operatorController, 180);
+  private final POVButton operatorControllerDPadRight = new POVButton(operatorController, 90);
+  
+
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // private ColorWheel colorWheel = new ColorWheel();
-  //private Climber climber = new Climber();
-  // private Arm arm = new Arm();
-  //private DriveBase drive = new DriveBase();
-  private Drive2019 drive = new Drive2019();
+  private Climber climber = new Climber();
+  private Arm arm = new Arm();
+  private DriveBase drive = new DriveBase();
+  // private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
   private Claw claw = new Claw();
 
@@ -121,20 +130,31 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    driverControllerRightBumper.toggleWhenPressed(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+    driverControllerRightBumper.whileHeld(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
     // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
     // Constants.ROTATION_COUNTS_NEEDED, operatorController));
     // drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), ()
     // -> getDriverRightXAxis()));
-    //operatorControllerLeftBumper.toggleWhenPressed(new StopCompressor(pneumatics));
+    // operatorControllerLeftBumper.toggleWhenPressed(new
+    // StopCompressor(pneumatics));
 
-    /*operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
-        .whenActive(new ExtendClimberSequence(climber));
-    operatorControllerBButton.whenHeld(new PullUpRobot(climber));*/
+    //operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
+    //    .whenActive(new ExtendClimberSequence(climber));
 
-    operatorControllerXButton.whenHeld(new Intake(claw));
-    operatorControllerAButton.whenHeld(new Output(claw));
+    operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
+     .whenActive(new ExtendClimberSequence(climber));
+    operatorControllerXButton.whenHeld(new PullUpRobot(climber));
+    //operatorControllerLeftBumper.whenPressed(new ExtendClimberSequence(climber).withTimeout(Constants.CLIMBER_RELEASE_DELAY));
+    //operatorControllerRightBumper.whenPressed(new EngageClimber(climber));
+    operatorControllerDPadRight.whenPressed(new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
+    operatorControllerDPadUp.whenPressed(new MoveArmToPosition(arm, Constants.ARM_LOAD_POSITION, false));
+    operatorControllerDPadDown.whenPressed(new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
+    //operatorControllerDPadLeft.whenPressed(new MoveArm(arm, () -> getOperatorRightYAxis()));
+    operatorControllerAButton.whenHeld(new Intake(claw));
+    operatorControllerBButton.whenHeld(new Output(claw));
+
   }
 
   /**

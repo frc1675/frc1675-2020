@@ -23,7 +23,7 @@ public class ExtendClimberSequence extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new ReleaseClimber(climber),
+      new ReleaseClimber(climber).withTimeout(Constants.CLIMBER_RELEASE_DELAY),
       new WaitCommand(Constants.CLIMBER_EXTEND_TIME),
       new EngageClimber(climber)
     );

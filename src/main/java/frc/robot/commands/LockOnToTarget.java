@@ -7,69 +7,65 @@
 
 package frc.robot.commands;
 
-import java.util.Map;
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.Constants;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class MoveArmToPosition extends PIDCommand {
-  private DoubleSupplier armValue;
-  private Arm arm;
-  private boolean canBeFinished = false;
+public class LockOnToTarget extends PIDCommand {
+  private Vision vision;
+  private DriveBase driveBase;
 
   /**
-   * Creates a new MoveArmToPosition.
+   * Creates a new LockOnToTarget.
    */
-  public MoveArmToPosition(Arm arm, double armPosition, boolean canBeFinished) {
+  public LockOnToTarget(DriveBase drive, DoubleSupplier forwardValue, Vision vision) {
     super(
         // The controller that the command will use
-        new PIDController(Constants.ARM_P, 0, 0),
+        new PIDController(0.01111, 0, 0),
         // This should return the measurement
-        () -> arm.getPosition(),
+        vision::getXOffSet,
         // This should return the setpoint (can also be a constant)
-        () -> armPosition,
+        0,
         // This uses the output
-        output -> {
+        turnPower -> {
+          double forwardPower = forwardValue.getAsDouble() * 0.5;
+          double rightPower = (1 * forwardPower + 1 * turnPower);
+          double leftPower = (1 * forwardPower + -1 * turnPower);
+          drive.setLeftMotors(leftPower);
+          drive.setRightMotors(rightPower);
           // Use the output here
-          arm.moveArm(output);
-          System.out.println("Output " + output);
         });
-    this.arm = arm;
-    addRequirements(arm);
+    this.vision = vision;
+    addRequirements(drive);
+    getController().enableContinuousInput(-180, 180);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(Constants.ARM_TOLERANCE);
-    this.canBeFinished = canBeFinished;
+    getController().setTolerance(10);
   }
 
   @Override
-  public void initialize(){
-    arm.unlock();
+  public void initialize() {
     m_controller.reset();
+    vision.setPipeline(Vision.Pipeline.LIGHT_ON);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean atSetpoint = getController().atSetpoint();
-    System.out.println("At Setpoint? " + atSetpoint);
-    if (atSetpoint) {
-      arm.lock();
-    }
-    if (canBeFinished == true && atSetpoint == true) {
-      return true;
-    }
-    
     return false;
-
   }
 
+  @Override
+  public void end(boolean interrupted) {
+    m_useOutput.accept(0);
+    vision.setPipeline(Vision.Pipeline.LIGHT_OFF);
+    driveBase.setRightMotors(0);
+    driveBase.setLeftMotors(0);
+  }
 }
