@@ -8,9 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DriveToDistance;
-import frc.robot.commands.TurnToAngle;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -24,7 +22,7 @@ public class AfterScoreToMiddle extends SequentialCommandGroup {
   /**
    * Creates a new MoveToMiddle.
    */
-  public AfterScoreToMiddle(Drive2019 drive) {
+  public AfterScoreToMiddle(DriveBase drive) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(new DriveToDistance(drive, SEGMENT_1).withTimeout(3),

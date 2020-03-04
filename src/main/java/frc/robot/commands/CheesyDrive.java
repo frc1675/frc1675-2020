@@ -10,10 +10,10 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 
 public class CheesyDrive extends CommandBase {
-  private Drive2019 drive;
+  private DriveBase drive;
   private DoubleSupplier forwardValue;
   private DoubleSupplier turnValue;
   private double scalingPower;
@@ -27,7 +27,7 @@ public class CheesyDrive extends CommandBase {
   // addRequirements(this.driveBase);
   // }
 
-  public CheesyDrive(Drive2019 drive, DoubleSupplier forwardValue, DoubleSupplier turnValue, double scalingPower) {
+  public CheesyDrive(DriveBase drive, DoubleSupplier forwardValue, DoubleSupplier turnValue, double scalingPower) {
     this.drive = drive;
     this.forwardValue = forwardValue;
     this.turnValue = turnValue;

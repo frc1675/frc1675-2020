@@ -10,13 +10,14 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 
 public class DriveForward extends SequentialCommandGroup {
   Drive2019 drive;
   /**
    * Creates a new DriveForward.
    */
-  public DriveForward(Drive2019 drive) {
+  public DriveForward(DriveBase drive) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
