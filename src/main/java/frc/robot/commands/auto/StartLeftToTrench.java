@@ -17,11 +17,15 @@ import frc.robot.subsystems.DriveBase;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class StartLeftToTrench extends SequentialCommandGroup {
 
-  private static final double TURN_1_ANGLE = -73;
-
   private static final double SEGMENT_1 = 172.7;
 
-  private static final double SEGMENT_2 = 126.4;
+  private static final double TURN_1_ANGLE = -90;  
+
+  private static final double SEGMENT_2 = 146.6;
+
+  private static final double TURN_2_ANGLE = 90;
+
+  private static final double SEGMENT_3 = 122;
 
   /**
    * Creates a new TrenchFromLeft.
@@ -30,10 +34,11 @@ public class StartLeftToTrench extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(
-      new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(2),
       new DriveToDistance(drive, SEGMENT_1).withTimeout(3),
-      new TurnToAngle(drive, -TURN_1_ANGLE).withTimeout(2)
-      //new IntakeBallsWhileDrivingCommand(drive, SEGMENT_2)
+      new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(2),
+      new DriveToDistance(drive, SEGMENT_2).withTimeout(3),
+      new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(2)
+      //new IntakeBallsWhileDrivingCommand(drive, SEGMENT_3)
     );
   }
 }

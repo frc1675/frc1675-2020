@@ -16,7 +16,7 @@ import frc.robot.subsystems.DriveBase;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class StartMiddleToScore extends SequentialCommandGroup {
 
-  private static final double SEGMENT_1 = 101.8;
+  private static final double SEGMENT_1 = 97.8;
   /**
    * Creates a new ScoreFromMiddle.
    */

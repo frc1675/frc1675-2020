@@ -17,13 +17,13 @@ import frc.robot.subsystems.DriveBase;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class StartLeftToScore extends SequentialCommandGroup {
 
-  private static final double TURN_1_ANGLE = 47.4;
+  private static final double TURN_1_ANGLE = 46.0;
 
-  private static final double SEGMENT_1 = 133;
+  private static final double SEGMENT_1 = 110.7;
 
-  private static final double TURN_2_ANGLE = -47.4;
+  private static final double TURN_2_ANGLE = -46.0;
 
-  private static final double SEGMENT_2 = 12.8;
+  private static final double SEGMENT_2 = 25.8;
   /**
    * Creates a new ScoreFromLeft.
    */
