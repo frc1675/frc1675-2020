@@ -28,7 +28,7 @@ public class AfterScoreToMiddle extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new DriveToDistance(drive, SEGMENT_1).withTimeout(3),
+      new DriveToDistance(drive, SEGMENT_1).withTimeout(4),
       new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(3)
     );
   }

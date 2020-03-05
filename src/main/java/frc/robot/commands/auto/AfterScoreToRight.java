@@ -35,7 +35,7 @@ public class AfterScoreToRight extends SequentialCommandGroup {
     super(
       new DriveToDistance(drive, SEGMENT_1).withTimeout(2),
       new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(1.5),  
-      new DriveToDistance(drive, SEGMENT_2).withTimeout(3),
+      new DriveToDistance(drive, SEGMENT_2).withTimeout(4),
       new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(2)
     );
   }
