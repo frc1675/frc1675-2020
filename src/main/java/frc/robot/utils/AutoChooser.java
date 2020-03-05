@@ -168,8 +168,8 @@ public class AutoChooser {
                     scorePathCommand,
                     new ParallelDeadlineGroup(
                         new Output(claw).withTimeout(2),
-                        new DriveSlowly(drive)),
-                new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false)));
+                        new DriveSlowly(drive))),
+                new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
 
         auto.addCommands(scoreCommand);
 
