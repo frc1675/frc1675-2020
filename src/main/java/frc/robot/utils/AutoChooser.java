@@ -98,7 +98,7 @@ public class AutoChooser {
         startPositionChooser.addOption("Start right", StartPosition.RIGHT_TO_SCORE);
         startPositionChooser.addOption("Start center", StartPosition.MIDDLE_TO_SCORE);
         startPositionChooser.addOption("Start left", StartPosition.LEFT_TO_SCORE);
-        startPositionChooser.addOption("Go backwards", StartPosition.DRIVE_BACKWARD);
+        startPositionChooser.setDefaultOption("Go backwards", StartPosition.DRIVE_BACKWARD);
 
         startWidget = driverTab.add("Start psition", startPositionChooser).withWidget(BuiltInWidgets.kComboBoxChooser)
                 .withSize(2, 1).withPosition(0, 1);
@@ -106,15 +106,15 @@ public class AutoChooser {
         afterScoringChooser.addOption("Go to right", AfterScoring.RIGHT);
         afterScoringChooser.addOption("Go to center", AfterScoring.MIDDLE);
         afterScoringChooser.addOption("Go to left", AfterScoring.LEFT);
-        afterScoringChooser.addOption("Do nothing", AfterScoring.NOTHING);
+        afterScoringChooser.setDefaultOption("Do nothing", AfterScoring.NOTHING);
 
         afterScoringWidget = driverTab.add("After scoring position", afterScoringChooser)
                 .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 2);
 
         gatherBallsChooser.addOption("Trench", GatherBalls.TRENCH);
-        gatherBallsChooser.addOption("Shield gernerator", GatherBalls.SHIELD_GENERATOR);
+        //gatherBallsChooser.addOption("Shield gernerator", GatherBalls.SHIELD_GENERATOR);
         // gatherBallsChooser.addOption("Loading station", GatherBalls.LOADING_STATION);
-        gatherBallsChooser.addOption("Nothing", GatherBalls.NOTHING);
+        gatherBallsChooser.setDefaultOption("Nothing", GatherBalls.NOTHING);
 
         gatherBallsWidget = driverTab.add("Gather balls location", gatherBallsChooser)
                 .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 3);
@@ -135,6 +135,7 @@ public class AutoChooser {
 
         if (selectedStart == StartPosition.DRIVE_BACKWARD) {
             auto.addCommands(new DriveBackward(drive));
+            auto.addCommands(new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
             return auto;
         }
 
@@ -166,7 +167,7 @@ public class AutoChooser {
                 new SequentialCommandGroup(
                     scorePathCommand,
                     new ParallelDeadlineGroup(
-                        new Output(claw).withTimeout(1),
+                        new Output(claw).withTimeout(2),
                         new DriveSlowly(drive)),
                 new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false)));
 
@@ -250,16 +251,21 @@ public class AutoChooser {
                 afterScorePathCommand,
                 new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
             auto.addCommands(afterScoreCommand);
-        }
 
-        if (collectBallsPathCommand != null) {
-            Command collectBallsCommand = new ParallelDeadlineGroup(
-                collectBallsPathCommand,
-                new Intake(claw),
-                new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
-            auto.addCommands(collectBallsCommand);
+            if (collectBallsPathCommand != null) {
+                Command collectBallsCommand = new ParallelDeadlineGroup(
+                    collectBallsPathCommand,
+                    new Intake(claw),
+                    new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
+                auto.addCommands(collectBallsCommand);
+            }
+            else {
+                auto.addCommands(new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
+            }
         }
-
+        else {
+            auto.addCommands(new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
+        }
         return auto;
         
     }
