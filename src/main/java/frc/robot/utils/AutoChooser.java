@@ -28,6 +28,7 @@ import frc.robot.commands.auto.AfterScoreToLeft;
 import frc.robot.commands.auto.AfterScoreToMiddle;
 import frc.robot.commands.auto.AfterScoreToRight;
 import frc.robot.commands.auto.DriveBackward;
+import frc.robot.commands.auto.DriveSlowly;
 import frc.robot.commands.auto.StartLeftToScore;
 import frc.robot.commands.auto.StartLeftToShieldGenerator;
 import frc.robot.commands.auto.StartLeftToTrench;
@@ -162,8 +163,12 @@ public class AutoChooser {
         }
 
         Command scoreCommand = new ParallelDeadlineGroup(
-                new SequentialCommandGroup(scorePathCommand, new Output(claw).withTimeout(1)),
-                new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
+                new SequentialCommandGroup(
+                    scorePathCommand,
+                    new ParallelDeadlineGroup(
+                        new Output(claw).withTimeout(1),
+                        new DriveSlowly(drive)),
+                new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false)));
 
         auto.addCommands(scoreCommand);
 

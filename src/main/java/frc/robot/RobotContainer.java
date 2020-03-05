@@ -66,7 +66,7 @@ public class RobotContainer {
   private Vision vision = new Vision();
   private Claw claw = new Claw();
 
-  private AutoChooser autoChooser = new AutoChooser(drive);
+  private AutoChooser autoChooser = new AutoChooser(drive, arm, claw);
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;

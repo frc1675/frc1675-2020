@@ -9,6 +9,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveToDistance;
+import frc.robot.commands.DriveToDistanceSlowly;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.DriveBase;
 
@@ -37,8 +38,8 @@ public class StartLeftToTrench extends SequentialCommandGroup {
       new DriveToDistance(drive, SEGMENT_1).withTimeout(3),
       new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(2),
       new DriveToDistance(drive, SEGMENT_2).withTimeout(3),
-      new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(2)
-      //new IntakeBallsWhileDrivingCommand(drive, SEGMENT_3)
+      new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(2),
+      new DriveToDistanceSlowly(drive, SEGMENT_3).withTimeout(6)
     );
   }
 }
