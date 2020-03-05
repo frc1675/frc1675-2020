@@ -16,8 +16,14 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
+import frc.robot.commands.Intake;
+import frc.robot.commands.MoveArmToPosition;
+import frc.robot.commands.Output;
 import frc.robot.commands.auto.AfterScoreToLeft;
 import frc.robot.commands.auto.AfterScoreToMiddle;
 import frc.robot.commands.auto.AfterScoreToRight;
@@ -31,6 +37,8 @@ import frc.robot.commands.auto.StartMiddleToTrench;
 import frc.robot.commands.auto.StartRightToScore;
 import frc.robot.commands.auto.StartRightToShieldGenerator;
 import frc.robot.commands.auto.StartRightToTrench;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveBase;
 
 /**
@@ -41,7 +49,7 @@ public class AutoChooser {
     private SendableChooser<StartPosition> startPositionChooser;
     private SendableChooser<AfterScoring> afterScoringChooser;
     private SendableChooser<GatherBalls> gatherBallsChooser;
-    
+
     private ShuffleboardTab driverTab = Shuffleboard.getTab("Driver Station");
     private ShuffleboardTab autoTab = Shuffleboard.getTab("Autonomous");
     NetworkTableEntry waitSlider;
@@ -52,53 +60,47 @@ public class AutoChooser {
 
     private DriveBase drive;
 
+    private Arm arm;
+
+    private Claw claw;
+
     private double waitTime;
 
     public enum StartPosition {
-        RIGHT_TO_SCORE, 
-        MIDDLE_TO_SCORE, 
-        LEFT_TO_SCORE, 
-        DRIVE_BACKWARD
+        RIGHT_TO_SCORE, MIDDLE_TO_SCORE, LEFT_TO_SCORE, DRIVE_BACKWARD
     }
 
     public enum AfterScoring {
-        RIGHT, 
-        MIDDLE, 
-        LEFT, 
-        NOTHING
+        RIGHT, MIDDLE, LEFT, NOTHING
     }
 
     public enum GatherBalls {
-        TRENCH, 
-        SHIELD_GENERATOR,
+        TRENCH, SHIELD_GENERATOR,
         // LOADING_STATION,
         NOTHING
     }
 
-    public AutoChooser(DriveBase drive) {
+    public AutoChooser(DriveBase drive, Arm arm, Claw claw) {
         this.drive = drive;
+        this.arm = arm;
+        this.claw = claw;
 
         // make choosers on smartdashboard
         startPositionChooser = new SendableChooser<StartPosition>();
         afterScoringChooser = new SendableChooser<AfterScoring>();
         gatherBallsChooser = new SendableChooser<GatherBalls>();
 
-        waitSlider = driverTab.add("Wait time", 2)
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .withProperties(Map.of("min", 0, "max", 10, "block increment", .5))
-            .withSize(2, 1)
-            .withPosition(0, 0)
-            .getEntry();
+        waitSlider = driverTab.add("Wait time", 2).withWidget(BuiltInWidgets.kNumberSlider)
+                .withProperties(Map.of("min", 0, "max", 10, "block increment", .5)).withSize(2, 1).withPosition(0, 0)
+                .getEntry();
 
         startPositionChooser.addOption("Start right", StartPosition.RIGHT_TO_SCORE);
         startPositionChooser.addOption("Start center", StartPosition.MIDDLE_TO_SCORE);
         startPositionChooser.addOption("Start left", StartPosition.LEFT_TO_SCORE);
         startPositionChooser.addOption("Go backwards", StartPosition.DRIVE_BACKWARD);
 
-        startWidget = driverTab.add("Start psition", startPositionChooser)
-            .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(2, 1)
-            .withPosition(0, 1);
+        startWidget = driverTab.add("Start psition", startPositionChooser).withWidget(BuiltInWidgets.kComboBoxChooser)
+                .withSize(2, 1).withPosition(0, 1);
 
         afterScoringChooser.addOption("Go to right", AfterScoring.RIGHT);
         afterScoringChooser.addOption("Go to center", AfterScoring.MIDDLE);
@@ -106,9 +108,7 @@ public class AutoChooser {
         afterScoringChooser.addOption("Do nothing", AfterScoring.NOTHING);
 
         afterScoringWidget = driverTab.add("After scoring position", afterScoringChooser)
-            .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(2, 1)
-            .withPosition(0, 2);
+                .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 2);
 
         gatherBallsChooser.addOption("Trench", GatherBalls.TRENCH);
         gatherBallsChooser.addOption("Shield gernerator", GatherBalls.SHIELD_GENERATOR);
@@ -116,9 +116,7 @@ public class AutoChooser {
         gatherBallsChooser.addOption("Nothing", GatherBalls.NOTHING);
 
         gatherBallsWidget = driverTab.add("Gather balls location", gatherBallsChooser)
-            .withWidget(BuiltInWidgets.kComboBoxChooser)
-            .withSize(2, 1)
-            .withPosition(0, 3);
+                .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 3);
 
         SmartDashboard.putData("Start", startPositionChooser);
         SmartDashboard.putData("After scoring", afterScoringChooser);
@@ -134,21 +132,24 @@ public class AutoChooser {
 
         StartPosition selectedStart = (StartPosition) startPositionChooser.getSelected();
 
+        if (selectedStart == StartPosition.DRIVE_BACKWARD) {
+            auto.addCommands(new DriveBackward(drive));
+            return auto;
+        }
+
+        Command scorePathCommand = null;
+
         switch (selectedStart) {
         case RIGHT_TO_SCORE:
-            auto.addCommands(new StartRightToScore(drive));
+            scorePathCommand = new StartRightToScore(drive);
             break;
 
         case MIDDLE_TO_SCORE:
-            auto.addCommands(new StartMiddleToScore(drive));
+            scorePathCommand = new StartMiddleToScore(drive);
             break;
 
         case LEFT_TO_SCORE:
-            auto.addCommands(new StartLeftToScore(drive));
-            break;
-
-        case DRIVE_BACKWARD:
-            auto.addCommands(new DriveBackward(drive));
+            scorePathCommand = new StartLeftToScore(drive);
             break;
 
         default:
@@ -156,19 +157,32 @@ public class AutoChooser {
 
         }
 
+        if (scorePathCommand == null) {
+            return auto;
+        }
+
+        Command scoreCommand = new ParallelDeadlineGroup(
+                new SequentialCommandGroup(scorePathCommand, new Output(claw).withTimeout(1)),
+                new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
+
+        auto.addCommands(scoreCommand);
+
         AfterScoring selectedPosition = (AfterScoring) afterScoringChooser.getSelected();
         GatherBalls gatherBalls = (GatherBalls) gatherBallsChooser.getSelected();
 
+        Command afterScorePathCommand = null;
+        Command collectBallsPathCommand = null;
+
         switch (selectedPosition) {
         case RIGHT:
-            auto.addCommands(new AfterScoreToRight(drive));
+            afterScorePathCommand = new AfterScoreToRight(drive);
             switch (gatherBalls) {
             case TRENCH:
-                auto.addCommands(new StartRightToTrench(drive));
+                collectBallsPathCommand = new StartRightToTrench(drive);
                 break;
 
             case SHIELD_GENERATOR:
-                auto.addCommands(new StartRightToShieldGenerator(drive));
+                collectBallsPathCommand = new StartRightToShieldGenerator(drive);
                 break;
 
             /*
@@ -182,14 +196,14 @@ public class AutoChooser {
             break;
 
         case MIDDLE:
-            auto.addCommands(new AfterScoreToMiddle(drive));
+            afterScorePathCommand = new AfterScoreToMiddle(drive);
             switch (gatherBalls) {
             case TRENCH:
-                auto.addCommands(new StartMiddleToTrench(drive));
+                collectBallsPathCommand = new StartMiddleToTrench(drive);
                 break;
 
             case SHIELD_GENERATOR:
-                auto.addCommands(new StartMiddleToShieldGenerator(drive));
+                collectBallsPathCommand = new StartMiddleToShieldGenerator(drive);
                 break;
 
             /*
@@ -203,14 +217,14 @@ public class AutoChooser {
             break;
 
         case LEFT:
-            auto.addCommands(new AfterScoreToLeft(drive));
+            afterScorePathCommand = new AfterScoreToLeft(drive);
             switch (gatherBalls) {
             case TRENCH:
-                auto.addCommands(new StartLeftToTrench(drive));
+                collectBallsPathCommand = new StartLeftToTrench(drive);
                 break;
 
             case SHIELD_GENERATOR:
-                auto.addCommands(new StartLeftToShieldGenerator(drive));
+                collectBallsPathCommand = new StartLeftToShieldGenerator(drive);
                 break;
 
             /*
@@ -225,6 +239,23 @@ public class AutoChooser {
             return auto;
 
         }
+
+        if (afterScorePathCommand != null) {
+            Command afterScoreCommand = new ParallelDeadlineGroup(
+                afterScorePathCommand,
+                new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
+            auto.addCommands(afterScoreCommand);
+        }
+
+        if (collectBallsPathCommand != null) {
+            Command collectBallsCommand = new ParallelDeadlineGroup(
+                collectBallsPathCommand,
+                new Intake(claw),
+                new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
+            auto.addCommands(collectBallsCommand);
+        }
+
         return auto;
+        
     }
 }
