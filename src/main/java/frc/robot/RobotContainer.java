@@ -129,8 +129,8 @@ public class RobotContainer {
    */
 
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    driverControllerRightBumper.whileHeld(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+    drive.setDefaultCommand(new CheesyDrive(drive, climber, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
+    driverControllerRightBumper.whileHeld(new CheesyDrive(drive, climber, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
 
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
     // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,

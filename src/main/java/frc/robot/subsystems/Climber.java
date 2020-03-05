@@ -64,6 +64,11 @@ public class Climber extends SubsystemBase {
     climberMotorRight.set(0);
     climberMotorLeft.set(0);
   }
+
+  public boolean isClimberExtended(){
+    return climberExtended;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

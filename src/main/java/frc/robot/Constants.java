@@ -31,6 +31,7 @@ public final class Constants {
     public static final double DRIVE_D = 0.01;
     public static final double LOW_POWER_DRIVE = 0.5;
     public static final double HIGH_POWER_DRIVE = 1.0;
+    public static final double CLIMBER_POWER_DRIVE = 0.1;
 
     //Turn to Angle constants
     public static final double ANGLE_P = 0.02; 
@@ -70,7 +71,7 @@ public final class Constants {
     public static final double CLIMBER_POWER = 0.4;
     public static final int CLIMBER_MOTOR_RIGHT = 6;
     public static final int CLIMBER_MOTOR_LEFT = 5;
-    public static final int CLIMBER_RETRACT_SOLENOID = 1; //just got switched
+    public static final int CLIMBER_RETRACT_SOLENOID = 1;
     public static final int CLIMBER_RELEASE_SOLENOID = 0;
     public static final double CLIMBER_RELEASE_DELAY = 0.25;
 
