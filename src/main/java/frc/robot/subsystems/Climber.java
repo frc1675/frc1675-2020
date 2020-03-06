@@ -7,16 +7,21 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
   private CANSparkMax climberMotorRight;
   private CANSparkMax climberMotorLeft;
+  private CANEncoder rightEncoder;
+  private CANEncoder leftEncoder;
   private Solenoid retractSolenoid;
   private Solenoid releaseSolenoid;
 
@@ -24,6 +29,8 @@ public class Climber extends SubsystemBase {
   // **
   // * Creates a new Climber.
   // *
+private ShuffleboardTab climberTab = Shuffleboard.getTab("Climber");
+
   public Climber() {
     climberMotorRight = new CANSparkMax(Constants.CLIMBER_MOTOR_RIGHT, MotorType.kBrushless);
     climberMotorLeft = new CANSparkMax(Constants.CLIMBER_MOTOR_LEFT, MotorType.kBrushless);
@@ -33,6 +40,12 @@ public class Climber extends SubsystemBase {
     climberMotorRight.setInverted(true);
     retractSolenoid.set(false);
     releaseSolenoid.set(false);
+    rightEncoder = climberMotorRight.getEncoder();
+    leftEncoder = climberMotorLeft.getEncoder();
+    rightEncoder.setPosition(0);
+    leftEncoder.setPosition(0);
+    climberTab.addNumber("Right Climber Encoder Position", () -> rightEncoder.getPosition());
+    climberTab.addNumber("Left Climber Encoder Position", () -> leftEncoder.getPosition());
   }
 
   public void release(){
@@ -49,8 +62,15 @@ public class Climber extends SubsystemBase {
     retractSolenoid.set(true);
   }
 
+  public double getEncoderAverage() {
+    double rightEncoderValue = rightEncoder.getPosition();
+    double leftEncoderValue = leftEncoder.getPosition();
+    double encoderAverage = (rightEncoderValue + leftEncoderValue) / 2;
+    return encoderAverage;
+  }
+
   public void pullUp(){
-    if (climberExtended) {
+    if (climberExtended /*&& getEncoderAverage() > Constants.CLIMBER_LIMIT*/) {
       climberMotorRight.set(Constants.CLIMBER_POWER);
       climberMotorLeft.set(Constants.CLIMBER_POWER);
     }
