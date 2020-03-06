@@ -52,7 +52,6 @@ public class AutoChooser {
     private SendableChooser<GatherBalls> gatherBallsChooser;
 
     private ShuffleboardTab driverTab = Shuffleboard.getTab("Driver Station");
-    private ShuffleboardTab autoTab = Shuffleboard.getTab("Autonomous");
     NetworkTableEntry waitSlider;
 
     private ComplexWidget startWidget;
@@ -241,6 +240,7 @@ public class AutoChooser {
                 break;
 
             }
+            break;
         case NOTHING:
             return auto;
 

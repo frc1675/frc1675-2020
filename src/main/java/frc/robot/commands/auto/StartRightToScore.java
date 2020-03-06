@@ -19,11 +19,11 @@ public class StartRightToScore extends SequentialCommandGroup {
 
   private static final double TURN_1_ANGLE = -41.0;
 
-  private static final double SEGMENT_1 = 101.9;
+  private static final double SEGMENT_1 = 93.9;
 
   private static final double TURN_2_ANGLE = 41.0;
 
-  private static final double SEGMENT_2 = 25.8;
+  private static final double SEGMENT_2 = 31.8;
   /**
    * Creates a new ScoreFromRight.
    */
@@ -32,7 +32,7 @@ public class StartRightToScore extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super(
       new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(1.5),  
-      new DriveToDistance(drive, SEGMENT_1).withTimeout(4),
+      new DriveToDistance(drive, SEGMENT_1).withTimeout(3),
       new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(1.5),
       new DriveToDistance(drive, SEGMENT_2).withTimeout(1)
     );

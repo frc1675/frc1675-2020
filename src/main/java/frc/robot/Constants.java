@@ -30,7 +30,7 @@ public final class Constants {
     public static final double DRIVE_P = 0.2;
     public static final double DRIVE_D = 0.01;
     public static final double LOW_POWER_DRIVE = 0.5;
-    public static final double HIGH_POWER_DRIVE = 1.0;
+    public static final double HIGH_POWER_DRIVE = 0.7;
     public static final double CLIMBER_POWER_DRIVE = 0.1;
 
     //Turn to Angle constants
