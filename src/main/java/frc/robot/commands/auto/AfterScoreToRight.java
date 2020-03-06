@@ -19,7 +19,7 @@ public class AfterScoreToRight extends SequentialCommandGroup {
 
   private static final double SEGMENT_1 = -31.8;
 
-  private static final double TURN_1_ANGLE = -41.0;
+  private static final double TURN_1_ANGLE = -46.0;
   
   private static final double SEGMENT_2 = -93.9;
 

@@ -21,9 +21,9 @@ public class StartRightToScore extends SequentialCommandGroup {
 
   private static final double SEGMENT_1 = 93.9;
 
-  private static final double TURN_2_ANGLE = 41.0;
+  private static final double TURN_2_ANGLE = 46.0;
 
-  private static final double SEGMENT_2 = 31.8;
+  private static final double SEGMENT_2 = 37.8;
   /**
    * Creates a new ScoreFromRight.
    */

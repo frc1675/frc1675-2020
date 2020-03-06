@@ -50,12 +50,12 @@ private ShuffleboardTab climberTab = Shuffleboard.getTab("Climber");
 
   public void release(){
     releaseSolenoid.set(true);
+    climberExtended = true;
   }
 
   public void engage(){
     retractSolenoid.set(false);
     releaseSolenoid.set(false);
-    climberExtended = true;
   }
 
   public void disengage(){
