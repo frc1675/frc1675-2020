@@ -96,7 +96,8 @@ public final class Constants {
     public static final double ARM_P = .006;
     public static final double ARM_SCORE_POSITION = 115;
     public static final double ARM_LOAD_POSITION = 130;
-    public static final double ARM_HOME_POSITION = 42; 
+    public static final double ARM_HOME_POSITION = 42;
+    public static final double ARM_FEED_POSITION = 65;
 
     //Claw Motor Constants
     public static final double INTAKE_POWER = -1;

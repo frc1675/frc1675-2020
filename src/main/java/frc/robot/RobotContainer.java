@@ -155,7 +155,7 @@ public class RobotContainer {
     operatorControllerDPadRight.whenPressed(new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
     operatorControllerDPadUp.whenPressed(new MoveArmToPosition(arm, Constants.ARM_LOAD_POSITION, false));
     operatorControllerDPadDown.whenPressed(new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
-    //operatorControllerDPadLeft.whenPressed(new MoveArm(arm, () -> getOperatorRightYAxis()));
+    operatorControllerDPadLeft.whenPressed(new MoveArmToPosition(arm,Constants.ARM_FEED_POSITION, false));
     operatorControllerAButton.whenHeld(new Intake(claw));
     operatorControllerBButton.whenHeld(new Output(claw));
 
