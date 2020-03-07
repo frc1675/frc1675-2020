@@ -166,7 +166,7 @@ public class AutoChooser {
                 new SequentialCommandGroup(
                     scorePathCommand,
                     new ParallelDeadlineGroup(
-                        new Output(claw).withTimeout(2),
+                        new Output(claw).withTimeout(1.5),
                         new DriveSlowly(drive))),
                 new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
 
