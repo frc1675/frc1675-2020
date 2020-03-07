@@ -21,7 +21,7 @@ public class StartLeftToScore extends SequentialCommandGroup {
 
   private static final double SEGMENT_1 = 118.7;
 
-  private static final double TURN_2_ANGLE = -46.0;
+  private static final double TURN_2_ANGLE = -36.0;
 
   private static final double SEGMENT_2 = 25.8;
   /**
