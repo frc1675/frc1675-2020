@@ -77,7 +77,7 @@ public final class Constants {
 
     public static final double CLIMBER_EXTEND_TIME = 2;
 
-    public static final double CLIMBER_LIMIT = 0;
+    public static final double CLIMBER_LIMIT = 120;
 
     // Drive Motor Constants
     public static final int RIGHT_MIDDLE = 3;

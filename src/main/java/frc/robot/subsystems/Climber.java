@@ -70,7 +70,7 @@ private ShuffleboardTab climberTab = Shuffleboard.getTab("Climber");
   }
 
   public void pullUp(){
-    if (climberExtended /*&& getEncoderAverage() > Constants.CLIMBER_LIMIT*/) {
+    if (climberExtended) {
       climberMotorRight.set(Constants.CLIMBER_POWER);
       climberMotorLeft.set(Constants.CLIMBER_POWER);
     }
