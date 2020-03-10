@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.CheesyDrive;
+import frc.robot.commands.EngageClimber;
 import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
 import frc.robot.commands.MoveArmToPosition;
@@ -43,6 +44,8 @@ public class RobotContainer {
       Constants.RIGHT_BUMPER);
   private final JoystickButton driverControllerRightBumper = new JoystickButton(driverController,
       Constants.RIGHT_BUMPER);
+  private final JoystickButton operatorControllerStartButton = new JoystickButton(operatorController,
+      Constants.START_BUTTON);
   private final JoystickButton operatorControllerYButton = new JoystickButton(operatorController,
       Constants.Y_BUTTON);
   private final JoystickButton operatorControllerBButton = new JoystickButton(operatorController,
@@ -129,8 +132,8 @@ public class RobotContainer {
    */
 
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    driverControllerRightBumper.whileHeld(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+    drive.setDefaultCommand(new CheesyDrive(drive, climber, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
+    driverControllerRightBumper.whileHeld(new CheesyDrive(drive, climber, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
 
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
     // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
@@ -145,13 +148,14 @@ public class RobotContainer {
 
     operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
      .whenActive(new ExtendClimberSequence(climber));
+    operatorControllerStartButton.whenPressed(new EngageClimber(climber));
     operatorControllerXButton.whenHeld(new PullUpRobot(climber));
     //operatorControllerLeftBumper.whenPressed(new ExtendClimberSequence(climber).withTimeout(Constants.CLIMBER_RELEASE_DELAY));
     //operatorControllerRightBumper.whenPressed(new EngageClimber(climber));
     operatorControllerDPadRight.whenPressed(new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
     operatorControllerDPadUp.whenPressed(new MoveArmToPosition(arm, Constants.ARM_LOAD_POSITION, false));
     operatorControllerDPadDown.whenPressed(new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
-    //operatorControllerDPadLeft.whenPressed(new MoveArm(arm, () -> getOperatorRightYAxis()));
+    operatorControllerDPadLeft.whenPressed(new MoveArmToPosition(arm,Constants.ARM_FEED_POSITION, false));
     operatorControllerAButton.whenHeld(new Intake(claw));
     operatorControllerBButton.whenHeld(new Output(claw));
 

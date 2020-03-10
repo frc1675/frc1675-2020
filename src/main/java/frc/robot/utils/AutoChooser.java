@@ -52,7 +52,6 @@ public class AutoChooser {
     private SendableChooser<GatherBalls> gatherBallsChooser;
 
     private ShuffleboardTab driverTab = Shuffleboard.getTab("Driver Station");
-    private ShuffleboardTab autoTab = Shuffleboard.getTab("Autonomous");
     NetworkTableEntry waitSlider;
 
     private ComplexWidget startWidget;
@@ -167,9 +166,9 @@ public class AutoChooser {
                 new SequentialCommandGroup(
                     scorePathCommand,
                     new ParallelDeadlineGroup(
-                        new Output(claw).withTimeout(2),
-                        new DriveSlowly(drive)),
-                new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false)));
+                        new Output(claw).withTimeout(1.5),
+                        new DriveSlowly(drive))),
+                new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
 
         auto.addCommands(scoreCommand);
 
@@ -241,6 +240,7 @@ public class AutoChooser {
                 break;
 
             }
+            break;
         case NOTHING:
             return auto;
 
