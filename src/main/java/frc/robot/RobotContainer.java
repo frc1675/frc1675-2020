@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.ClimbSequence;
+import frc.robot.commands.EngageClimber;
 import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
 import frc.robot.commands.MoveArmToPosition;
@@ -25,6 +26,7 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
+import frc.robot.utils.AutoChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -43,6 +45,8 @@ public class RobotContainer {
       Constants.RIGHT_BUMPER);
   private final JoystickButton driverControllerRightBumper = new JoystickButton(driverController,
       Constants.RIGHT_BUMPER);
+  private final JoystickButton operatorControllerStartButton = new JoystickButton(operatorController,
+      Constants.START_BUTTON);
   private final JoystickButton operatorControllerYButton = new JoystickButton(operatorController,
       Constants.Y_BUTTON);
   private final JoystickButton operatorControllerBButton = new JoystickButton(operatorController,
@@ -66,7 +70,7 @@ public class RobotContainer {
   private Vision vision = new Vision();
   private Claw claw = new Claw();
 
-  // private AutoChooser autoChooser = new AutoChooser(drive);
+  private AutoChooser autoChooser = new AutoChooser(drive, arm, claw);
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -129,8 +133,8 @@ public class RobotContainer {
    */
 
   private void configureButtonBindings() {
-    drive.setDefaultCommand(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
-    driverControllerRightBumper.whileHeld(new CheesyDrive(drive, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
+    drive.setDefaultCommand(new CheesyDrive(drive, climber, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.HIGH_POWER_DRIVE));
+    driverControllerRightBumper.whileHeld(new CheesyDrive(drive, climber, () -> getDriverLeftYAxis(), () -> getDriverRightXAxis(), Constants.LOW_POWER_DRIVE));
 
     // operatorControllerRightBumper.whenPressed(new PositionControl(colorWheel));
     // operatorControllerLeftBumper.whenPressed(new RotationControl(colorWheel,
@@ -140,15 +144,19 @@ public class RobotContainer {
     // operatorControllerLeftBumper.toggleWhenPressed(new
     // StopCompressor(pneumatics));
 
+    //operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
+    //    .whenActive(new ExtendClimberSequence(climber));
+
     operatorControllerLeftBumper.and(operatorControllerRightBumper).and(operatorControllerYButton)
      .whenActive(new ExtendClimberSequence(climber, arm));
+    operatorControllerStartButton.whenPressed(new EngageClimber(climber));
     operatorControllerXButton.whenHeld(new ClimbSequence(climber));
     //operatorControllerLeftBumper.whenPressed(new ExtendClimberSequence(climber).withTimeout(Constants.CLIMBER_RELEASE_DELAY));
     //operatorControllerRightBumper.whenPressed(new EngageClimber(climber));
     operatorControllerDPadRight.whenPressed(new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
     operatorControllerDPadUp.whenPressed(new MoveArmToPosition(arm, Constants.ARM_LOAD_POSITION, false));
     operatorControllerDPadDown.whenPressed(new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
-    //operatorControllerDPadLeft.whenPressed(new MoveArm(arm, () -> getOperatorRightYAxis()));
+    operatorControllerDPadLeft.whenPressed(new MoveArmToPosition(arm,Constants.ARM_FEED_POSITION, false));
     operatorControllerAButton.whenHeld(new Intake(claw));
     operatorControllerBButton.whenHeld(new Output(claw));
   }
@@ -159,7 +167,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // return new DriveForward(drive).withTimeout(1);
-    return null;
+    return autoChooser.GenerateAuto();
+    
   }
 }

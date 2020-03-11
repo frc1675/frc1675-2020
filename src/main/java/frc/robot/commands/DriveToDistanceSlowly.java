@@ -15,42 +15,50 @@ import frc.robot.subsystems.DriveBase;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TurnToAngle extends PIDCommand {
-  private DriveBase drive;
-  private int count = 0;
-
+public class DriveToDistanceSlowly extends PIDCommand {
+    private DriveBase drive;
+    private int count = 0;
   /**
-   * Creates a new TurnToAngle.
+   * Creates a new DriveToDistance.
    */
-  public TurnToAngle(DriveBase drive, double angle) {
+  public DriveToDistanceSlowly(DriveBase drive, double inches) {
     super(
         // The controller that the command will use
-        new PIDController(Constants.ANGLE_P, 0, Constants.ANGLE_D),
+        new PIDController(Constants.DRIVE_P, 0, Constants.DRIVE_D),
         // This should return the measurement
-        drive::getHeading,
+        () -> drive.getPosition(),
         // This should return the setpoint (can also be a constant)
-        angle,
+        () -> inches * Constants.ROTATIONS_PER_INCH,
         // This uses the output
         output -> {
-          drive.setRightMotors(-output);
-          drive.setLeftMotors(output);
           // Use the output here
+          if(output > 0.25) {
+            drive.setRightMotors(0.25);
+            drive.setLeftMotors(0.25);
+          }
+          else if(output < -0.25) {
+            drive.setRightMotors(-0.25);
+            drive.setLeftMotors(-0.25);
+          }
+          else {
+            drive.setRightMotors(output);
+            drive.setLeftMotors(output);
+          }
         });
-    this.drive = drive;
-    addRequirements(drive);
-    getController().enableContinuousInput(-180, 180);
     // Use addRequirements() here to declare subsystem dependencies.
+    this.drive = drive;
+    addRequirements(this.drive);
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(Constants.ANGLE_TOLERANCE);
+    getController().setTolerance(Constants.DISTANCE_TOLERANCE * Constants.ROTATIONS_PER_INCH);
   }
 
   @Override
   public void initialize() {
-    drive.resetAngle();
+    drive.resetPosition();
     m_controller.reset();
   }
 
-  // Returns true when the command should end.
+    // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     if (getController().atSetpoint()) {

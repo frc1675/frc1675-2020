@@ -45,6 +45,8 @@ public class Drive2019 extends SubsystemBase {
     drive2019Tab.addNumber("Current Position", () -> getPosition());
     drive2019Tab.addNumber("Angle", () -> getAngle());
     drive2019Tab.addNumber("Heading", () -> getHeading());
+    drive2019Tab.addNumber("Right encoder", () -> rightMiddle.getSelectedSensorPosition());
+    drive2019Tab.addNumber("Left encoder", () -> leftMiddle.getSelectedSensorPosition());
 
   }
 
@@ -71,9 +73,9 @@ public class Drive2019 extends SubsystemBase {
   }
 
   public int getPosition() {
-    int rightPosition = rightMiddle.getSelectedSensorPosition();
+    //int rightPosition = rightMiddle.getSelectedSensorPosition();
     int leftPosition = leftMiddle.getSelectedSensorPosition();
-    int averagePosition = (rightPosition + leftPosition) / 2;
+    int averagePosition = leftPosition;
 
     // currentPosition = currentPosition + 1;
     // return currentPosition;

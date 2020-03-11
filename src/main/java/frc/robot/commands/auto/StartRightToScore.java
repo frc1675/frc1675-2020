@@ -10,31 +10,31 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.TurnToAngle;
-import frc.robot.subsystems.Drive2019;
+import frc.robot.subsystems.DriveBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class StartRightToScore extends SequentialCommandGroup {
 
-  private static final double TURN_1_ANGLE = -30;
+  private static final double TURN_1_ANGLE = -41.0;
 
-  private static final double SEGMENT_1 = 112.2;
+  private static final double SEGMENT_1 = 93.9;
 
-  private static final double TURN_2_ANGLE = 30;
+  private static final double TURN_2_ANGLE = 46.0;
 
-  private static final double SEGMENT_2 = 12.8;
+  private static final double SEGMENT_2 = 37.8;
   /**
    * Creates a new ScoreFromRight.
    */
-  public StartRightToScore(Drive2019 drive) {
+  public StartRightToScore(DriveBase drive) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new TurnToAngle(drive, TURN_1_ANGLE),  
-      new DriveToDistance(drive, SEGMENT_1),
-      new TurnToAngle(drive, TURN_2_ANGLE),
-      new DriveToDistance(drive, SEGMENT_2)
+      new TurnToAngle(drive, TURN_1_ANGLE).withTimeout(1.25),  
+      new DriveToDistance(drive, SEGMENT_1).withTimeout(2.5),
+      new TurnToAngle(drive, TURN_2_ANGLE).withTimeout(1.25),
+      new DriveToDistance(drive, SEGMENT_2).withTimeout(1)
     );
   }
 }

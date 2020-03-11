@@ -10,14 +10,16 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveBase;
 
-public class DriveForward extends CommandBase {
-  DriveBase drive;
+public class DriveSlowly extends CommandBase {
   /**
-   * Creates a new DriveForward.
+   * Creates a new DriveSlowly.
    */
-  public DriveForward(DriveBase drive) {
-    this.drive = drive;
+  private DriveBase drive;
+  
+  public DriveSlowly(DriveBase drive) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.drive = drive;
+    addRequirements(this.drive);
   }
 
   // Called when the command is initially scheduled.
@@ -28,15 +30,15 @@ public class DriveForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.setLeftMotors(.25);
-    drive.setRightMotors(.25);
+    drive.setRightMotors(0.25);
+    drive.setLeftMotors(0.25);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive.setLeftMotors(0);
     drive.setRightMotors(0);
+    drive.setLeftMotors(0);
   }
 
   // Returns true when the command should end.
