@@ -60,6 +60,7 @@ public final class Constants {
     public static final int CLIMBER_RETRACT_SOLENOID = 1; //just got switched
     public static final int CLIMBER_RELEASE_SOLENOID = 0;
     public static final double CLIMBER_RELEASE_DELAY = 0.25;
+    public static final double CLIMBER_ENGAGE_RELEASE = 0.1;
 
     public static final double CLIMBER_EXTEND_TIME = 2;
 

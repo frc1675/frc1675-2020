@@ -9,25 +9,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.Climber;
 import frc.robot.Constants;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Climber;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ExtendClimberSequence extends SequentialCommandGroup {
+public class ClimbSequence extends SequentialCommandGroup {
   /**
-   * Creates a new ExtendClimberSequence.
+   * Creates a new ClimbSequence.
    */
-  public ExtendClimberSequence(Climber climber, Arm arm) {
+  public ClimbSequence(Climber climber) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true),
-      new ReleaseClimber(climber).withTimeout(Constants.CLIMBER_RELEASE_DELAY),
-      new WaitCommand(Constants.CLIMBER_EXTEND_TIME),
-      new EngageClimber(climber)
+      new EngageClimber(climber),
+      new WaitCommand(Constants.CLIMBER_ENGAGE_RELEASE),
+      new PullUpRobot(climber)
     );
   }
 }
