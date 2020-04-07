@@ -63,13 +63,13 @@ public class RobotContainer {
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // private ColorWheel colorWheel = new ColorWheel();
   private Climber climber = new Climber();
-  private Arm arm = new Arm();
+  //private Arm arm = new Arm();
   private DriveBase drive = new DriveBase();
   // private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
   private Claw claw = new Claw();
 
-  private AutoChooser autoChooser = new AutoChooser(drive, arm, claw);
+  //private AutoChooser autoChooser = new AutoChooser(drive, arm, claw);
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -152,10 +152,10 @@ public class RobotContainer {
     operatorControllerXButton.whenHeld(new PullUpRobot(climber));
     //operatorControllerLeftBumper.whenPressed(new ExtendClimberSequence(climber).withTimeout(Constants.CLIMBER_RELEASE_DELAY));
     //operatorControllerRightBumper.whenPressed(new EngageClimber(climber));
-    operatorControllerDPadRight.whenPressed(new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
-    operatorControllerDPadUp.whenPressed(new MoveArmToPosition(arm, Constants.ARM_LOAD_POSITION, false));
-    operatorControllerDPadDown.whenPressed(new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
-    operatorControllerDPadLeft.whenPressed(new MoveArmToPosition(arm,Constants.ARM_FEED_POSITION, false));
+    //operatorControllerDPadRight.whenPressed(new MoveArmToPosition(arm, Constants.ARM_SCORE_POSITION, false));
+    // operatorControllerDPadUp.whenPressed(new MoveArmToPosition(arm, Constants.ARM_LOAD_POSITION, false));
+    // operatorControllerDPadDown.whenPressed(new MoveArmToPosition(arm, Constants.ARM_HOME_POSITION, true));
+    // operatorControllerDPadLeft.whenPressed(new MoveArmToPosition(arm,Constants.ARM_FEED_POSITION, false));
     operatorControllerAButton.whenHeld(new Intake(claw));
     operatorControllerBButton.whenHeld(new Output(claw));
 
@@ -167,7 +167,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.GenerateAuto();
-    
+    //return autoChooser.GenerateAuto();
+    return null;
   }
 }

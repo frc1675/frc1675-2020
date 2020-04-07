@@ -8,19 +8,18 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Claw extends SubsystemBase {
-  public TalonSRX clawMotor;
+  public WPI_TalonSRX clawMotor;
   /**
    * Creates a new Claw.
    */
   public Claw() {
-    clawMotor = new TalonSRX(Constants.CLAW_MOTOR);
+    clawMotor = new WPI_TalonSRX(Constants.CLAW_MOTOR);
   }
   public void intake(){
     clawMotor.set(ControlMode.PercentOutput,Constants.INTAKE_POWER);

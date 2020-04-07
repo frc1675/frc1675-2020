@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -14,6 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -24,6 +26,8 @@ public class Arm extends SubsystemBase {
   private ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
   private CANSparkMax armMotorLeft;
   private CANSparkMax armMotorRight;
+  private WPI_TalonSRX armMotorLeftSim;
+  private WPI_TalonSRX armMotorRightSim;
   private Solenoid solenoid;
   private DutyCycleEncoder encoder;
   private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
@@ -33,24 +37,37 @@ public class Arm extends SubsystemBase {
    * Creates a new Arm.
    */
   public Arm() {
-    armMotorLeft = new CANSparkMax(Constants.ARM_MOTOR_LEFT, MotorType.kBrushless);
-    armMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT, MotorType.kBrushless);
+    if(RobotBase.isReal()) {
+      armMotorLeft = new CANSparkMax(Constants.ARM_MOTOR_LEFT, MotorType.kBrushless);
+      armMotorRight = new CANSparkMax(Constants.ARM_MOTOR_RIGHT, MotorType.kBrushless);
+      encoder = new DutyCycleEncoder(0);
+
+      armMotorRight.setInverted(true);
+
+      armTab.addBoolean("Connected?", () -> encoder.isConnected());
+      armTab.addNumber("Frequency", () -> encoder.getFrequency());
+      encoder.setDistancePerRotation(360);
+    }
+    else {
+      armMotorLeftSim = new WPI_TalonSRX(Constants.ARM_MOTOR_LEFT);
+      armMotorRightSim = new WPI_TalonSRX(Constants.ARM_MOTOR_RIGHT);
+
+      armMotorLeftSim.setSensorPhase(true);
+    }
+    
     solenoid = new Solenoid(Constants.ARM_SOLENOID);
-
-    encoder = new DutyCycleEncoder(0);
-
-    armMotorRight.setInverted(true);
-
     armTab.addNumber("Position", () -> getPosition());
-    armTab.addBoolean("Connected?", () -> encoder.isConnected());
-    armTab.addNumber("Frequency", () -> encoder.getFrequency());
-    encoder.setDistancePerRotation(360);
-
   }
 
   public void moveArm(double power) {
-    armMotorLeft.set(power);
-    armMotorRight.set(power);
+    if(RobotBase.isReal()) {
+      armMotorLeft.set(power);
+      armMotorRight.set(power);
+    }
+    else {
+      armMotorLeftSim.set(power);
+      armMotorRightSim.set(power);
+    }
   }
 
   public void lock() {
@@ -62,7 +79,10 @@ public class Arm extends SubsystemBase {
   }
 
   public double getPosition() {
-    double armEncoderValue = encoder.getDistance();
+    double armEncoderValue = 0;
+    if(RobotBase.isReal()) {
+      armEncoderValue = encoder.getDistance();
+    }
     return armEncoderValue;
   }
 
