@@ -38,29 +38,29 @@ public final class Constants {
     public static final double ANGLE_D = 0.002; 
 
     // OI Constants
-    // Commented numbers are Xbox values. If there is no comment, it is the same on ps4 and Xbox
+    // Commented numbers are PS4 values. If there is no comment, it is the same on PS4 and Xbox
     public static final int DRIVER_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
    
     public static final int LEFT_X_AXIS = 0;
     public static final int LEFT_Y_AXIS = 1;
 
-    public static final int LEFT_TRIGGER = 3; //2
-    public static final int RIGHT_TRIGGER = 4; //3
+    public static final int LEFT_TRIGGER = 2; //3
+    public static final int RIGHT_TRIGGER = 3; //4
 
-    public static final int RIGHT_X_AXIS = 2; //4
+    public static final int RIGHT_X_AXIS = 4; //2
     public static final int RIGHT_Y_AXIS = 5;
 
-    public static final int A_BUTTON = 2; //1
-    public static final int B_BUTTON = 3; //2
-    public static final int X_BUTTON = 1; //3
+    public static final int A_BUTTON = 1; //2
+    public static final int B_BUTTON = 2; //3
+    public static final int X_BUTTON = 3; //1
     public static final int Y_BUTTON = 4; 
 
     public static final int LEFT_BUMPER = 5;
     public static final int RIGHT_BUMPER = 6;
 
-    public static final int BACK_BUTTON = 9; //7
-    public static final int START_BUTTON = 10; //8
+    public static final int BACK_BUTTON = 7; //9
+    public static final int START_BUTTON = 8; //10
 
     // Joystick buttons (clicking them in)
     public static final int LEFT_JOYSTICK_BUTTON = 9;
