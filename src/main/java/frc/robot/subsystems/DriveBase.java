@@ -32,6 +32,8 @@ public class DriveBase extends SubsystemBase {
   private WPI_TalonSRX rightBackSim;
   private CANEncoder leftAlternateEncoder;
   private CANEncoder rightAlternateEncoder;
+  private double leftSimDistance;
+  private double rightSimDistance;
   private AHRS navx;
   private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
   private static final int kCPR = 8192;
@@ -68,8 +70,11 @@ public class DriveBase extends SubsystemBase {
       leftBackSim = new WPI_TalonSRX(Constants.LEFT_BACK);
       leftFrontSim = new WPI_TalonSRX(Constants.LEFT_FRONT);
 
-      driveBaseTab.addNumber("Right position", () -> -rightBackSim.getSelectedSensorPosition());
-      driveBaseTab.addNumber("Left Position", () -> -leftBackSim.getSelectedSensorPosition());
+      leftSimDistance = 0;
+      rightSimDistance = 0;
+
+      driveBaseTab.addNumber("Right position", () -> rightSimDistance);
+      driveBaseTab.addNumber("Left Position", () -> leftSimDistance);
     }
     
     navx = new AHRS(SerialPort.Port.kMXP);
@@ -86,8 +91,16 @@ public class DriveBase extends SubsystemBase {
       rightBack.set(-power);
     }
     else {
+      if(power > 1) {
+        power = 1;
+      }
+      else if(power < -1) {
+        power = -1;
+      }
       rightFrontSim.set(-power);
       rightBackSim.set(-power);
+
+      rightSimDistance = rightSimDistance + (power * Constants.ROTAIONS_PER_TICK);
     }
   }
 
@@ -97,8 +110,16 @@ public class DriveBase extends SubsystemBase {
       leftBack.set(-power);
     }
     else {
+      if(power > 1) {
+        power = 1;
+      }
+      else if(power < -1) {
+        power = -1;
+      }
       leftFrontSim.set(-power);
       leftBackSim.set(-power);
+
+      leftSimDistance = leftSimDistance + (power * Constants.ROTAIONS_PER_TICK);
     }
   }
 
@@ -113,8 +134,8 @@ public class DriveBase extends SubsystemBase {
       // SmartDashboard.putNumber("RightEncoder", rightEncoderValue);
     }
     else {
-      leftEncoderValue = -leftBackSim.getSelectedSensorPosition();
-      rightEncoderValue = -rightBackSim.getSelectedSensorPosition();
+      leftEncoderValue = leftSimDistance;
+      rightEncoderValue = rightSimDistance;
     }
     averagePosition = (rightEncoderValue + leftEncoderValue) / 2;
     return averagePosition;
@@ -126,8 +147,8 @@ public class DriveBase extends SubsystemBase {
       rightAlternateEncoder.setPosition(0);
     }
     else {
-      leftBackSim.setSelectedSensorPosition(0);
-      rightBackSim.setSelectedSensorPosition(0);
+      leftSimDistance = 0;
+      rightSimDistance = 0;
     }
   }
   

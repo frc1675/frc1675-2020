@@ -17,15 +17,12 @@ import frc.robot.commands.CheesyDrive;
 import frc.robot.commands.EngageClimber;
 import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
-import frc.robot.commands.MoveArmToPosition;
 import frc.robot.commands.Output;
 import frc.robot.commands.PullUpRobot;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
-import frc.robot.utils.AutoChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
