@@ -19,10 +19,12 @@ import frc.robot.commands.ExtendClimberSequence;
 import frc.robot.commands.Intake;
 import frc.robot.commands.Output;
 import frc.robot.commands.PullUpRobot;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Vision;
+import frc.robot.utils.AutoChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -60,13 +62,13 @@ public class RobotContainer {
   // Disable the 2019 drive when testing ColorWheel, suggested by
   // private ColorWheel colorWheel = new ColorWheel();
   private Climber climber = new Climber();
-  //private Arm arm = new Arm();
+  private Arm arm = new Arm();
   private DriveBase drive = new DriveBase();
   // private Drive2019 drive = new Drive2019();
   private Vision vision = new Vision();
   private Claw claw = new Claw();
 
-  //private AutoChooser autoChooser = new AutoChooser(drive, arm, claw);
+  private AutoChooser autoChooser = new AutoChooser(drive, arm, claw);
 
   private double correctDeadzone(double value) {
     double correctedValue = 0;
@@ -164,7 +166,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return autoChooser.GenerateAuto();
-    return null;
+    return autoChooser.GenerateAuto();
+    //return null;
   }
 }

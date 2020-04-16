@@ -16,10 +16,18 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.utils.Field2d;
 
 public class DriveBase extends SubsystemBase {
   private CANSparkMax leftFront;
@@ -38,6 +46,18 @@ public class DriveBase extends SubsystemBase {
   private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
   private static final int kCPR = 8192;
   private ShuffleboardTab driveBaseTab = Shuffleboard.getTab("Drive Base");
+
+  // Simulation variables
+  private static final double SIM_ROBOT_METERS_PER_S = 3;
+  private Field2d field2d;
+  private DifferentialDriveWheelSpeeds simWheelSpeeds;
+  private DifferentialDriveKinematics simKinematics;
+  private DifferentialDriveOdometry odometry;
+  private Double simLastOdometryUpdateTime = null;
+  private double simLeftMeters = 0;
+  private double simRightMeters = 0;
+  private double simHeading = 0;  
+  private Pose2d simPose;
 
   /**
    * Creates a new Drive.
@@ -73,8 +93,13 @@ public class DriveBase extends SubsystemBase {
       leftSimDistance = 0;
       rightSimDistance = 0;
 
-      driveBaseTab.addNumber("Right position", () -> rightSimDistance);
-      driveBaseTab.addNumber("Left Position", () -> leftSimDistance);
+      driveBaseTab.addNumber("Right position", () -> -rightSimDistance);
+      driveBaseTab.addNumber("Left Position", () -> -leftSimDistance);
+
+      field2d = new Field2d();
+      simWheelSpeeds = new DifferentialDriveWheelSpeeds(0, 0);
+      simKinematics = new DifferentialDriveKinematics(0.5);
+      odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
     }
     
     navx = new AHRS(SerialPort.Port.kMXP);
@@ -99,8 +124,10 @@ public class DriveBase extends SubsystemBase {
       }
       rightFrontSim.set(-power);
       rightBackSim.set(-power);
-
+      
       rightSimDistance = rightSimDistance + (power * Constants.ROTAIONS_PER_TICK);
+
+      simWheelSpeeds.rightMetersPerSecond = SIM_ROBOT_METERS_PER_S * power;
     }
   }
 
@@ -120,6 +147,8 @@ public class DriveBase extends SubsystemBase {
       leftBackSim.set(-power);
 
       leftSimDistance = leftSimDistance + (power * Constants.ROTAIONS_PER_TICK);
+
+      simWheelSpeeds.leftMetersPerSecond = SIM_ROBOT_METERS_PER_S * power;
     }
   }
 
@@ -134,8 +163,8 @@ public class DriveBase extends SubsystemBase {
       // SmartDashboard.putNumber("RightEncoder", rightEncoderValue);
     }
     else {
-      leftEncoderValue = leftSimDistance;
-      rightEncoderValue = rightSimDistance;
+      leftEncoderValue = -leftSimDistance;
+      rightEncoderValue = -rightSimDistance;
     }
     averagePosition = (rightEncoderValue + leftEncoderValue) / 2;
     return averagePosition;
@@ -159,6 +188,34 @@ public class DriveBase extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (Robot.isSimulation()) {
+      if (simLastOdometryUpdateTime == null) {
+        simLastOdometryUpdateTime = Timer.getFPGATimestamp();
+        return;
+      }
+
+      double dt = Timer.getFPGATimestamp() - simLastOdometryUpdateTime;
+      simLeftMeters += simWheelSpeeds.leftMetersPerSecond * dt;
+      simRightMeters += simWheelSpeeds.rightMetersPerSecond * dt;
+      simHeading += Math.toDegrees(simKinematics.toChassisSpeeds(simWheelSpeeds).omegaRadiansPerSecond) * 0.25 * dt;
+      if (simHeading > 180) {
+        simHeading -= 360;
+      } else if (simHeading < -180) {
+        simHeading += 360;
+      }
+      simPose = odometry.update(Rotation2d.fromDegrees(simHeading), simLeftMeters, simRightMeters);
+      simLastOdometryUpdateTime = Timer.getFPGATimestamp();
+      /* Boundary protection
+      double simX = simPose.getTranslation().getX();
+      double simY = simPose.getTranslation().getY();
+      if (simX > FIELD2D_WIDTH_M || simX < 0 || simY > FIELD2D_HEIGHT_M || simY < 0) {
+        odometry.resetPosition(beforeOdometryUpdate, beforeOdometryUpdate.getRotation());
+        return;
+      }*/
+
+      // Still in boundary, update field2d
+      field2d.setRobotPose(simPose);
+    }
   }
 
   public double getAngle() {
