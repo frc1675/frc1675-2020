@@ -188,7 +188,6 @@ public class DriveBase extends SubsystemBase {
   }
 
   public void setStartPosition(Pose2d pose) {
-
     simStartX = pose.getTranslation().getX();
     simStartY = pose.getTranslation().getY();
     simHeading = -pose.getRotation().getDegrees();

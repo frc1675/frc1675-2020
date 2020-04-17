@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
@@ -49,7 +50,13 @@ public class CheesyDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turnPower = 0.6 * turnValue.getAsDouble();
+    double turnPower;
+    if(RobotBase.isReal()) {
+      turnPower = 0.6 * turnValue.getAsDouble();
+    }
+    else {
+      turnPower = 0.6 * -turnValue.getAsDouble();
+    }
     double forwardPower = forwardValue.getAsDouble();
     double rightPower = (1 * forwardPower + -1 * turnPower);
     double leftPower = (1 * forwardPower + 1 * turnPower);
