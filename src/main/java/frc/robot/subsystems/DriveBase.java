@@ -127,7 +127,7 @@ public class DriveBase extends SubsystemBase {
       rightFrontSim.set(-power);
       rightBackSim.set(-power);
       
-      rightSimDistance = rightSimDistance + (power * Constants.ROTAIONS_PER_TICK);
+      rightSimDistance += power * Constants.ROTAIONS_PER_TICK;
 
       simWheelSpeeds.rightMetersPerSecond = SIM_ROBOT_METERS_PER_S * power;
     }
@@ -148,7 +148,7 @@ public class DriveBase extends SubsystemBase {
       leftFrontSim.set(-power);
       leftBackSim.set(-power);
 
-      leftSimDistance = leftSimDistance + (power * Constants.ROTAIONS_PER_TICK);
+      leftSimDistance += power * Constants.ROTAIONS_PER_TICK;
 
       simWheelSpeeds.leftMetersPerSecond = SIM_ROBOT_METERS_PER_S * power;
     }
@@ -191,7 +191,7 @@ public class DriveBase extends SubsystemBase {
 
     simStartX = pose.getTranslation().getX();
     simStartY = pose.getTranslation().getY();
-    simHeading = pose.getRotation().getDegrees();
+    simHeading = -pose.getRotation().getDegrees();
   }
 
   @Override
@@ -206,7 +206,7 @@ public class DriveBase extends SubsystemBase {
       double dt = Timer.getFPGATimestamp() - simLastOdometryUpdateTime;
       simLeftMeters += simWheelSpeeds.leftMetersPerSecond * dt;
       simRightMeters += simWheelSpeeds.rightMetersPerSecond * dt;
-      simHeading += Math.toDegrees(simKinematics.toChassisSpeeds(simWheelSpeeds).omegaRadiansPerSecond) * 0.25 * dt;
+      simHeading -= Math.toDegrees(simKinematics.toChassisSpeeds(simWheelSpeeds).omegaRadiansPerSecond) * 0.25 * dt;
       if (simHeading > 180) {
         simHeading -= 360;
       } else if (simHeading < -180) {
