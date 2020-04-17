@@ -48,7 +48,7 @@ public class DriveBase extends SubsystemBase {
   private ShuffleboardTab driveBaseTab = Shuffleboard.getTab("Drive Base");
 
   // Simulation variables
-  private static final double SIM_ROBOT_METERS_PER_S = 3;
+  private static final double SIM_ROBOT_METERS_PER_S = 5.4864;
   private Field2d field2d;
   private DifferentialDriveWheelSpeeds simWheelSpeeds;
   private DifferentialDriveKinematics simKinematics;
@@ -57,6 +57,8 @@ public class DriveBase extends SubsystemBase {
   private double simLeftMeters = 0;
   private double simRightMeters = 0;
   private double simHeading = 0;  
+  private double simStartX = 0;
+  private double simStartY = 0;
   private Pose2d simPose;
 
   /**
@@ -185,6 +187,13 @@ public class DriveBase extends SubsystemBase {
     navx.reset();
   }
 
+  public void setStartPosition(Pose2d pose) {
+
+    simStartX = pose.getTranslation().getX();
+    simStartY = pose.getTranslation().getY();
+    simHeading = pose.getRotation().getDegrees();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -203,7 +212,13 @@ public class DriveBase extends SubsystemBase {
       } else if (simHeading < -180) {
         simHeading += 360;
       }
-      simPose = odometry.update(Rotation2d.fromDegrees(simHeading), simLeftMeters, simRightMeters);
+      odometry.update(Rotation2d.fromDegrees(simHeading), simLeftMeters, simRightMeters);
+
+      double odometryX = odometry.getPoseMeters().getTranslation().getX();
+      double odometryY = odometry.getPoseMeters().getTranslation().getY();
+
+      simPose = new Pose2d(odometryX + simStartX, odometryY + simStartY, Rotation2d.fromDegrees(simHeading));
+
       simLastOdometryUpdateTime = Timer.getFPGATimestamp();
       /* Boundary protection
       double simX = simPose.getTranslation().getX();
@@ -219,13 +234,23 @@ public class DriveBase extends SubsystemBase {
   }
 
   public double getAngle() {
-    return navx.getAngle();
+    if(RobotBase.isReal()) {
+      return navx.getAngle();
+    }
+    else {
+      return simHeading;
+    }
   }
 
   public double getHeading() {
-    double angle = getAngle();
-    double heading = (angle % 360);
-    return heading;
+    if(RobotBase.isReal()) {
+      double angle = getAngle();
+      double heading = (angle % 360);
+      return heading;
+    }
+    else {
+      return simHeading;
+    }
   }
 
 }

@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -26,6 +29,10 @@ public final class Constants {
     public static final double DISTANCE_TOLERANCE = 4; //Tolerance in inches
 
     public static final double ANGLE_TOLERANCE = 2; //Tolerance in degrees
+
+    public static final Pose2d LEFT_START_POSITION = new Pose2d(3.048, 5, Rotation2d.fromDegrees(180));
+    public static final Pose2d MIDDLE_START_POSITION = new Pose2d(3.048, 6, Rotation2d.fromDegrees(180));
+    public static final Pose2d RIGHT_START_POSITION = new Pose2d(3.048, 7, Rotation2d.fromDegrees(180));
 
     //Drive To Distance Constants
     public static final double DRIVE_P = 0.2;

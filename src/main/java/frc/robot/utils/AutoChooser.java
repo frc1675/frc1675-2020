@@ -143,14 +143,17 @@ public class AutoChooser {
         switch (selectedStart) {
         case RIGHT_TO_SCORE:
             scorePathCommand = new StartRightToScore(drive);
+            drive.setStartPosition(Constants.RIGHT_START_POSITION);
             break;
 
         case MIDDLE_TO_SCORE:
             scorePathCommand = new StartMiddleToScore(drive);
+            drive.setStartPosition(Constants.MIDDLE_START_POSITION);
             break;
 
         case LEFT_TO_SCORE:
             scorePathCommand = new StartLeftToScore(drive);
+            drive.setStartPosition(Constants.LEFT_START_POSITION);
             break;
 
         default:
