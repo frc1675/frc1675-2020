@@ -57,6 +57,7 @@ public class DriveBase extends SubsystemBase {
   private double simLeftMeters = 0;
   private double simRightMeters = 0;
   private double simHeading = 0;  
+  private double simDirection = 0;
   private double simStartX = 0;
   private double simStartY = 0;
   private Pose2d simPose;
@@ -184,13 +185,18 @@ public class DriveBase extends SubsystemBase {
   }
   
   public void resetAngle() {
-    navx.reset();
+    if(RobotBase.isReal()) {
+      navx.reset();
+    }
+    else {
+      simHeading = 0;
+    }
   }
 
   public void setStartPosition(Pose2d pose) {
     simStartX = pose.getTranslation().getX();
     simStartY = pose.getTranslation().getY();
-    simHeading = -pose.getRotation().getDegrees();
+    simDirection = -pose.getRotation().getDegrees();
   }
 
   @Override
@@ -206,17 +212,18 @@ public class DriveBase extends SubsystemBase {
       simLeftMeters += simWheelSpeeds.leftMetersPerSecond * dt;
       simRightMeters += simWheelSpeeds.rightMetersPerSecond * dt;
       simHeading -= Math.toDegrees(simKinematics.toChassisSpeeds(simWheelSpeeds).omegaRadiansPerSecond) * 0.25 * dt;
-      if (simHeading > 180) {
-        simHeading -= 360;
-      } else if (simHeading < -180) {
-        simHeading += 360;
+      simDirection += Math.toDegrees(simKinematics.toChassisSpeeds(simWheelSpeeds).omegaRadiansPerSecond) * 0.25 * dt;
+      if (simDirection > 180) {
+        simDirection -= 360;
+      } else if (simDirection < -180) {
+        simDirection += 360;
       }
-      odometry.update(Rotation2d.fromDegrees(simHeading), simLeftMeters, simRightMeters);
+      odometry.update(Rotation2d.fromDegrees(simDirection), simLeftMeters, simRightMeters);
 
       double odometryX = odometry.getPoseMeters().getTranslation().getX();
       double odometryY = odometry.getPoseMeters().getTranslation().getY();
 
-      simPose = new Pose2d(odometryX + simStartX, odometryY + simStartY, Rotation2d.fromDegrees(simHeading));
+      simPose = new Pose2d(odometryX + simStartX, odometryY + simStartY, Rotation2d.fromDegrees(simDirection));
 
       simLastOdometryUpdateTime = Timer.getFPGATimestamp();
       /* Boundary protection
