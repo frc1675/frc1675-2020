@@ -225,16 +225,37 @@ public class DriveBase extends SubsystemBase {
 
       simPose = new Pose2d(odometryX + simStartX, odometryY + simStartY, Rotation2d.fromDegrees(simDirection));
 
-      simLastOdometryUpdateTime = Timer.getFPGATimestamp();
-      /* Boundary protection
+      /* Boundary protection */
       double simX = simPose.getTranslation().getX();
       double simY = simPose.getTranslation().getY();
-      if (simX > FIELD2D_WIDTH_M || simX < 0 || simY > FIELD2D_HEIGHT_M || simY < 0) {
-        odometry.resetPosition(beforeOdometryUpdate, beforeOdometryUpdate.getRotation());
-        return;
-      }*/
+      if(simX > Constants.FIELD_WIDTH) {
+        odometry.resetPosition(new Pose2d(Constants.FIELD_WIDTH - simStartX, simY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
+        simLeftMeters = 0;
+        simRightMeters = 0;
+      }
+      else if(simX < 0) {
+        odometry.resetPosition(new Pose2d(0 - simStartX, simY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
+        simLeftMeters = 0;
+        simRightMeters = 0;
+      }
+      if(simY > Constants.FIELD_HEIGHT) {
+        odometry.resetPosition(new Pose2d(simX, Constants.FIELD_HEIGHT - simStartY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
+        simLeftMeters = 0;
+        simRightMeters = 0;
+      }
+      else if(simY < 0) {
+        odometry.resetPosition(new Pose2d(simX, 0 - simStartY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
+        simLeftMeters = 0;
+        simRightMeters = 0;
+      }
+
+      simPose = new Pose2d(odometryX + simStartX, odometryY + simStartY, Rotation2d.fromDegrees(simDirection));
+
+      /* odometry.resetPosition(beforeOdometryUpdate, beforeOdometryUpdate.getRotation());
+        return; */
 
       // Still in boundary, update field2d
+      simLastOdometryUpdateTime = Timer.getFPGATimestamp();
       field2d.setRobotPose(simPose);
     }
   }
