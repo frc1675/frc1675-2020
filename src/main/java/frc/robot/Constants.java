@@ -34,6 +34,8 @@ public final class Constants {
     public static final Pose2d MIDDLE_START_POSITION = new Pose2d(3.048, 6, Rotation2d.fromDegrees(180));
     public static final Pose2d RIGHT_START_POSITION = new Pose2d(3.048, 7, Rotation2d.fromDegrees(180));
 
+    public static final double SIM_ROBOT_METERS_PER_SECOND = 5.4864;
+
     public static final double FIELD_HEIGHT = 8.21; //Field height and width in meters
     public static final double FIELD_WIDTH = 15.98;
 

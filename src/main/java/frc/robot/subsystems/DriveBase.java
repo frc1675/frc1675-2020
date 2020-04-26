@@ -48,7 +48,6 @@ public class DriveBase extends SubsystemBase {
   private ShuffleboardTab driveBaseTab = Shuffleboard.getTab("Drive Base");
 
   // Simulation variables
-  private static final double SIM_ROBOT_METERS_PER_S = 5.4864;
   private Field2d field2d;
   private DifferentialDriveWheelSpeeds simWheelSpeeds;
   private DifferentialDriveKinematics simKinematics;
@@ -130,7 +129,7 @@ public class DriveBase extends SubsystemBase {
       
       rightSimDistance += power * Constants.ROTAIONS_PER_TICK;
 
-      simWheelSpeeds.rightMetersPerSecond = SIM_ROBOT_METERS_PER_S * power;
+      simWheelSpeeds.rightMetersPerSecond = Constants.SIM_ROBOT_METERS_PER_SECOND * power;
     }
   }
 
@@ -151,7 +150,7 @@ public class DriveBase extends SubsystemBase {
 
       leftSimDistance += power * Constants.ROTAIONS_PER_TICK;
 
-      simWheelSpeeds.leftMetersPerSecond = SIM_ROBOT_METERS_PER_S * power;
+      simWheelSpeeds.leftMetersPerSecond = Constants.SIM_ROBOT_METERS_PER_SECOND * power;
     }
   }
 
@@ -229,22 +228,22 @@ public class DriveBase extends SubsystemBase {
       double simX = simPose.getTranslation().getX();
       double simY = simPose.getTranslation().getY();
       if(simX > Constants.FIELD_WIDTH) {
-        odometry.resetPosition(new Pose2d(Constants.FIELD_WIDTH - simStartX, simY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
+        odometry.resetPosition(new Pose2d(Constants.FIELD_WIDTH - simStartX, odometryY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
         simLeftMeters = 0;
         simRightMeters = 0;
       }
       else if(simX < 0) {
-        odometry.resetPosition(new Pose2d(0 - simStartX, simY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
+        odometry.resetPosition(new Pose2d(0 - simStartX, odometryY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
         simLeftMeters = 0;
         simRightMeters = 0;
       }
       if(simY > Constants.FIELD_HEIGHT) {
-        odometry.resetPosition(new Pose2d(simX, Constants.FIELD_HEIGHT - simStartY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
+        odometry.resetPosition(new Pose2d(odometryX, Constants.FIELD_HEIGHT - simStartY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
         simLeftMeters = 0;
         simRightMeters = 0;
       }
       else if(simY < 0) {
-        odometry.resetPosition(new Pose2d(simX, 0 - simStartY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
+        odometry.resetPosition(new Pose2d(odometryX, 0 - simStartY, odometry.getPoseMeters().getRotation()), Rotation2d.fromDegrees(simDirection));
         simLeftMeters = 0;
         simRightMeters = 0;
       }
@@ -255,8 +254,9 @@ public class DriveBase extends SubsystemBase {
         return; */
 
       // Still in boundary, update field2d
-      simLastOdometryUpdateTime = Timer.getFPGATimestamp();
+      
       field2d.setRobotPose(simPose);
+      simLastOdometryUpdateTime = Timer.getFPGATimestamp();
     }
   }
 
