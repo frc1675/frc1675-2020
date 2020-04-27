@@ -22,9 +22,9 @@ public class AfterScoreToLeft extends SequentialCommandGroup {
 
   private static final double SEGMENT_1 = -25.8;
 
-  private static final double TURN_1_ANGLE = 41.0;
+  private static final double TURN_1_ANGLE = 46.0; // 41.0
 
-  private static final double SEGMENT_2 = -118.7;
+  private static final double SEGMENT_2 = -110.7; // -118.7
 
   private static final double TURN_2_ANGLE = 134.0;
 

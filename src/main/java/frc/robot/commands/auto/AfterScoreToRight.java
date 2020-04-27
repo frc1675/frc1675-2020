@@ -17,11 +17,11 @@ import frc.robot.subsystems.DriveBase;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class AfterScoreToRight extends SequentialCommandGroup {
 
-  private static final double SEGMENT_1 = -31.8;
+  private static final double SEGMENT_1 = -25.8; // -31.8
 
-  private static final double TURN_1_ANGLE = -46.0;
+  private static final double TURN_1_ANGLE = -41.0; // -46.0
   
-  private static final double SEGMENT_2 = -93.9;
+  private static final double SEGMENT_2 = -101.9; // -93.9
 
   private static final double TURN_2_ANGLE = -139.0;
 

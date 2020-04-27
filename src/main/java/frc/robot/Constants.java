@@ -30,9 +30,9 @@ public final class Constants {
 
     public static final double ANGLE_TOLERANCE = 2; //Tolerance in degrees
 
-    public static final Pose2d LEFT_START_POSITION = new Pose2d(3.048, 5, Rotation2d.fromDegrees(180));
-    public static final Pose2d MIDDLE_START_POSITION = new Pose2d(3.048, 6, Rotation2d.fromDegrees(180));
-    public static final Pose2d RIGHT_START_POSITION = new Pose2d(3.048, 7, Rotation2d.fromDegrees(180));
+    public static final Pose2d LEFT_START_POSITION = new Pose2d(3.048, 3.57, Rotation2d.fromDegrees(180));
+    public static final Pose2d MIDDLE_START_POSITION = new Pose2d(3.048, 5.81, Rotation2d.fromDegrees(180));
+    public static final Pose2d RIGHT_START_POSITION = new Pose2d(3.048, 7.51, Rotation2d.fromDegrees(180));
 
     public static final double SIM_ROBOT_METERS_PER_SECOND = 5.4864;
 
