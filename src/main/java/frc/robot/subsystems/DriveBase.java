@@ -95,8 +95,8 @@ public class DriveBase extends SubsystemBase {
       leftSimDistance = 0;
       rightSimDistance = 0;
 
-      driveBaseTab.addNumber("Right position", () -> -rightSimDistance);
-      driveBaseTab.addNumber("Left Position", () -> -leftSimDistance);
+      driveBaseTab.addNumber("Right position", () -> (rightSimDistance / Constants.ROTATIONS_PER_INCH));
+      driveBaseTab.addNumber("Left Position", () -> (leftSimDistance / Constants.ROTATIONS_PER_INCH));
 
       field2d = new Field2d();
       simWheelSpeeds = new DifferentialDriveWheelSpeeds(0, 0);
@@ -165,8 +165,8 @@ public class DriveBase extends SubsystemBase {
       // SmartDashboard.putNumber("RightEncoder", rightEncoderValue);
     }
     else {
-      leftEncoderValue = -leftSimDistance;
-      rightEncoderValue = -rightSimDistance;
+      leftEncoderValue = leftSimDistance;
+      rightEncoderValue = rightSimDistance;
     }
     averagePosition = (rightEncoderValue + leftEncoderValue) / 2;
     return averagePosition;
