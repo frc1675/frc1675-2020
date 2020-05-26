@@ -9,14 +9,13 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.PIDDriveBase;
 
 public class CheesyDrive extends CommandBase {
-  private DriveBase drive;
+  private PIDDriveBase drive;
   private Climber climber;
   private DoubleSupplier forwardValue;
   private DoubleSupplier turnValue;
@@ -31,7 +30,7 @@ public class CheesyDrive extends CommandBase {
   // addRequirements(this.driveBase);
   // }
 
-  public CheesyDrive(DriveBase drive, Climber climber, DoubleSupplier forwardValue, DoubleSupplier turnValue,
+  public CheesyDrive(PIDDriveBase drive, Climber climber, DoubleSupplier forwardValue, DoubleSupplier turnValue,
       double scalingPower) {
     this.drive = drive;
     this.climber = climber;

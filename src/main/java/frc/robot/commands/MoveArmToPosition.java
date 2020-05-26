@@ -40,7 +40,7 @@ public class MoveArmToPosition extends PIDCommand {
         output -> {
           // Use the output here
           arm.moveArm(output);
-          System.out.println("Output " + output);
+          //System.out.println("Output " + output);
         });
     this.arm = arm;
     addRequirements(arm);
@@ -60,7 +60,7 @@ public class MoveArmToPosition extends PIDCommand {
   @Override
   public boolean isFinished() {
     boolean atSetpoint = getController().atSetpoint();
-    System.out.println("At Setpoint? " + atSetpoint);
+    //System.out.println("At Setpoint? " + atSetpoint);
     if (atSetpoint) {
       arm.lock();
     }

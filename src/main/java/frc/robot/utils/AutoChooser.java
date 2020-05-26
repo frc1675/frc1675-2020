@@ -40,7 +40,7 @@ import frc.robot.commands.auto.StartRightToShieldGenerator;
 import frc.robot.commands.auto.StartRightToTrench;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
-import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.PIDDriveBase;
 
 /**
  * Add your docs here.
@@ -58,7 +58,7 @@ public class AutoChooser {
     private ComplexWidget afterScoringWidget;
     private ComplexWidget gatherBallsWidget;
 
-    private DriveBase drive;
+    private PIDDriveBase drive;
 
     private Arm arm;
 
@@ -80,7 +80,7 @@ public class AutoChooser {
         NOTHING
     }
 
-    public AutoChooser(DriveBase drive, Arm arm, Claw claw) {
+    public AutoChooser(PIDDriveBase drive, Arm arm, Claw claw) {
         this.drive = drive;
         this.arm = arm;
         this.claw = claw;

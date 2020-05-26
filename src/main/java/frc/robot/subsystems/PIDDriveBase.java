@@ -17,6 +17,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
@@ -24,12 +25,13 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.utils.Field2d;
 
-public class DriveBase extends SubsystemBase {
+public class PIDDriveBase extends PIDSubsystem {
+
   private CANSparkMax leftFront;
   private CANSparkMax leftBack;
   private CANSparkMax rightFront;
@@ -40,8 +42,8 @@ public class DriveBase extends SubsystemBase {
   private WPI_TalonSRX rightBackSim;
   private CANEncoder leftAlternateEncoder;
   private CANEncoder rightAlternateEncoder;
-  private double leftSimDistance;
-  private double rightSimDistance;
+  private double correction;
+  private boolean PIDEnabled = false;
   private AHRS navx;
   private static final AlternateEncoderType kAltEncType = AlternateEncoderType.kQuadrature;
   private static final int kCPR = 8192;
@@ -53,6 +55,8 @@ public class DriveBase extends SubsystemBase {
   private DifferentialDriveKinematics simKinematics;
   private DifferentialDriveOdometry odometry;
   private Double simLastOdometryUpdateTime = null;
+  private double leftSimDistance;
+  private double rightSimDistance;
   private double simLeftMeters = 0;
   private double simRightMeters = 0;
   private double simHeading = 0;  
@@ -60,56 +64,58 @@ public class DriveBase extends SubsystemBase {
   private double simStartX = 0;
   private double simStartY = 0;
   private Pose2d simPose;
-
   /**
-   * Creates a new Drive.
+   * Creates a new PIDDriveBase.
    */
-  public DriveBase() {
-    if(RobotBase.isReal()){
-      rightBack = new CANSparkMax(Constants.RIGHT_BACK, MotorType.kBrushless);
-      rightFront = new CANSparkMax(Constants.RIGHT_FRONT, MotorType.kBrushless);
-      leftBack = new CANSparkMax(Constants.LEFT_BACK, MotorType.kBrushless);
-      leftFront = new CANSparkMax(Constants.LEFT_FRONT, MotorType.kBrushless);
+  public PIDDriveBase() {
+    super(
+        // The PIDController used by the subsystem
+        new PIDController(Constants.ANGLE_P, 0, Constants.ANGLE_D));
 
-      leftAlternateEncoder = leftBack.getAlternateEncoder(kAltEncType, kCPR);
-      rightAlternateEncoder = rightBack.getAlternateEncoder(kAltEncType, kCPR);
-
-      //rightAlternateEncoder.setInverted(true);
-      leftAlternateEncoder.setPosition(0);
-      rightAlternateEncoder.setPosition(0);
-
-      driveBaseTab.addNumber("Right position", () -> -rightAlternateEncoder.getPosition());
-      driveBaseTab.addNumber("Left Position", () -> -leftAlternateEncoder.getPosition());
-
-      driveBaseTab.addNumber("Right Front Output Current", () -> rightFront.getOutputCurrent());
-      driveBaseTab.addNumber("Left Front Output Current", () -> leftFront.getOutputCurrent());
-      driveBaseTab.addNumber("Right Back Output Current", () -> rightBack.getOutputCurrent());
-      driveBaseTab.addNumber("Left Back Output Current", () -> leftBack.getOutputCurrent());
-    }
-    else {
-      rightBackSim = new WPI_TalonSRX(Constants.RIGHT_BACK);
-      rightFrontSim = new WPI_TalonSRX(Constants.RIGHT_FRONT);
-      leftBackSim = new WPI_TalonSRX(Constants.LEFT_BACK);
-      leftFrontSim = new WPI_TalonSRX(Constants.LEFT_FRONT);
-
-      leftSimDistance = 0;
-      rightSimDistance = 0;
-
-      driveBaseTab.addNumber("Right position", () -> (rightSimDistance / Constants.ROTATIONS_PER_INCH));
-      driveBaseTab.addNumber("Left Position", () -> (leftSimDistance / Constants.ROTATIONS_PER_INCH));
-
-      field2d = new Field2d();
-      simWheelSpeeds = new DifferentialDriveWheelSpeeds(0, 0);
-      simKinematics = new DifferentialDriveKinematics(0.5);
-      odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
-    }
+        if(RobotBase.isReal()){
+          rightBack = new CANSparkMax(Constants.RIGHT_BACK, MotorType.kBrushless);
+          rightFront = new CANSparkMax(Constants.RIGHT_FRONT, MotorType.kBrushless);
+          leftBack = new CANSparkMax(Constants.LEFT_BACK, MotorType.kBrushless);
+          leftFront = new CANSparkMax(Constants.LEFT_FRONT, MotorType.kBrushless);
     
-    navx = new AHRS(SerialPort.Port.kMXP);
+          leftAlternateEncoder = leftBack.getAlternateEncoder(kAltEncType, kCPR);
+          rightAlternateEncoder = rightBack.getAlternateEncoder(kAltEncType, kCPR);
     
-    driveBaseTab.addNumber("Angle", () -> getAngle());
-    driveBaseTab.addNumber("Heading", () -> getHeading());
-    driveBaseTab.addNumber("Position", () -> getPosition());
+          //rightAlternateEncoder.setInverted(true);
+          leftAlternateEncoder.setPosition(0);
+          rightAlternateEncoder.setPosition(0);
     
+          driveBaseTab.addNumber("Right position", () -> -rightAlternateEncoder.getPosition());
+          driveBaseTab.addNumber("Left Position", () -> -leftAlternateEncoder.getPosition());
+    
+          driveBaseTab.addNumber("Right Front Output Current", () -> rightFront.getOutputCurrent());
+          driveBaseTab.addNumber("Left Front Output Current", () -> leftFront.getOutputCurrent());
+          driveBaseTab.addNumber("Right Back Output Current", () -> rightBack.getOutputCurrent());
+          driveBaseTab.addNumber("Left Back Output Current", () -> leftBack.getOutputCurrent());
+        }
+        else {
+          rightBackSim = new WPI_TalonSRX(Constants.RIGHT_BACK);
+          rightFrontSim = new WPI_TalonSRX(Constants.RIGHT_FRONT);
+          leftBackSim = new WPI_TalonSRX(Constants.LEFT_BACK);
+          leftFrontSim = new WPI_TalonSRX(Constants.LEFT_FRONT);
+    
+          leftSimDistance = 0;
+          rightSimDistance = 0;
+    
+          driveBaseTab.addNumber("Right position", () -> (rightSimDistance / Constants.ROTATIONS_PER_INCH));
+          driveBaseTab.addNumber("Left Position", () -> (leftSimDistance / Constants.ROTATIONS_PER_INCH));
+    
+          field2d = new Field2d();
+          simWheelSpeeds = new DifferentialDriveWheelSpeeds(0, 0);
+          simKinematics = new DifferentialDriveKinematics(0.5);
+          odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(0));
+        }
+        
+        navx = new AHRS(SerialPort.Port.kMXP);
+        
+        driveBaseTab.addNumber("Angle", () -> getAngle());
+        driveBaseTab.addNumber("Heading", () -> getHeading());
+        driveBaseTab.addNumber("Position", () -> getPosition());
   }
 
   public void setRightMotors(double power) {
@@ -125,12 +131,18 @@ public class DriveBase extends SubsystemBase {
       else if(power < -1) {
         power = -1;
       }
+
+      if(isEnabled() || PIDEnabled) {
+        power -= correction;
+      }
+      
       rightFrontSim.set(-power);
       rightBackSim.set(-power);
       
       rightSimDistance += power * Constants.ROTAIONS_PER_TICK;
 
       simWheelSpeeds.rightMetersPerSecond = Constants.SIM_ROBOT_METERS_PER_SECOND * power;
+      System.out.println("right power: "+power);
     }
   }
 
@@ -147,12 +159,17 @@ public class DriveBase extends SubsystemBase {
       else if(power < -1) {
         power = -1;
       }
+
+      if(isEnabled() || PIDEnabled) {
+        power += correction;
+      }
       leftFrontSim.set(-power);
       leftBackSim.set(-power);
 
       leftSimDistance += power * Constants.ROTAIONS_PER_TICK;
 
       simWheelSpeeds.leftMetersPerSecond = Constants.SIM_ROBOT_METERS_PER_SECOND * power;
+      System.out.println("left power: "+power);
     }
   }
 
@@ -198,11 +215,16 @@ public class DriveBase extends SubsystemBase {
     simStartX = pose.getTranslation().getX();
     simStartY = pose.getTranslation().getY();
     simDirection = -pose.getRotation().getDegrees();
-  }
+  }  
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    System.out.println("correction: "+correction);
+    System.out.println("Angle "+getAngle());
+     if(PIDEnabled) {
+       useOutput(getController().calculate(getMeasurement()), getController().getSetpoint());
+     }
     if (Robot.isSimulation()) {
       if (simLastOdometryUpdateTime == null) {
         simLastOdometryUpdateTime = Timer.getFPGATimestamp();
@@ -282,4 +304,32 @@ public class DriveBase extends SubsystemBase {
     }
   }
 
+  public void activatePIDMode() {
+    if(!isEnabled()) {
+      getController().reset();
+      setSetpoint(getAngle());
+      //getController().setTolerance(Constants.ANGLE_TOLERANCE);
+      PIDEnabled = true;
+      //enable();
+    }
+  }
+
+  public void disablePIDMode() {
+   PIDEnabled = false;
+   //disable();
+  }
+
+  @Override
+  public void useOutput(double output, double setpoint) {
+    // Use the output here
+    correction = output;
+    System.out.println("PID output: "+output);
+  }
+
+  @Override
+  public double getMeasurement() {
+    // Return the process variable measurement here
+    System.out.println("got measurement");
+    return getAngle();
+  }
 }

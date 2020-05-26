@@ -10,19 +10,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
-import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.PIDDriveBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToAngle extends PIDCommand {
-  private DriveBase drive;
+  private PIDDriveBase drive;
   private int count = 0;
 
   /**
    * Creates a new TurnToAngle.
    */
-  public TurnToAngle(DriveBase drive, double angle) {
+  public TurnToAngle(PIDDriveBase drive, double angle) {
     super(
         // The controller that the command will use
         new PIDController(Constants.ANGLE_P, 0, Constants.ANGLE_D),

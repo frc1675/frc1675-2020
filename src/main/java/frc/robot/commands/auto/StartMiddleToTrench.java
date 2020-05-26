@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.DriveToDistanceSlowly;
 import frc.robot.commands.TurnToAngle;
-import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.PIDDriveBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -31,7 +31,7 @@ public class StartMiddleToTrench extends SequentialCommandGroup {
   /**
    * Creates a new TrenchFromLeft.
    */
-  public StartMiddleToTrench(DriveBase drive) {
+  public StartMiddleToTrench(PIDDriveBase drive) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(

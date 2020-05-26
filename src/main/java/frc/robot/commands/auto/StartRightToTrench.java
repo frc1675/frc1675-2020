@@ -8,9 +8,8 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.DriveToDistanceSlowly;
-import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.PIDDriveBase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -20,7 +19,7 @@ public class StartRightToTrench extends SequentialCommandGroup {
   /**
    * Creates a new TrenchFromRight.
    */
-  public StartRightToTrench(DriveBase drive) {
+  public StartRightToTrench(PIDDriveBase drive) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(
